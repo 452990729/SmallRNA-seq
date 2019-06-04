@@ -1,0 +1,10 @@
+Direction
+
+Common and specific reads between samples:
+
+
+===========================================================================================================================
+AAA_vs_BBB£¬representing the result of sample AAA and BBB
+	venn_uni.png: result of unique reads.
+	venn_Tol.png: result of total reads.
+	

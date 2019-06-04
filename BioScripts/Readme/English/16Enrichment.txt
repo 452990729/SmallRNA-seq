@@ -1,0 +1,70 @@
+Direction
+Enrichment analysis of different expression miRNA targets( target gene candidates in the following)
+
+
+********************************************************************************
+*vs* :this file is the enrichment result of each compare group
+
+*vs*diffmiRNAID		this is the different expression miRNA list of each compare group
+*vs*diffmiRNA-geneid	this is the targets id of different expression miRNA
+
+GOenrichment	GO enrichment result ,if one compare group no GO enrichment,then no png and pdf result 
+result:
+
+CAD_Enriched_GO_bp_DAG.png	enriched in  biological process(png)
+CAD_Enriched_GO_bp_DAG.pdf	enriched in  biological process(pdf)
+CAD_Enriched_GO_cc_DAG.png	enriched in cellular component(png)
+CAD_Enriched_GO_cc_DAG.pdf	enriched in cellular component(pdf)
+CAD_Enriched_GO_mf_DAG.png	enriched in molecular function(png)
+CAD_Enriched_GO_mf_DAG.pdf	enriched in molecular function(pdf)
+
+CAD_GO_enrichment_results.xls			GO enrichment result
+Note:
+	GO_accession				Gene Ontology entry.
+	Description				Detail description of Gene Ontology.
+	Term_type				GO types,including cellular_component,biological_process,molecular_function.
+	Over_represented_pValue		P-value in hypergenometric test.
+	Corrected_pValue			Corrected P-value£¬GO with Corrected P-value < 0.05 are significantly enriched in DEGs.
+	CAD_item					The number of target gene candidates related to this term.
+	CAD_list					he number of target gene candidates with GO Annotation. 
+	Bg_item						The number of reference gene related to this term.
+	Bg_list						The number of all gene in GO. 
+	Gene_names					Target gene candidates id related with this GO 
+CAD_Erichment_GO_classification.png		Target gene candidates GO classification (png)
+CAD_Erichment_GO_classification.pdf		Target gene candidates GO classification (pdf)
+CAD_Erichment_GO_classification_gene_counts.txt	 The data of CAD_Erichment_GO_classification.png(pdf)
+
+	
+KEGGenrichment	KEGG enrichment result
+
+ 
+*.CAD_KEGG_pathway_enrichment_result.xls		the rusult of KEGG PATHWAY
+Note£º
+	Term				Description of this KEGG pathway.
+	Database			Pathway database
+	Id					Unique ID of this pathway in the KEGG database.
+	Sample number		Number of target genes related to this pathway.
+	Background number	Number of reference genes related to this pathway.
+	P-Value				P-value before correction.
+	Corrected P-Value	Corrected P-value smaller than 0.05 are considered as significantly enriched in target gene candidates .
+	Genes				Target gene candidates id related with this pathway.
+	
+*.CAD_enriched_KEGG_pathway_top20.xls	top 20 significantly enriched results
+Note£º
+	pathway_term	KEGG PATHWAY name
+	RF		Rich factor (Number of target genes related to this pathway/Number of reference genes related to this pathway.)
+	Qvalue	value  pvalue after multiple hypothesis testing .
+	gene_number	Target gene candidates number in this pathway.
+	
+*.CAD_enriched_KEGG_pathway_scatterplot.png	scatter plot of KEGG pathway(png)
+*.CAD_enriched_KEGG_pathway_scatterplot.pdf	scatter plot of KEGG pathway(pdf)
+*.CAD_enriched_KEGG_pathway_API.html		enriched PATHWAY API
+Note£º
+	Term				Description of this KEGG pathway.
+	Sample number		Number of target genes related to this pathway.
+	Background number	Number of reference genes related to this pathway.
+	P-Value				P-value before correction.
+	Corrected P-Value	Corrected P-value smaller than 0.05 are considered as significantly enriched in target gene candidates .
+	Genes				Target gene candidates id related with this pathway.
+    KO                  KO id
+  

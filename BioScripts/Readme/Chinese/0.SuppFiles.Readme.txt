@@ -1,0 +1,55 @@
+******gene.description.xls******  为基因的描述信息
+	Gene ID：gene的ID
+	Associated Gene Name：gene的名称
+	Interpro Description：对该基因的描述信息
+
+******gene.goannot.xls******     为基因的GO注释信息，GO功能分为3大类biological_process（生物学过程），cellular_component（细胞组分），molecular_function（分子功能），用于差异miRNA靶基因的GO富集
+	Gene_ID:gene的ID 
+	biological_process：基因注释到生物学过程的GO term的标号
+	biological_process_description：对生物学过程term的描述
+	cellular_component:基因注释到细胞组分的GO term的标号
+	cellular_component_description：对细胞组分term的描述
+	molecular_function：基因注释到分子功能的GO term的标号
+	molecular_function_description：对分子功能term的描述
+
+******mature.fa****** 检测到的成熟known miRNA和novel miRNA的id和序列信息
+	>ath-miR2111a-5p        ：">"之后的为miRNA id
+	UAAUCUGCAUCCUGAGGUUUA   ：该行为miRNA序列
+
+******hairpin.fa******  检测到的known miRNA前体和novel miRNA前体的id和序列信息
+	>ath-MIR2111a           ：">"之后的为miRNA 前体id
+	GAUGAUGAGUAUUGGUGAGGACCGGG...：该行为miRNA前体序列
+
+******meanscount.txt******  每个样本比对到miRNA成熟体的reads数目
+	第一列为miRNA id
+	从第二列开始为每个样本比对到每个miRNA成熟体的reads数目
+
+******meanstpm.txt******  每个miRNA在每个样本中的表达量（TPM）值
+	第一列为miRNA id
+	从第二列开始为每个miRNA在每个样本中的表达量
+
+******targets.pairs.allcom******既包含每个miRNA对应的靶基因，也包含每个基因对应的miRNA（逗号分隔）
+	第一列为miRNA id或基因 id
+	第二列为和第一列对应的靶基因或miRNA（用逗号分隔）
+
+******targets.pairs.alltab****** 既包含每个miRNA对应的靶基因，也包含每个基因对应的miRNA （tab键分隔）
+	第一列为miRNA id或基因 id
+	第二列为预测的miRNA的靶基因或miRNA（用tab键分隔）
+
+******known_hairpin_mature.xls******
+	precursor_id：已知miRNA前体
+	precursor_seq：已知miRNA前体序列
+	mfe：前体的自由能（只有novel miRNA才有此值）
+	position：前体在参考基因组上的位置（染色体id:开始位置..终止位置：正负链）（只有novel miRNA才有此结果）
+	mature_id：前体对应的mi RNA成熟体
+	mature_seq：miRNA成熟体的序列
+	后面的每列代表样本比对到每个miRNA成熟体上的reads数
+
+******novel_hairpin_mature.xls******
+	novel miRNA的信息，每列的含义同上known_hairpin_mature.xls
+	
+
+
+
+
+

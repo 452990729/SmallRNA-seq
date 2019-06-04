@@ -1,0 +1,7 @@
+
+########################### sRNA Toolkit ERROR #########################
+[% FILTER max_width_text %]
+[% INCLUDE $partial %]
+
+To see more details, either activate the 'debug' option in the application configuration file or check the error logs.
+[% END %]

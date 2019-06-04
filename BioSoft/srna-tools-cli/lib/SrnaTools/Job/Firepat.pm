@@ -1,0 +1,266 @@
+######################################################################
+# The UEA sRNA Toolkit: Perl Implementation - A collection of
+# open-source stand-alone tools for analysing small RNA sequences.
+# Copyright © 2011 University of East Anglia
+#
+# This program is free software: you can redistribute it and/or
+# modify it under the terms of the GNU General Public License as
+# published by the Free Software Foundation, either version 3 of
+# the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+######################################################################
+
+
+package SrnaTools::Job::Firepat ;
+use base SrnaTools::Job ; # requires Tool and isa Tool
+
+use strict ;
+use warnings ;
+
+#######################################################
+# The constructor is only implemented 
+# in the base class
+#######################################################
+
+#######################################################
+# Accessors
+#######################################################
+
+#######################################################
+# accessors for tool config items
+#######################################################
+
+#######################################################
+# Some additional tool-specific initialisation
+# of new objects.
+# Here we need to get the name of the mirbase file
+# which depends on the setting of 'overhangs'
+#######################################################
+sub _init{
+  my $self = shift ;
+  
+  # First do whatever the base class wants
+  $self->SUPER::_init(@_) ;
+  
+}
+
+#######################################################
+# Run the job.
+# The code that carries out the actual data preparation
+# and analysis is organised into Modules (see 
+# lib/SrnaTools::Module).
+#
+# Modules have full access to the Job and App instances
+# that run them, so they can access config data directly.
+# Parameters could also be accessed directly but they
+# are better handled here, so we explicityl pass them
+# in using the _run_module method:
+# $self->_run_module('name_of_module', {parameters})
+#
+# The module name can be given in lower case with
+# underscores or in camel-case, so 
+# 'my_module' and 'MyModule' would both load a package
+# lib/SrnaTools/Module/MyModule.pm
+#######################################################
+sub run{
+  my $self = shift ;
+  
+  $self->SUPER::run(@_);
+   #print Data::Dumper->Dump([$self]);exit;
+  
+my $working_dir = $self->job_working_dir ;
+my $jobName = $self->job_name;
+my $colorInt = $self->param_or_default('color_int'); #number of color intervals for html output
+my $DEthr = $self->param_or_default('de_threshold'); #threshold for differential expression
+my $SIMthr = $self->param_or_default('sim_threshold'); #similarity threshold for correlation between pairs
+my $selectCls = 0; #desired number of clusters (leave zero to let the algorithm choose optimal)
+
+my $data_dir = $working_dir.'/data/' ;        # directory with the input files
+my $results_dir = $working_dir.'/results/';     # directory with the output files
+my $aux_dir = $data_dir.'/aux/';  # directory with the intermediary results
+
+my $in1;
+my $in2;
+
+
+#################################
+# Check parameters and files
+#################################
+
+eval
+{
+        # Check files and directories
+        die "missing working directory parameter - please contact administrator \n" unless $working_dir;
+        die "missing job name parameter - please contact administrator\n" unless $jobName ;
+ 
+#         # Default error file is working_dir/errors
+#         #$error_file   = $working_dir.'/errors' ;
+#         $data_dir     = $working_dir.'/data/' ;
+#         $results_dir  = $working_dir.'/results/' ;
+#         $aux_dir      = $working_dir.'/aux/' ;
+
+        # check if it is a directory
+        die "could not find/read data folder in working directory - please contact administrator\n" unless -d $working_dir ; 
+        die "data directory not found in working directory - please contact administrator\n" unless -d $data_dir ; 
+        die "results directory not found in working directory - please contact administrator\n" unless -d $results_dir ; 
+        
+        mkdir $aux_dir or die "Could not make aux directory";
+        
+        #check input files
+        opendir(DIR,$data_dir);
+        my @files = grep(/\.uncompressed$/,readdir(DIR));
+        closedir(DIR);
+        $in1 = $files[0];
+        $in2 = $files[1];
+        die "Upload file missing or not passed through uncompression. Was expecting two *.uncompressed files" unless $in1 && $in2;
+        $in1 = $data_dir.$in1;
+        $in2 = $data_dir.$in2;
+};
+
+if($@)
+{
+  SrnaTools::Exception::ModuleExecution->throw(message=>"FiRePat, error in initial section [file checking]: $@");
+}
+
+my $fs1 = -s $in1;
+my $fs2 = -s $in2;
+
+if($fs1 > $fs2)
+{
+  my $aux = $in1;
+  $in1 = $in2;
+  $in2 = $aux;
+}
+
+$self->_run_module(
+  'firepat_de',{
+    infile       => $in1,
+    outfile      => $aux_dir.'DEin1',
+    de_threshold => $DEthr,
+    aux_dir      => $aux_dir,
+  }
+) || return ;
+
+$self->_run_module(
+  'firepat_de',{
+    infile       => $in2,
+    outfile      => $aux_dir.'DEin2',
+    de_threshold => $DEthr,
+    aux_dir      => $aux_dir,
+  }
+) || return;
+
+$self->_run_module(
+  'firepat_compute_correlation',{
+    infile1  => $aux_dir.'DEin1.csv',
+    infile2  => $aux_dir.'DEin2.csv',
+    sim_threshold => $SIMthr,
+    outfile => $aux_dir.'corr.csv',
+  }
+) || return;
+
+$self->_run_module(
+  'firepat_split',{
+    infile  => $aux_dir.'corr.csv',
+    timeseries => $aux_dir.'DEin1.csv',
+    outdir => $aux_dir,
+  }
+) || return;
+
+$self->_run_module(
+  'firepat_hierarchical_cluster',{
+    infile  => $aux_dir.'/corr_in1.csv',
+    nr_cluster_threshold => 4,
+    outfile => $aux_dir.'/HCcls.csv',
+  }
+) || return;
+
+$self->_run_module(
+  'firepat_kmeans',{
+    corr_infile  => $aux_dir.'/corr_in1.csv',
+    cluster_infile => $aux_dir.'HCcls.csv',
+    permitted_nr_cls => 10,
+    selected_nr_cls => $selectCls,
+    outfile => $aux_dir.'/OUTcls.csv',
+  }
+) || return;
+
+$self->_run_module(
+  'firepat_log_ratios',{
+    infile  => $aux_dir.'/corr_in1.csv',
+    outfile => $aux_dir.'/corr_in1L.csv',
+  }
+) || return;
+
+$self->_run_module(
+  'firepat_log_ratios',{
+    infile  => $aux_dir.'/corr_in2.csv',
+    outfile => $aux_dir.'/corr_in2L.csv',
+  }
+) || return;
+
+$self->_run_module(
+  'firepat_create_colors',{
+    infile  => $aux_dir.'/corr_in1L.csv',
+    outfile => $aux_dir.'/corr_in1C.csv',
+    color_int => $colorInt,
+  }
+);
+
+$self->_run_module(
+  'firepat_create_colors',{
+    infile  => $aux_dir.'/corr_in2L.csv',
+    outfile => $aux_dir.'/corr_in2C.csv',
+    color_int => $colorInt,
+  }
+);
+
+$self->_run_module(
+  'firepat_create_html',{
+    options  => '1245',
+    color_int => $colorInt,
+    file_loc => $aux_dir ,
+	res_loc => $results_dir,
+  }
+);
+} # run
+
+#######################################################
+# Validate input parameters and populate error
+# attributes. First call the method in Tool parent
+# class for some generic validation then do some stuff
+# specific for this tool.
+#######################################################
+sub _do_validate_user_parameters{
+  my $self = shift ;
+  my $errors = [] ;
+  my $cfg = $self->config ;
+  
+  # Do some generic validation that is
+  # required by all tools and implemented
+  # in the parent class
+  $self->SUPER::_do_validate_user_parameters ;
+  
+  ####### This is tool specific validation ############
+  
+  # We must have one srna and one gene file
+  if (!$self->param('srna_file') ) {
+    $self->_set_param_err('No sRNA expression file in CSV format selected for upload','srna_file');
+  }
+  if (!$self->param('gene_file') ) {
+    $self->_set_param_err('No gene expression file in CSV format selected for upload','gene_file');
+  }
+  
+  $self->auto_validate_params('de_threshold','sim_threshold');
+} # _do_validate_user_parameters
+
+
+# DO NOT DELETE
+1 ;

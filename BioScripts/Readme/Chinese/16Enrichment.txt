@@ -1,0 +1,76 @@
+差异miRNA靶基因功能富集分析
+
+得到各组比较间的差异表达miRNA后，根据miRNA与其靶基因间的对应关系，我们对每组差异表达miRNA的靶基因的集合分别进行Gene Ontology和KEGG富集分析。后面为了表述方便，把 “差异表达miRNA的靶基因的集合” 称为“候选靶基因”。
+
+********************************************************************************
+*vs*文件夹是各组比较差异表达miRNA的靶基因的富集分析结果（处理vs参考）
+
+*vs*diffmiRNAID		差异分析得到的差异miRNA list
+*vs*diffmiRNA-geneid	根据miRNA与其靶基因间的对应关系，筛选到的差异表达miRNA的靶基因的集合
+*vs*diffmiRNA-gene.pairs miRNA与其靶基因间的对应关系
+（注：如果样品为单样品，则针对所有miRNA的靶基因进行富集分析，则‘候选靶基’因即为所有miRNA的靶基因，且无 *vs*diffmiRNAID 与 *vs*diffmiRNA-geneid 文件）
+
+GOenrichment	GO富集分析结果文件夹，若某个比较组合差异miRNA靶基因GO富集不上，则无png/pdf结果。
+结果说明:
+三大类的GO可根据它们之间的关系构成各自的有向无环图，这种结构展示了GO节点之间的联系（a, part of, regulate等等）。在DAG图上将不同富集程度的GO标上不同的颜色，可清楚地展示所研究的课题的生物学意义。
+我们给出了每组差异表达miRNA的靶基因的富集GO的DAG图（富集节点最多10个，最少1个，若无富集，则没有相应的图）：
+DEG_Enriched_GO_bp_DAG.png	生物过程上富集GO的有向无环图，png格式（位图）
+DEG_Enriched_GO_bp_DAG.pdf	生物过程上富集GO的有向无环图，pdf格式（矢量图）
+DEG_Enriched_GO_cc_DAG.png	细胞组分上富集GO的有向无环图，png格式（位图）
+DEG_Enriched_GO_cc_DAG.pdf	细胞组分上富集GO的有向无环图，pdf格式（矢量图）
+DEG_Enriched_GO_mf_DAG.png	分子功能上富集GO的有向无环图，png格式（位图）
+DEG_Enriched_GO_mf_DAG.pdf	分子功能上富集GO的有向无环图，pdf格式（矢量图）
+我们用goseq软件对每组差异表达miRNA的靶基因进行了GO富集分析。展示的结果有：
+DEG_GO_enrichment_results.xls			GO富集分析的结果文件
+表头说明
+	GO_accession				GO节点的ID
+	Description					GO的描述
+	Term_type					GO的类别
+	Over_represented_pValue		富集分析的Pvalue
+	Corrected_pValue			校正后的Pvalue
+	DEG_item					与该GO相关的候选靶基因的数目
+	DEG_list					GO注释的候选靶基因数目
+	Bg_item						与该GO相关的背景（所有）基因的数目
+	Bg_list						GO注释的背景（所有）基因的数目
+	Gene_names					与该GO相关的候选靶基因的ID
+DEG_Erichment_GO_classification.png		与富集的GO相关的基因的分类统计图，png格式（位图）
+DEG_Erichment_GO_classification.pdf		与富集的GO相关的基因的分类统计图，pdf格式（矢量图）
+DEG_Erichment_GO_classification_gene_counts.txt	分类图的画图数据
+
+	
+KEGGenrichment	KEGG富集分析结果文件夹
+结果说明:
+我们用kobas软件对每组差异表达miRNA的靶基因进行了KEGG PATHWAY富集分析。展示的结果有：
+*.DEG_KEGG_pathway_enrichment_result.xls		KEGG PATHWAY富集的结果文件
+表头说明：
+	Term				富集的KEGG PATHWAY名称
+	Database			通路数据库
+	Id					富集的KEGG PATHWAY的ID
+	Sample number		候选靶基因中与该PATHWAY相关的基因数
+	Background number	所有基因中与该PATHWAY相关的基因数
+	P-Value				富集分析的Pvalue
+	Corrected P-Value	校正后的Pvalue
+	Genes				与该PATHWAY相关的候选靶基因的ID
+	
+*.DEG_enriched_KEGG_pathway_top20.xls	富集PATHWAY的散点图原始文件
+表头说明：
+	pathway_term	富集的KEGG PATHWAY名称
+	RF		Rich factor 是候选靶基因中位于该pathway条目的基因数目与所有注释基因中位于该pathway条目的基因数的比值。Rich factor越大，表示富集的程度越大。
+	Qvalue	value是做过多重假设检验校正之后的pvalue，-log10（Qvalue）越大，表示富集越显著。
+	gene_number	富集在该pathway的基因数
+	
+*.DEG_enriched_KEGG_pathway_scatterplot.png	富集PATHWAY的散点图，png格式（位图）
+*.DEG_enriched_KEGG_pathway_scatterplot.pdf	富集PATHWAY的散点图，pdf格式（矢量图）
+*.DEG_enriched_KEGG_pathway_API.html		富集PATHWAY的网页API
+表头说明：
+	Term				富集的KEGG PATHWAY名称
+	Sample number		候选靶基因中与该PATHWAY相关的基因数
+	Background number	所有基因中与该PATHWAY相关的基因数
+	P-Value				富集分析的Pvalue
+	Corrected P-Value	校正后的Pvalue
+	Genes				与该PATHWAY相关的候选靶基因的ID
+    KO                  富集到该通路的候选靶基因对应的KO编号
+    Entrez ID           对于无参考基因组的分析，此列为NA 
+    Ensembl ID          对于无参考基因组的分析，此列为NA
+    Gene name           富集到该通路的候选靶基因名称   
+	

@@ -1,0 +1,65 @@
+差异miRNA表达水平聚类分析
+差异miRNA聚类分析用于判断不同实验条件下差异miRNA表达量的聚类模式。 每个比较组合都会得到一个差异miRNA集，将所有比较组合的差异miRNA集的并集在每个实验组/样品中的的TPM值，用于层次聚类分析，K-means聚类分析和SOM聚类分析（见相应文件夹）。
+===========================================================================================================================
+
+结果文件说明：
+
+1.DE_union_for_cluster.txt 为SOM_cluster.png和K_means_cluster.png的作图数据
+
+表头说明：
+
+	1.sRNA：每组比较所得的差异miRNA的并集
+
+	2.sample1：样品1的TPM值
+
+	2.sample2：样品2的TPM值
+
+2.Hcluster_heatmap.pdf/png 差异miRNA表达量层次聚类图 pdf或png格式；
+	红色表示高表达，蓝色表示低表达。颜色从红到蓝，表示log10（TPM+1）从大到小。
+
+3.Hcluster_heatmap.detail.pdf 同上，当差异miRNA数目大于50个时才画此图，在右侧显示差异miRNA名称。
+
+4.K_means_cluster K-means聚类分析结果目录
+
+结果文件说明：
+
+	1.K_means_cluster.png K-means聚类图
+
+	该图以miRNA的相对表达水平值log2(ratios) 进行聚类。
+	每个子图中的灰色线条表示一个cluster 中的miRNA在不同实验条件下相对表达量的折线图
+	蓝色线条表示这个cluster 中的所有miRNA在不同实验条件下相对表达量的平均值的折线图
+	红线为参考，线上为上调，线下为下调。
+	x轴表示实验条件，y轴表示相对表达量
+
+	2.subcluster_1 文本文件，第一个子聚类结果文件。
+
+	表头说明：
+		1.sRNA：该子聚类中的差异miRNA
+
+		2.sample1：样品1的TPM值除以本身后取以2为底的对数
+
+		3.sample2：样品2相对于样品1的表达水平值log2(ratios)，其中每个miRNA都有一个ratios值
+			   对于每个miRNA来说ratios=该miRNA在样品2的TPM/该miRNA在样品1的TPM值 
+
+5.SOM_cluster SOM聚类分析结果目录
+
+结果文件说明：
+
+	1.SOM_cluster.png SOM聚类图
+
+	该图以miRNA的相对表达水平值log2(ratios) 进行聚类。
+	每个子图中的灰色线条表示一个cluster 中的miRNA在不同实验条件下相对表达量的折线图
+	蓝色线条表示这个cluster 中的所有miRNA在不同实验条件下相对表达量的平均值的折线图
+	红线为参考，线上为上调，线下为下调。
+	x轴表示实验条件，y轴表示相对表达量
+
+	2.subcluster_1 文本文件，第一个子聚类结果文件。
+
+	表头说明：
+		1.sRNA：该子聚类中的差异miRNA
+
+		2.sample1：样品1的TPM值除以本身后取以2为底的对数
+
+		3.sample2：样品2相对于样品1的表达水平值log2(ratios)，其中每个miRNA都有一个ratios值
+			   对于每个miRNA来说ratios=该miRNA在样品2的TPM/该miRNA在样品1的TPM值 
+

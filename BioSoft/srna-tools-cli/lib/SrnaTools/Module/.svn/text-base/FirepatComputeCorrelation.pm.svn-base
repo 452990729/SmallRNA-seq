@@ -1,0 +1,232 @@
+#####################################################################
+#
+# This is a module of the sRNA tool kit.
+# It calculates correlation between timeseries
+# TODO This class has been converted from a standalone script and might
+# still need some cleanup (e.g. passing of parameters)
+###
+#has as output all the pairs (e.g. microarray - loci) that have correlation (PCC) above the given threshold
+#input : timeseries 1, timeseries 2 [the number of timepoints has to be identical]
+#threshold for similarity
+
+
+package SrnaTools::Module::FirepatComputeCorrelation;
+use base SrnaTools::Module ;
+
+#use strict;
+#use warnings;
+
+sub run{
+my $self = shift ;
+
+
+# FiRePat = find regulatory patterns
+my $moduleName = "FiRePat - compute correlation";
+$in1 = $self->param('infile1');
+$in2 = $self->param('infile2');
+$thr = $self->param('sim_threshold');
+$out = $self->param('outfile');
+
+#print "correlation threshold : $thr \n";
+
+#my $fs = -s $in1;
+# check if file 1 is empty
+#if($fs == 0)
+#{
+#	#input file does not exist
+#	$self->job->_run_module(
+#		'firepat_create_failure_outfiles',
+#		{
+#			message => 'empty input file 1.'
+#		}
+#	);
+#	return 0;
+#}
+
+#my $fs = -s $in2;
+# check if file 2 is empty
+#if($fs == 0)
+#{
+#	#input file does not exist
+#	$self->job->_run_module(
+#		'firepat_create_failure_outfiles',
+#		{
+#			message => 'empty input file 2.'
+#		}
+#	);
+#	return 0;
+#}
+
+$self->update_status("$moduleName: calculating correlation") ;
+#check if files exist otherwise throw an exception
+open ts1,$in1 or SrnaTools::Exception::ModuleExecution->throw(message=>"$moduleName, cannot open first timeseries");
+open ts2,$in2 or SrnaTools::Exception::ModuleExecution->throw(message=>"$moduleName, cannot open second timeseries");
+
+open out, '>',$out or SrnaTools::Exception::ModuleExecution->throw(message=>"$moduleName, cannot open output file");
+$#ts1 = -1;
+while(<ts1>)
+{
+        chomp;
+        @d = split/,/;
+        $cnt1 = $#d;
+        push @ts1,[@d];
+}
+close(ts1);
+$#ts2 = -1;
+while(<ts2>)
+{
+        chomp;
+        @d = split/,/;
+        $cnt2 = $#d;
+        push @ts2,[@d];
+}
+close(ts2);
+######check if in files are empty
+######if empty => return !!! Exception
+if ($#ts1 < 0 || $#ts2 < 0)
+{
+	#print "timeseries 1 || 2 with 0 elements \n";
+  SrnaTools::Exception::ModuleExecution->throw(message=>"$moduleName, one of the timeseries files is empty.");
+}
+
+if ($cnt1 != $cnt2 || $cnt1 == 0)
+{
+	#print "number of timepoints not equal or zero \n";
+  SrnaTools::Exception::ModuleExecution->throw(message=>"$moduleName, the number of timepoints for the two timeseries has to be equal and greater than 0 in the two input files: found $cnt1/$cnt2 timepoints in the two files respectively. Please correct your files.");	
+}
+
+#print "input files ok ts1 : $#ts1 and ts2 : $ts2 \n";
+
+for($i = 1; $i <= $#ts1; $i++)
+{
+        $meanX = 0;
+        $stDevX = 0;
+        
+        #mean for TS1
+        for($j = 1; $j <= $cnt1; $j++)
+        {
+                $meanX += $ts1[$i][$j];
+        }
+        $meanX /= $cnt1;
+        
+        #stdev for TS1
+        for($j = 1; $j <= $cnt1; $j++)
+        {
+                $stDevX += $ts1[$i][$j] * $ts1[$i][$j];
+        }
+        
+        $stDevX /= $cnt1;
+        $stDevX = sqrt($stDevX - $meanX * $meanX);
+        
+        for($j = 1; $j<= $#ts2; $j++)
+        {
+                $meanY = 0;
+                $stdevY = 0;
+                #mean for TS2
+                for($k = 1; $k <= $cnt2; $k++)
+                {
+                        $meanY += $ts2[$j][$k];
+                }
+                $meanY /= $cnt2;
+                
+                #stdev for TS2
+                for($k = 1; $k <= $cnt2; $k++)
+                {
+                        $stDevY += $ts2[$j][$k]*$ts2[$j][$k];
+                }
+                $stDevY /= $cnt2;
+                $stDevY = sqrt($stDevY - $meanY * $meanY);
+                
+                #compute Pearson CC
+                $r  = 0;
+#                $r1 = 0;
+                $xy = 0;
+                for($k = 1; $k <= $cnt2; $k++)
+                {
+                        $xy += $ts1[$i][$k] * $ts2[$j][$k];
+                }
+                $xy /= $cnt1;
+                
+ #               $r1 = ($xy - $meanX*$meanY)/($stDevX * $stDevY);
+                
+                for($k = 1; $k <= $cnt1; $k++)
+                {
+                        $r += ($ts1[$i][$k] - $meanX) * ($ts2[$j][$k] - $meanY) ;
+                }
+                if($stDevX == 0 || $stDevY == 0)
+                {
+                        $r = 0;
+                }
+                else
+                {
+                        $r /= $stDevX * $stDevY * $cnt1;
+                }
+                
+                #decide abs > thr -> Y/N
+#				print "Firepat: Corr : r = $r \n";
+                if(abs($r) > $thr * 0.01)
+                {
+                        for($k = 0; $k <= $cnt1; $k++)
+                        {
+                                $sele[$k] = $ts1[$i][$k];
+                        }
+                        for($k = 0; $k <= $cnt2; $k++)
+                        {
+                                $sele[$k + $cnt1 + 1] = $ts2[$j][$k];
+                        }
+                        $sele[$cnt1 + 1 + $cnt2 + 1] = $r;
+                        push @selTS, [@sele];
+                }
+        }
+}
+
+#print "Firepat:Corr : correlation computed \n";
+#print "Firepat:Corr : pairs found : $#selTS \n";
+#remove duplicates
+for($i = 0; $i<= $#selTS; $i++)
+{
+        $mark[$i] = 1;
+}
+
+for($i = 0; $i< $#selTS; $i++)
+{
+        if ($selTS[$i][0] eq $selTS[$i+1][0] && $selTS[$i][$cnt1+1] eq $selTS[$i+1][$cnt1+1])
+        {
+                $mark[$i+1] = 0;
+        }
+}
+#print "Firepat: Corr: redundant pairs marked \n";
+$selected = 0;
+for($i = 0; $i<= $#selTS; $i++)
+{
+        if ($mark[$i] == 1)
+        {
+                $sum1 = 0; $sum2 = 0;
+                for($j = 1;$j <= $cnt1; $j++)
+                {
+                        $sum1 += $selTS[$i][$j];
+                }
+                for($j = 1; $j <= $cnt2; $j++)
+                {
+                        $sum2 += $selTS[$i][$cnt1 + 1 + $j];
+                }
+                if($sum1 > 1 && $sum2 > 1)
+                {
+                        for($j = 0; $j <= $cnt1 + $cnt2 + 2; $j++)
+                        {
+                                print out "$selTS[$i][$j], ";
+                        }
+                        print out "\n";
+                        $selected++;
+                }
+        }
+}
+
+close(out);
+
+#print "Firepat:Corr: script didn't return any errors \n";
+
+return 1;
+}
+
+return 1;

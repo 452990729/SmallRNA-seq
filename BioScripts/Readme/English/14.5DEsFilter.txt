@@ -1,0 +1,17 @@
+Direction
+
+Volcano plot could be used to infer the overall distribution of different expression miRNAs. 
+For the experiment without biological replicate, the threshold is normally set as: 
+|log2(FoldChange)| > 1 and qvalue < 0.01. For the experiment with biological replicate, 
+as the DESeq2 has already eliminate the biological variation, our threshold is normally set as: padj < 0.05.
+
+===========================================================================================================================
+result£º
+
+*vs*.Volcanoplot.png       differential expression Volcanoplot(png)
+*vs*.Volcanoplot.pdf	   differential expression Volcanoplot(pdf)
+
+The x-axis is miRNAs in different samples, and the y-axis is the statically significance of the difference.
+The dot representing each miRNA,blue dots indicate no significant difference miRNA,red dots indicate significant
+up regulation of miRNA,green dots indicate significant difference by miRNA.
+

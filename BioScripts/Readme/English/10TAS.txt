@@ -1,0 +1,11 @@
+Direction
+Trans-acting siRNAs (ta-siRNAs) are a new class of small RNAs that regulate plant development.The identification of known TAS gene based on Arabidopsis and Oryza sativa database.We used UEA sRNA tools to predict new TAS gene.
+****************************************************************************
+TAS.map.fas		reads mapped to TAS gene
+Note£º
+(1)Lines starting with ">": Behind ">" is id, the first three character is sample name,next is "_",then is the id of this reads in each sample,next is also "_",at last is x and the frequency of this read.
+(2)Read£ºSequencing reads.
+****************************************************************************
+Note£º£¨¡°+¡±sRNA mapped to sense TAS gene£¬¡°-¡±sRNA mapped to antisense TAS gene£©
+TAS.rc.stat		Statistics of total reads mapped to TAS gene
+TAS.uc.stat		Statistics of unique reads mapped to TAS gene

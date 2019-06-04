@@ -1,0 +1,38 @@
+高通量测序（Illumina HiSeqTM2000/ MiSeqTM）得到的原始图像数据文件经CASAVA碱基识别(Base Calling)分析转化为原始测序序列（Sequenced Reads），我们称之为Raw Data或Raw Reads
+
+
+===========================================================================================================================
+
+
+结果文件说明
+
+
+1、raw.fastq.gz 单独存放于“results”上层文件夹“raw_data”中，为高通量测序的原始测序序列，结果以FASTQ文件格式存储。包含测序序列的序列信息和对应的测序质量信息。FASTQ文件中每个read由四行描述。其格式如下：
+
+FASTQ格式文件中每个read由四行描述，如下：
+@HWI-ST1276:94:D16DGACXX:2:1101:1747:2188 1:N:0:ACAGTG
+TGTAAACATCCTTGACTGGATGGAATTCTCGGGAGCCAAGGAACTCCAGT
++
+DDDAD>=DFHIIGIIIGGH@EFDAHG<DH@GHG)0?DGGHA?BF@GGE88
+
+其中第一行以“@”开头，随后为Illumina测序标识符（Sequence Identifiers）和描述文字（选择性部分）；
+第二行是碱基序列；
+第三行以“+”开头，随后为Illumina测序标识别符（选择性部分）；
+第四行是对应碱基的测序质量，该行中每个字符对应的ASCII值减去33，即为对应第二行碱基的测序质量值。
+
+Illumina 测序标识别符（Sequence Identifiers）详细信息如下：
+
+	HWI-ST1276	Instrument – unique identifier of the sequencer
+	94			run number – Run number on instrument
+	D16DGACXX	FlowCell ID – ID of flowcell
+	2			LaneNumber – positive integer
+	1101		TileNumber – positive integer
+	1747		X – x coordinate of the spot. Integer which can be negative
+	2188		Y – y coordinate of the spot. Integer which can be negative
+	1			ReadNumber - 1 for single reads; 1 or 2 for paired ends
+	N			whether it is filtered - NB：Y if the read is filtered out, not in the delivered fastq file, N otherwise
+	0			control number - 0 when none of the control bits are on, otherwise it is an even number
+	ACAGTG		Illumina index sequences
+
+
+2、example.raw.fastq为raw.fastq.gz的部分数据，其内容格式与raw.fastq.gz一致。

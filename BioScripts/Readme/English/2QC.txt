@@ -1,0 +1,6 @@
+Direction
+2.1RawData_ErrorRate		2.1 Sequencing error distribution
+2.2RawData_Stat			2.2 Summary of rawdata quality
+2.3ReadsClassification		2.3 Sequencing data filtering
+2.4Length_Filter		2.4 The length of sRNA filter
+2.5Common-Specific_sRNA.txt	2.5 Common and specific sRNA

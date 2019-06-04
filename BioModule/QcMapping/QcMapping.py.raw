@@ -1,0 +1,314 @@
+#!/usr/bin/env python
+# _*_ coding:utf-8 _*_
+
+
+import os
+import glob
+from Settings import BioConfig
+from itertools import combinations
+from collections import defaultdict
+from Stools import CheckTools, AtomJob, Job, write_shell
+
+
+class QcMapping(object):
+    
+    def __init__(self,args,job):
+        self.args         = args
+        self.projpath     = args.get('projpath') or os.getcwd()
+        self.mapfile      = os.path.join(self.projpath,args.get('mapfile'))
+        self.org          = args.get('org')
+        self.sched        = args.get('sched')
+        self.project      = args.get('project')
+        self.chrNum       = args.get('chrNum')
+        self.refer        = CheckTools(self.args).getRefConfig().get('refer')
+        self.sample_list  = CheckTools(self.args).samples
+        self.sample       = args.get('sample')
+        self.common       = args.get('common')
+        self.ad3          = args.get('ad3')
+        self.ad5          = args.get('ad5')
+        self.min_len      = CheckTools(self.args).min_len
+        self.max_len      = CheckTools(self.args).max_len
+        self.analycode    = args.get('analy_code') if args.get('analy_code') else BioConfig.ORG_ANALYSIS_CODE[self.org]
+        self.job          = job
+        self.BioScripts   = BioConfig.config.get('srnaenv','BioScripts')
+        self.perlExec     = BioConfig.config.get('srnaenv','perl_v5182')
+        self.R_v2153      = BioConfig.config.get('srnaenv','R_v2153')
+        self.python276    = BioConfig.config.get('srnaenv','python_v276')
+        self.LIBRARY_PATH = BioConfig.config.get('srnaenv','LIBRARY_PATH')
+        self.R_v303       = BioConfig.config.get('srnaenv','R_v303')
+        self.bowtie       = BioConfig.config.get('software','bowtie1')
+        self.bowtie2      = BioConfig.config.get('software','bowtie2')
+        self.circos       = BioConfig.config.get('software','circos')
+        self.samtools     = BioConfig.config.get('software','samtools')
+        self.abbr         = args.get('abbr')
+        if args.get('common') == 'y':
+            self.qc_code  = 1.2
+        else:
+            if '1.1' in self.analycode:
+                self.qc_code = 1.1
+            else:
+                self.qc_code = 0
+
+        if 'noref' in self.org:
+            self.map_code = 2.1      #不画circos图
+        else:
+            self.map_code = 2.2 
+ 
+
+    def run(self):
+        
+        CheckTools(self.args).checkrunshell()
+        rawfq_dict,rawadapter_dict = CheckTools(self.args).checkSErawdata()
+        for sampid in self.sample_list:
+            #if len(rawfq_dict[sampid]) > 1:
+            #    self._rawdata_zcat(sampid,rawfq_dict,rawadapter_dict)
+            #else:
+            #    self._rawdata_link(sampid,rawfq_dict,rawadapter_dict)
+            self._raw2clean(sampid)
+            self._adapter2clean(sampid)
+            self._category(sampid)
+            self._MapStat(sampid)
+            if self.map_code == 2.2:
+                self._circos(sampid)
+        self._qc_report()
+        if self.qc_code == 1.2:
+            for group in [c for c in  combinations(self.sample_list, 2)]:
+                self._sharespecific(group)
+
+
+    def _rawdata_zcat(self,sampid,rawfq_dict,rawadapter_dict):
+        code = (
+            'date +"%D %T -> Start rawdata_zcat && "\\\n'
+            'cd {projpath}/raw_data/{sampid} && \\\n'
+            'zcat {rawfq} > {sampid}.fq.gz && \\\n'
+            'zcat {rawadapter} > {sampid}.adapter.list.gz && \\\n'
+            'date +"%D %T -> Finish rawdata_zcat "\n'       
+        ).format(projpath = self.projpath,sampid = sampid,rawfq = ' '.join(list(rawfq_dict[sampid])),
+                 rawadapter = ' '.join(list(rawadapter_dict[sampid])))
+        shell_path = os.path.join(self.projpath,'raw_data',sampid,'zcat_{}.sh'.format(sampid))
+        write_shell(code,shell_path)
+        job_name = os.path.splitext(os.path.basename(shell_path))[0]
+        atom_job = AtomJob(job_name, shell_path,1,'rawdata_zcat', sched=self.sched)
+        self.job.add_atom_job(atom_job)
+        self.job.add_order(job_name, after_jobs='{}_raw2clean'.format(sampid))
+        
+    def _rawdata_link(self,sampid,rawfq_dict,rawadapter_dict):
+        assert not os.system('mkdir -p {projpath}/raw_data/{sampid}'.format(
+                              projpath = self.projpath,sampid = sampid))
+        code = (
+            'cd {projpath}/raw_data/{sampid} && \\\n'
+            'ln -sf {rawfq} {sampid}.fq.gz && \\\n'
+            'ln -sf {rawadapter} {sampid}.adapter.list.gz '
+        ).format(projpath = self.projpath,sampid = sampid,rawfq = list(rawfq_dict[sampid])[0],
+                 rawadapter = list(rawadapter_dict[sampid])[0])
+        assert not os.system(code)
+
+        
+    def _raw2clean(self,sampid):
+        code = (
+            'date +"%D %T -> Start RawtoClean " && \\\n'
+            '{perlExec} {BioScripts}/1QC/raw2flN.pl \\\n'
+            '   -i {projpath}/raw_data/{sampid}/{sampid}.fq.gz \\\n'
+            '   -q 33 \\\n'
+            '   -name {sampid} \\\n'
+            '   -o {projpath}/1.QC/{sampid}/clean_data && \\\n'
+            'date +"%D %T -> Finish RawtoClean "\n'
+        ).format(projpath = self.projpath,sampid = sampid,perlExec = self.perlExec, \
+                 BioScripts = self.BioScripts)
+        shell_path = os.path.join(self.projpath,'1.QC',sampid,'clean_data','{}_raw2clean.sh'.format(sampid))
+        write_shell(code,shell_path)
+        job_name = os.path.splitext(os.path.basename(shell_path))[0]
+        atom_job = AtomJob(job_name, shell_path, 1,'raw2clean', sched=self.sched)
+        self.job.add_atom_job(atom_job)
+
+        
+    def _adapter2clean(self,sampid):
+        code = (
+            'date +"%D %T -> Start AdaptertoClean " && \\\n'
+            'export PATH={R_v2153}:$PATH && \\\n'
+            'export LD_LIBRARY_PATH={LIBRARY_PATH}/R_v2153:$LD_LIBRARY_PATH && \\\n'
+            '{python276} {BioScripts}/1QC/hq2wash.py  \\\n'
+            '   --sample {sampid} \\\n'
+            '   --qc {projpath}/1.QC/{sampid}/clean_data/{sampid}.stat \\\n'
+            '   --a3 {ad3} \\\n'
+            '   --a5 {ad5} \\\n'
+            '   --min3 8 \\\n'
+            '   --min5 8 \\\n'
+            '   --file {projpath}/1.QC/{sampid}/clean_data/{sampid}.hq.cut.fq \\\n'
+            '   --min_len {min_len} \\\n'
+            '   --max_len {max_len} \\\n'
+            '   --p 0  \\\n'
+            '   --outdir {projpath}/1.QC/{sampid}/clean_data  && \\\n'
+            'date +"%D %T -> Finish AdaptertoClean " && \n'
+            'date +"%D %T -> Start Stat sRNA distribution " && \\\n'
+            '{perlExec} {BioScripts}/1QC/stat_seq_len_distribution.pl \\\n'
+            '   -fa {sampid}_remain_uniq.fa \\\n'
+            '   -pre {sampid}  -min {min_len}  -max {max_len} \\\n'
+            '   -od  {projpath}/1.QC/{sampid}/clean_data && \n'
+            'rm -rf {projpath}/1.QC/{sampid}/clean_data/{sampid}.hq.cut.fq && \\\n'
+            'date +"%D %T -> Finsh Stat sRNA distribution "\n'
+        ).format(projpath = self.projpath,sampid = sampid,perlExec = self.perlExec,
+                 BioScripts = self.BioScripts,python276 = self.python276,R_v2153 = self.R_v2153,
+                 LIBRARY_PATH = self.LIBRARY_PATH,ad3 = self.ad3, ad5 = self.ad5, min_len = self.min_len,
+                 max_len = self.max_len)
+
+        shell_path = os.path.join(self.projpath,'1.QC',sampid,'clean_data','{}_adapter2clean.sh'.format(sampid))
+        write_shell(code,shell_path)
+        job_name = os.path.splitext(os.path.basename(shell_path))[0]
+        atom_job = AtomJob(job_name, shell_path, 1,'adapter2clean', sched=self.sched)
+        self.job.add_atom_job(atom_job)        
+        self.job.add_order(job_name, previous_jobs='{}_raw2clean'.format(sampid))
+
+    def _category(self,sampid):
+        code = (
+            'date +"%D %T -> Start Category " && \\\n'
+            '{perlExec} {BioScripts}/1QC/sRNA_compose.pl \\\n'
+            '   -i {projpath}/1.QC/{sampid}/clean_data/{sampid}_remain_total.fa \\\n'
+            '   -s {sampid} \\\n'
+            '   -o {projpath}/1.QC/{sampid}/Category && \\\n'
+            'date +"%D %T -> Finish Category "\n'
+        ).format(projpath = self.projpath,sampid = sampid,perlExec = self.perlExec,
+                 BioScripts = self.BioScripts)
+        shell_path = os.path.join(self.projpath,'1.QC',sampid,'Category','{}_category.sh'.format(sampid))
+        write_shell(code,shell_path)
+        job_name = os.path.splitext(os.path.basename(shell_path))[0]
+        atom_job = AtomJob(job_name, shell_path, 1,'category', sched=self.sched)
+        self.job.add_atom_job(atom_job)
+        self.job.add_order(job_name, previous_jobs='{}_adapter2clean'.format(sampid))
+        self.job.add_order(job_name, after_jobs='qc_report')
+
+
+    def _sharespecific(self,group):
+        sample1 = group[0]
+        sample2 = group[1]
+        combination = group[0]+"_vs_"+group[1]
+        code = (
+                'date +"%D %T -> perform specific and share squences in {combination}" && \\\n'
+                'export PATH={R_v303}:$PATH && \\\n'
+                'export LD_LIBRARY_PATH={LIBRARY_PATH}/R_v303:$LD_LIBRARY_PATH && \\\n'
+                '{python276} {BioScripts}/1QC/venn_char_v2.py \\\n'
+                '{sample1} {sample2} \\\n'
+                '{projpath}/{sample1}/clean_data/{sample1}_remain_uniq.fa \\\n'
+                '{projpath}/{sample2}/clean_data/{sample2}_remain_uniq.fa && \n'
+                'date +"%D %T -> Finish specific and share squences in {combination}"\n'
+        ).format(projpath = self.projpath,combination = combination,sample1 = sample1,sample2 = sample2,
+                 BioScripts = self.BioScripts,python276 = self.python276,R_v303 = self.R_v303,
+                 LIBRARY_PATH = self.LIBRARY_PATH)
+        shell_path = os.path.join(self.projpath,'1.QC',combination,'{}.sh'.format(combination))
+        write_shell(code,shell_path)
+        job_name = os.path.splitext(os.path.basename(shell_path))[0]
+        atom_job = AtomJob(job_name, shell_path, 1,'sharespecific', sched=self.sched)
+        self.job.add_atom_job(atom_job)
+        self.job.add_order(job_name, previous_jobs=['{}_adapter2clean'.format(sample1),'{}_adapter2clean'.format(sample2)])
+        self.job.add_order(job_name, after_jobs='srna_result')
+
+    def _MapStat(self,sampid):
+        
+        if 'tae' in self.abbr.lower():
+            bowtieGenome = self.bowtie2+"/bowtie --large-index"                #小麦这种大基因组比对时候需要参加--large-index参数
+        else:
+            bowtieGenome = self.bowtie+"/bowtie"      
+
+        code = (
+            'date +"%D %T -> Stat Mapping and Stat " && \\\n\n'
+            'if [ ! -f {projpath}/2.map/reference.mapping.stat ];then \n'
+            '  echo -e  "Sample\\tTotal sRNA\\tMapped sRNA\\t\\"+\\"Mapped sRNA\\t\\"-\\"Mapped sRNA" \\\n'
+            '  > {projpath}/2.map/reference.mapping.stat \n'
+            'fi && \n\n'
+            'awk \'{{if(/^>/){{split(substr($1,2),a,"(");split(a[2],b,")");'
+            'id="{sampid}_"i++;for(j=1;j<=b[1];j++){{print ">"id"_x"b[1]"_"j"\\n"a[1]}}}}}}\' '
+            '{projpath}/1.QC/{sampid}/clean_data/{sampid}_remain_uniq.fa > '
+            '{projpath}/2.map/{sampid}/{sampid}.total.fa && \n\n'
+            'awk \'{{if(/^>/){{split(substr($1,2),a,\"(\");split(a[2],b,\")\");'
+            'id=\"{sampid}_\"i++;print \">\"id\"_x\"b[1]\"\\n\"a[1]}}}}\' '
+            '{projpath}/1.QC/{sampid}/clean_data/{sampid}_remain_uniq.fa '
+            '> {projpath}/2.map/{sampid}/{sampid}.collapse.fa && \n\n'
+            '{bowtieGenome} -p 5 -v 1 -k 1 \\\n'
+            '    {refer} \\\n'
+            '    -f {projpath}/2.map/{sampid}/{sampid}.total.fa \\\n'
+            '    --sam {projpath}/2.map/{sampid}/{sampid}.sam && \n\n'
+            '{bowtieGenome} -p 5 -v 1 -k 1 \\\n'
+            '    {refer} \\\n'
+            '    -f {projpath}/2.map/{sampid}/{sampid}.total.fa \\\n'
+            '    {projpath}/2.map/{sampid}/{sampid}.bwt \\\n'
+            '    --un {projpath}/2.map/{sampid}/{sampid}.unmap.total.fa && \n\n'
+            '{perlExec} {BioScripts}/2map/bwt2sta-uniq.pl  \\\n'
+            '   {projpath}/2.map/{sampid}/{sampid}.bwt    \\\n'
+            '   {projpath}/2.map/{sampid}/{sampid}.mapping.stat \\\n'
+            '   {projpath}/2.map/{sampid}/{sampid}.map.collapse.fa && \n\n'
+            'awk \'{{if(/^>/){{split($1,a,"_x");uniq++;count=a[2];total+=count}}else{{uniqbase+=length($1);'
+            'totalbase+=count*length($1)}}}}END{{print "Total small RNA\\t"total"\\t"totalbase"\\t"uniq"\\t"uniqbase}}\' ' 
+            '{projpath}/2.map/{sampid}/{sampid}.collapse.fa >>{projpath}/2.map/{sampid}/{sampid}.mapping.stat && \n\n'
+            'awk -F"\\t" \'BEGIN{{sample="{sampid}"}}{{if(/^Total small RNA/){{total=$2}}else if(/^Total Mapped small RNA/)'
+            '{{map=$2}}else if(/^Total Sense Mapped small RNA/){{sense=$2}}else if(/^Total Antisense Mapped small RNA/)'
+            '{{antisense=$2}}}}END{{map_percent=sprintf("%.2f%",map/total*100);sense_percent=sprintf("%.2f%",sense/total*100);'
+            'antisense_percent=sprintf("%.2f%",antisense/total*100);'
+            'print sample"\\t"total" (100.00%)\\t"map" ("map_percent")\\t"sense" ("sense_percent")\\t"antisense" ("antisense_percent")"}}\' '
+            '{projpath}/2.map/{sampid}/{sampid}.mapping.stat ' 
+            '>>{projpath}/2.map/reference.mapping.stat && \n\n'
+            'date +"%D %T -> Finish  Mapping and Stat "\n'
+        ).format(projpath = self.projpath,sampid = sampid,perlExec = self.perlExec,
+                 BioScripts = self.BioScripts,refer = self.refer,bowtie = self.bowtie,
+                 bowtieGenome = bowtieGenome)
+
+        shell_path = os.path.join(self.projpath,'2.map',sampid,'{}_MapStat.sh'.format(sampid))
+        write_shell(code,shell_path)
+        job_name = os.path.splitext(os.path.basename(shell_path))[0]
+        atom_job = AtomJob(job_name, shell_path, 1,'MapStat', sched=self.sched)
+        self.job.add_atom_job(atom_job)
+        self.job.add_order(job_name, previous_jobs='{}_adapter2clean'.format(sampid)) 
+        self.job.add_order(job_name, after_jobs='qc_report')
+        
+         
+    def _qc_report(self):
+        code = (
+            'date +"%D %T -> Start Generate Report " && \\\n'
+            '{perlExec} {BioScripts}/Report/QC/sRNA_QC_report.pl \\\n'
+            '   -cont {project} \\\n'
+            '   -n  {sample} \\\n' 
+            '   -dir {projpath}/1.QC \\\n'
+            '   -min 18 -max 30 \\\n'
+            '   -mapfile {mapfile} && \\\n'
+            '{pythonExec} {BioScripts}/1QC/qc_record.py \\\n'
+            '   --projpath {projpath} \\\n'
+            '   --qc_dir {projpath}/1.QC \\\n'
+            '   --mapfile {mapfile} \\\n'
+            '   --project {project} && \\\n'
+            'date +"%D %T -> Finish Generate Report "\n'
+        ).format(perlExec = self.perlExec, BioScripts = self.BioScripts,sample = self.sample,
+                 project = self.project, projpath = self.projpath, mapfile = self.mapfile,
+                 pythonExec = self.python276)
+        shell_path = os.path.join(self.projpath,'1.QC','qc_report.sh')
+        write_shell(code,shell_path)
+        job_name = os.path.splitext(os.path.basename(shell_path))[0]
+        atom_job = AtomJob(job_name, shell_path, 1,'qc_report', sched=self.sched)
+        self.job.add_atom_job(atom_job)
+       
+ 
+    def _circos(self,sampid):
+        code = (
+                'date +"%D %T ->Start Genome distribution for {sampid}" && \\\n'
+                'export PATH={circos}/bin:$PATH \n'
+                'export PATH={R_v2153}:$PATH \n'
+                'export LD_LIBRARY_PATH={LIBRARY_PATH}/R_v2153:{LIBRARY_PATH}/HTSeq_Atlas:$LD_LIBRARY_PATH \n'
+                '{samtools} view -bS {projpath}/2.map/{sampid}/{sampid}.sam  > {projpath}/2.map/{sampid}/{sampid}.bam && \n'
+                '{python276} {BioScripts}/2map/circos_density_v2.3.py  \\\n'
+                '   --bam {projpath}/2.map/{sampid}/{sampid}.bam \\\n'
+                '   --fa {refer} \\\n'
+                '   --n {chrNum} --iv 10000 --r 10000 \\\n'
+                '   --outputfile {sampid}_circos \\\n'
+                '   --outputdir {projpath}/2.map/{sampid}/Circos  && \n'
+                'date +"%D %T ->Finish Genome distribution for {sampid}"\n'
+        ).format(projpath = self.projpath,sampid = sampid,python276 = self.python276,
+                 BioScripts = self.BioScripts,refer = self.refer,circos = self.circos,chrNum = self.chrNum,
+                 R_v2153 = self.R_v2153, LIBRARY_PATH = self.LIBRARY_PATH,samtools = self.samtools)
+        shell_path = os.path.join(self.projpath,'2.map',sampid,'Circos','{}_circos.sh'.format(sampid))
+        write_shell(code,shell_path)
+        job_name = os.path.splitext(os.path.basename(shell_path))[0]
+        atom_job = AtomJob(job_name, shell_path, 1,'circos', sched=self.sched)
+        self.job.add_atom_job(atom_job)
+        self.job.add_order(job_name, previous_jobs='{}_MapStat'.format(sampid))
+        self.job.add_order(job_name, after_jobs='srna_result') 
+    
+    def _MD5_Sum(self):
+        pass

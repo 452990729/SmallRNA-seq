@@ -1,0 +1,6 @@
+[check]
+/PUBLIC/source/RNA/smallRNA/pipeline/sRNA/tools_script/check_3_utr.pl
+/TJPROJ1/RNA/personal_dir/wangxiaoqi/check_run/check_runshell.py
+/TJPROJ1/RNA/personal_dir/wangxiaoqi/sRNA_pipeline/checkresults/checkresults.py
+/PUBLIC/source/RNA/smallRNA/pipeline/sRNA/tools_script/byebye.pl
+/PUBLIC/source/RNA/smallRNA/pipeline/sRNA/tools_script/byebye_workdir_data.py

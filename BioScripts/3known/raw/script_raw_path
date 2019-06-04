@@ -1,0 +1,15 @@
+
+[script_raw_path]
+/PUBLIC/source/RNA/smallRNA/version3/3k_miRNA/known_miRNA.pl 注:这个没用到
+/PUBLIC/source/RNA/smallRNA/version3/3k_miRNA/known_miRNA.v2.pl
+/PUBLIC/source/RNA/smallRNA/version3/3k_miRNA/bin/known_hp_mat_remove_dup.cp.pl
+/PUBLIC/source/RNA/smallRNA/version3/3k_miRNA/bin/cvs2pdf_gb.pl
+/PUBLIC/source/RNA/smallRNA/version3/3k_miRNA/bin/known_hp_mat_remove_dup.pl
+/PUBLIC/source/RNA/smallRNA/version3/3k_miRNA/bin/csv2pdf_gb.pl
+/PUBLIC/source/RNA/smallRNA/version3/bin/genebwt12count.pl
+/PUBLIC/source/RNA/smallRNA/version3/bin/bwt12collapse.pl
+/PUBLIC/source/RNA/smallRNA/version3/bin/bwt_base_bias_plot.pl
+/PUBLIC/source/RNA/smallRNA/pipeline/sRNA/tools_script/stat_known_miRNA_pre.pl
+/PUBLIC/source/RNA/smallRNA/version3/bin/quantifier_gb_v2.pl
+/PUBLIC/source/RNA/smallRNA/version3/bin/make_html2_gb.pl
+/ifs/TJPROJ3/RAD/wangyunkai/smallRNA/BioSoft/mirdeep2/quantifier.pl

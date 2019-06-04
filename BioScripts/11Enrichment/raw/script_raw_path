@@ -1,0 +1,50 @@
+[11Enrichment]
+/PUBLIC/source/RNA/smallRNA/version3/11Enrichment/ref_KEGG_Blast.pl
+/PUBLIC/source/RNA/smallRNA/version3/11Enrichment/enrich_ref_new_v1.pl
+/PUBLIC/source/RNA/smallRNA/version3/11Enrichment/single_enrich_ref_new.pl
+/PUBLIC/source/RNA/smallRNA/version3/11Enrichment/enrich_noref_new.pl
+/PUBLIC/source/RNA/smallRNA/version3/11Enrichment/single_enrich_noref_new.pl
+/PUBLIC/source/RNA/smallRNA/version3/11Enrichment/run_ref_KEGG_Blast.pl
+/PUBLIC/source/RNA/smallRNA/version3/11Enrichment/bin/run_enrich_ref_new.pl
+/PUBLIC/source/RNA/smallRNA/version3/11Enrichment/bin/run_enrich_ref_new_v2.pl
+/PUBLIC/source/RNA/smallRNA/version3/11Enrichment/bin/goseq_graph.pl    注:脚本中涉及到R环境问题
+/PUBLIC/software/RNA/gene_annotation/scripts/go_classification_v3.pl    注:脚本中涉及到R环境问题
+/PUBLIC/source/RNA/smallRNA/version3/11Enrichment/bin/runKEGG.pl
+/PUBLIC/source/RNA/chenliqun_tools/kegg_web_all/pathway_annotation_flow_parallel_simple_tolerant.py
+/PUBLIC/software/public/Annotation/kobas2.0-20120208/add_id.pl
+/PUBLIC/software/public/Annotation/kobas2.0-20120208/scripts/identify.py
+/PUBLIC/software/public/Annotation/kobas2.0-20120208/plot/extract_top20.pl
+/PUBLIC/software/public/Annotation/kobas2.0-20120208/plot/Pathwayscatter_pdf.R
+/PUBLIC/software/public/Annotation/kobas2.0-20120208/plot/Pathwayscatter_png.R
+/PUBLIC/source/RNA/smallRNA/version3/11Enrichment/bin/run_enrich_noref_new.pl
+/PUBLIC/source/RNA/smallRNA/version3/11Enrichment/bin/goseq_graph_v3.pl  注:脚本中涉及到R环境问题
+/PUBLIC/source/RNA/noRef/KEGG_enrichment/runKEGG_enrich_v1.1.pl     注:脚本中既含有python版本绝对路径，又含有R版本的绝对路径
+
+[noref]
+/PUBLIC/software/RNA/kobas2.0-20140801/scripts/noref/ko_extract.pl
+/PUBLIC/source/RNA/noRef/KEGG_enrichment/norefkobas/scripts/noref/identify.py 注:脚本名称更改为noref_identify.py
+/PUBLIC/software/RNA/kobas2.0-20140801/scripts/noref/add_id.pl 注:脚本名称更改为noref_add_id.py
+/PUBLIC/software/RNA/kobas2.0-20140801/scripts/noref/extract_top20.pl 注:noref_extract_top20.pl
+/PUBLIC/software/RNA/kobas2.0-20140801/scripts/noref/Pathwayscatter.R
+
+/TJPROJ1/RNA/ncRNA/sRNA201707/P2016111715-S1-4_damai_sRNA_20170811/14.enrich/add_description.pl
+/PUBLIC/software/RNA/GOseq/script/goseq_bar_plot.R
+/PUBLIC/software/RNA/GOseq/script/goseq_bar_plot2.R
+/PUBLIC/source/RNA/RefRNA/DGE/Enrichment/getGene.pl
+/PUBLIC/source/RNA/RefRNA/DGE/Enrichment/extractcDNAfromFA.pl
+/PUBLIC/source/RNA/RefRNA/DGE/Enrichment/getDiffGene.pl
+/PUBLIC/source/RNA/RefRNA/DGE/Enrichment/KOBAS_generate_run.pl   注:脚本中涉及到R环境问题
+/PUBLIC/source/RNA/RefRNA/DGE/Enrichment/runKOBAS.pl
+/PUBLIC/source/RNA/RefRNA/DGE/KEGG_Enrichment/bin/KEGG_step1_blast.py
+/PUBLIC/source/RNA/smallRNA/pipeline/sRNA/tools_script/KEGG_Enrichment/bin/KEGG_step2_enrich_v2.pl 注:脚本中涉及到R环境问题
+/PUBLIC/source/RNA/smallRNA/pipeline/sRNA/tools_script/KEGG_Enrichment/bin/runKOBAS_v3.pl
+/PUBLIC/source/RNA/RefRNA/DGE/KEGG_Enrichment/bin/add_id_v2.pl
+/PUBLIC/software/public/Annotation/kobas2.0-20120208/scripts/annotate.py  注:脚本中涉及到R环境问题
+/PUBLIC/source/RNA/chenliqun_tools/kegg_web_all/Kegg_map_template.html
+/PUBLIC/source/RNA/chenliqun_tools/kegg_web_all/Table_template.html
+/PUBLIC/source/RNA/chenliqun_tools/kegg_web_all/Annot_table_template.html
+/PUBLIC/source/RNA/chenliqun_tools/kegg_web_all/src
+/PUBLIC/software/RNA/GOseq/script/goseq_bar_plot_v1.R
+
+/PUBLIC/source/RNA/RefRNA/DGE/KEGG_Enrichment/bin/add_id_v2.pl
+/PUBLIC/source/RNA/smallRNA/version3/11Enrichment/bin/runKEGG_v1.pl

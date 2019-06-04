@@ -1,0 +1,4 @@
+[9category]
+/PUBLIC/source/RNA/smallRNA/version3/9category/run_category.pl
+注:该脚本使用了R的绝对路径,后期需要替换
+/PUBLIC/software/RNA/R-3.1.2/R-3.1.2/bin/Rscript

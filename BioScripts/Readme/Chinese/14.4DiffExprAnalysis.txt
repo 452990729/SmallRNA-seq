@@ -1,0 +1,29 @@
+miRNA差异表达分析结果
+miRNA差异表达的输入数据为miRNA表达水平分析中得到的readcount数据。对于有生物学重复的样品，分析我们采用基于负二项分布的DESeq（Anders et al., 2010）进行分析；对于无生物学重复的样品，先采用TMM对readcount数据进行标准化处理，之后用DEGseq（Wang et al., 2010）进行差异分析。
+===========================================================================================================================
+
+*vs*文件夹是各组比较差异分析结果（处理vs参考）
+
+文件说明：
+*vs*.Differential_analysis_results.xls	所有miRNA的差异分析结果
+DEGseq注：
+(1)第1列: miRNA成熟体id。
+(2)第2列: Sample1标准化后的read count值。
+(3)第3列: Sample2标准化后的read count值。
+(4)log2.Fold_change: log2(Sample1/Sample2)。
+(5)p.value: p值
+(6)q.value.Storey.et.al..2003.: 用2003年Storey方法校正后的p-value，qvalue越小，表示miRNA表达差异越显著。
+DESeq2注：
+(1)sRNA: miRNA成熟体id。
+(2)Group1：实验条件1的样品标准化后的read count平均值。
+(3)Group2：实验条件2的样品标准化后的read count平均值。
+(4)log2FoldChange: shrinkage方法所得的log2FoldChange。
+(5)pval: p值
+(6)padj: 校正后的pvalue，padj越小，表示miRNA表达差异越显著。
+
+*vs*.DE.xls			差异miRNA的结果（注释见上）
+*vs*.DElist.txt			差异miRNA列表
+*vs*.DE_up.xls			上调差异miRNA的结果（注释见上）
+*vs*.DElist_up.txt		上调差异miRNA列表
+*vs*.DE_down.xls		下调差异miRNA的结果（注释见上）
+*vs*.DElist_down.txt	下调差异miRNA列表

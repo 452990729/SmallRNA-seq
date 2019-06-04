@@ -1,0 +1,52 @@
+8
+
+dir
+2169
+svn+ssh://fschwachpc2.bio.uea.ac.uk/usr/local/svn/repos/srna-tools/branches/RB-2.0/lib/SrnaTools/Application
+svn+ssh://fschwachpc2.bio.uea.ac.uk/usr/local/svn/repos
+
+
+
+2010-04-11T22:55:42.687010Z
+2153
+fschwach
+has-props
+
+svn:special svn:externals svn:needs-lock
+
+
+
+
+
+
+
+
+
+
+
+13507aaf-2fc4-4f59-bda6-44ac087aafbe
+
+CliApp.pm
+file
+
+
+
+
+2010-10-11T11:46:15.000000Z
+2b5e94afa8e1cbef197ea4c7f33edb77
+2010-04-11T22:55:42.687010Z
+2153
+fschwach
+
+WebApp.pm
+file
+
+
+
+
+2010-10-11T11:46:15.000000Z
+86e36436e927ff576a632d6905eed4e2
+2010-04-11T22:55:42.687010Z
+2153
+fschwach
+

@@ -1,0 +1,16 @@
+[10.1diff_aly]
+/PUBLIC/source/RNA/smallRNA/version3/10.1diff_aly/run_DE_sRNA_v2.pl
+/PUBLIC/source/RNA/smallRNA/version3/10.1diff_aly/diffsum.pl
+/PUBLIC/source/RNA/smallRNA/version3/10.1diff_aly/run_DE_single_sRNA_v2.pl
+/PUBLIC/source/RNA/smallRNA/version3/10.1diff_aly/bin/sRNA_merge_readcount.pl/sRNA_merge_readcount.pl
+/PUBLIC/source/RNA/smallRNA/version3/10.1diff_aly/bin/sRNA_merge_readcount.pl/DESeq2_sRNA.v3.pl
+/PUBLIC/source/RNA/smallRNA/version3/10.1diff_aly/bin/sRNA_merge_readcount.pl/DEGseq.R.v3.pl
+/PUBLIC/source/RNA/smallRNA/version3/10.1diff_aly/bin/sRNA_merge_readcount.pl/plot.R.v2.pl  #注R环境变量的问题
+/PUBLIC/source/RNA/smallRNA/version3/10.1diff_aly/bin/sRNA_merge_readcount.pl/samples_coExpression_venn2_replicates.pl
+/PUBLIC/source/RNA/smallRNA/version3/10.1diff_aly/bin/sRNA_merge_readcount.pl/plot_only_venn.pl
+/PUBLIC/source/RNA/smallRNA/version3/10.1diff_aly/bin/sRNA_merge_readcount.pl/miRNA_corheatmap.pl
+/PUBLIC/source/RNA/smallRNA/version3/10.1diff_aly/bin/plot_single.R.v2.pl
+/PUBLIC/source/RNA/smallRNA/version3/10.1diff_aly/bin/corr_plot.r
+/PUBLIC/source/RNA/smallRNA/version3/10.1diff_aly/bin/R_hclust_log.r
+/PUBLIC/source/RNA/smallRNA/version3/10.1diff_aly/bin/R_som.r
+/PUBLIC/source/RNA/smallRNA/version3/10.1diff_aly/bin/R_kmeans.r

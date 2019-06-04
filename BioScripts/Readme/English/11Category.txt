@@ -1,0 +1,26 @@
+Direction
+Summarize all alignments and annotation
+
+
+
+****************************************************************************
+category_rc_full.txt		the statistics of total number of sRNAs
+Note£º
+total£ºThe number of sRNAs reads mapped to genome.
+known_miRNA£ºThe number and percentage of sRNAs reads mapped to konwn miRNA.
+rRNA/tRNA/snRNA/snoRNA£ºThe number and percentage of sRNAs reads mapped to rRNA/tRNA/snRNA/snoRNA.
+repeat£ºThe number and percentage of sRNAs reads mapped to repeat region.
+NAT£ºThe number and percentage of sRNAs reads mapped to NAT gene.(only plants had reference  genome have this)
+novel_miRNA£ºThe number and percentage of sRNAs reads mapped to novel miRNA.
+TAS£ºThe number and percentage of sRNAs reads mapped to TAS gene.(plant)
+exon:+/exon:-/intron:+/intron:-£ºThe number and percentage of sRNAs reads mapped to exon (+/-)and intron(+/-).
+other£ºThe number and percentage of sRNAs reads mapped genome but do not have annotation.
+****************************************************************************
+category_uc_full.txt		the statistics of unique number of sRNAs
+Note£º
+the same with upon ,but is the unique number of sRNAs
+****************************************************************************
+***.category_rc_pie.png		the pie chart of file category_rc_full.txt (png)
+***.category_rc_pie.pdf		the pie chart of file category_rc_full.txt (pdf)
+***.category_uc_pie.png		the pie chart of file category_uc_full.txt (png)
+***.category_uc_pie.pdf		the pie chart of file category_uc_full.txt (pdf)

@@ -1,0 +1,19 @@
+样品间相关性检查
+
+样品间microRNA表达水平相关性是检验实验可靠性和样本选择是合理性的重要指标。相关系数越接近1，表明样品之间表达模式的相似度越高。若样品中有生物学重复，通常生物重复间相关系数要求较高。
+
+===========================================================================================================================
+
+结果文件说明：
+
+1.Sample1_vs_Sample2.scatter.png 样品1与样品2的microRNA表达量相关性散点图，png格式（位图）
+  Sample1_vs_Sample2.scatter.pdf 样品1与样品2的microRNA表达量相关性散点图，pdf格式（矢量图）
+横坐标为样品1的log10（TPM+1），纵坐标为样品2的log10（TPM+1）
+
+2.所有样品间microRNA表达量相关系数矩阵文件
+  cor_kendall.xls	kendall法计算得到的样品间相关系数矩阵文件
+  cor_pearson.xls	pearson法计算得到的样品间相关系数矩阵文件
+  cor_spearman.xls	spearman法计算得到的样品间相关系数矩阵文件
+
+3.cor_pearson.png		所有样品间microRNA表达量相关性热图，pearson相关系数结果，png格式（位图）
+  cor_pearson.pdf		所有样品间microRNA表达量相关性热图，pearson相关系数结果，pdf格式（矢量图） 

@@ -1,0 +1,32 @@
+Direction
+known miRNA
+	The mapped reads align to a specific special in the miRBase21,get the details of each sample's known miRNA information.
+
+****************************************************************************
+known_miRNA.map.stat	Statistics of each sample's known miRNAs
+Note£º
+(1)Mapped mature£ºThe number of sRNAs align to miRNA mature sequence.The second line is the number of all samples align to miRNA mature sequence,line(3) to line(n+1) is the number of each sample align to miRNA mature sequence.
+(2)Mapped hairpin£ºThe number of sRNAs align to miRNA hairpin sequence.The second line is the number of all samples align to miRNA hairpin sequence,line(3) to line(n+1) is the number of each sample align to miRNA hairpin sequence.
+(3)Mapped uniq sRNA£ºThe number of mapped unique sRNAs.
+(4)Mapped total sRNA£ºThe number of mapped total sRNAs.
+****************************************************************************
+known_miRNA.map.fas	Each sample's reads mapped to known miRNAs.
+Note£º
+(1)Lines starting with ">": Behind ">" is id, the first three character is sample name,next is "_",then is the id of this reads in each sample,next is also "_",at last is x and the frequency of this read.
+(2)Read£ºSequencing read.
+****************************************************************************
+hairpin.fa		The hairpin sequences of known miRNAs.
+hairpin_mature.fa	The mature sequences of hairpin.fa.
+hairpin_mature.pairs	Hairpin and mature sequences pairs.
+****************************************************************************
+miRBase.mrd		Details of reads on hairpin.
+mature.fa		Known miRNAs had reads mapped.
+mature.readcount	Readcount of known miRNAs in each sample.
+****************************************************************************
+Structure_plot.tar.gz	The second structure of hairpin.
+Structure_plot_example	Some example of the second structure of hairpin.
+****************************************************************************
+XXX.firstbase		MiRNAs first nucleotide bias of sample.(txt)
+XXX.firstbase.png	MiRNAs first nucleotide bias of sample.(png)
+XXX.position		MiRNAs nucleotide bias at each position.(txt)
+XXX.position.png	MiRNAs nucleotide bias at each position.(png)

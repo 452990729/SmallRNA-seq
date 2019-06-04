@@ -1,0 +1,14 @@
+外显子、内含子比对
+将sRNA比对到mRNA的外显子和内含子，找出来自mRNA降解片段的sRNA。
+
+****************************************************************************
+exon.map.fas	比对上gene exon的sRNA
+intron.map.fas	比对上gene intron的sRNA
+gene.map.fas	比对上gene的sRNA
+*.fas结果形式注释：
+(1)以“>”开头的行：“>”后面跟着序列id号。id的前3个字符是“样品名”，接着是“_”分隔符，后面的几个连续的数字，该样品中该序列的序列编号，再接着是“_”分隔符，后面跟着x和数字，数字是该测序样品该序列出现的次数。
+(2)序列：对应上行id号的测序序列信息。
+****************************************************************************
+匹配内含子、外显子的sRNA数量统计
+rc.stat		比对上gene exon、intron的sRNA分类的个数统计（注：第1列：Types，指gene区的类型；第2到n+1是样本1到n匹配到gene exon或intron的sRNA的个数）
+uc.stat		比对上gene exon、intron的sRNA分类的种类统计（注：第1列：Types，指gene区类型；第2到n+1是样本1到n匹配到gene exon或intron的sRNA的种类）

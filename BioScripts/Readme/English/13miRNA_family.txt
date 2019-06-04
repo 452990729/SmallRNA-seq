@@ -1,0 +1,26 @@
+Direction
+miRNA family analysis
+
+
+****************************************************************************
+*_miRNA_family.detail.txt		the details of miRNA family result
+Note£º
+First line£ºthe hairpin families of known and novel miRNAs .
+Second line£ºthe hairpin id detected in this analysis corresponding to the first line.
+After the second line£ºthe hairpin families in other species .
+
+****************************************************************************
+*_miRNA_family.mir_num.txt		
+Note£º
+First line£ºthe hairpin families of known and novel miRNAs .
+Second line£ºthe hairpin number  detected in this analysis corresponding to the first line.
+After the second line£ºthe hairpin families number in other species .
+
+*_miRNA_family.heatmap.png		the heatmap figure based on *_miRNA_family.mir_num.txt(png)
+*_miRNA_family.heatmap.pdf		the heatmap figure based on *_miRNA_family.mir_num.txt(pdf)
+
+****************************************************************************
+*_miRNA_family.mir_sign.txt
+Note:
+First line: the hairpin families of known and novel miRNAs .
+After the second line : the hairpin families in species ,"-" representing no have this family,"+" representing have this family .

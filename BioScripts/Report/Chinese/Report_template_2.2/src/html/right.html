@@ -1,0 +1,1893 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN">
+<html>
+<head>
+<title>诺禾致源small RNA生物信息分析结题报告</title>
+<META NAME="Author" CONTENT="wangjiajia@novogene.cn">
+<META NAME="Author" CONTENT="qiufujun@novogene.cn">
+<META NAME="Version" CONTENT="20140827v2.0">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<link rel="stylesheet" type="text/css" href="../css/base_new.css">
+<link rel="StyleSheet" href="../js/tree/tree.css" type="text/css">
+<link rel="stylesheet" type="text/css" href="../js/fancybox/jquery.fancybox-1.3.4.css" media="screen" />
+<link rel="stylesheet" href="../css/style.css" />
+<link href="../css/print_style.css" rel="stylesheet" type="text/css" media="print" />
+<script src="../js/jquery-1.4.2.min.js" type="text/javascript"></script>
+<script src="../js/scrollTop.js" type="text/javascript"></script>
+<script src="../js/common.js" type="text/javascript"></script>
+<script src="../js/jquery.albumSlider.min.js" type="text/javascript"></script>
+<script type="text/javascript" src="../js/tree/tree.js"></script>
+<script type="text/javascript" src="../js/fancybox/jquery.mousewheel-3.0.4.pack.js"></script>
+<script type="text/javascript" src="../js/fancybox/jquery.fancybox-1.3.4.pack.js"></script>
+<style media="print">
+.noprint {
+	DISPLAY: none;
+}
+</style>
+<script>
+$(window).scroll(function() {
+	var re = /arrow_down.png/g; 
+	var initoffset_1_1 = $('#1_1').offset();
+	var currenttop_1_1 = $(window).scrollTop()+20;
+	if (currenttop_1_1 > initoffset_1_1.top) {
+		if($("#library_1").html().match(re)){
+			$("#library_1").html($("#library_1").html().replace("arrow_down.png","arrow_up.png"))
+			$("#library_1").parent().next().fadeIn("2500")
+		}
+		$(".lanmu-list a").removeClass("current")
+		$("#library_seq_1").addClass("current");
+	}
+	var initoffset_1_2 = $('#1_2').offset();
+	var currenttop_1_2 = $(window).scrollTop()+20;
+	if (currenttop_1_2 > initoffset_1_2.top) {
+		$(".lanmu-list a").removeClass("current")
+		$("#library_seq_2").addClass("current");
+	}
+	var initoffset_1_3 = $('#1_3').offset();
+	var currenttop_1_3 = $(window).scrollTop()+20;
+	if (currenttop_1_3 > initoffset_1_3.top) {
+		$(".lanmu-list a").removeClass("current")
+		$("#library_seq_3").addClass("current");
+	}
+	var initoffset_1_4 = $('#1_4').offset();
+	var currenttop_1_4 = $(window).scrollTop()+20;
+	if (currenttop_1_4 > initoffset_1_4.top) {
+		$(".lanmu-list a").removeClass("current")
+		$("#library_seq_4").addClass("current");
+	}
+	var initoffset_2 = $('#pipline').offset();
+	var currenttop_2 = $(window).scrollTop()+100;
+	if (currenttop_2 > initoffset_2.top) {
+		$(".lanmu-list a").removeClass("current")
+		$("#analyses_pip").addClass("current");
+	}
+	
+	var initoffset_3_1 = $('#'+{{html_raw_order}}).offset();
+	var currenttop_3_1 = $(window).scrollTop()+100;
+	if (currenttop_3_1 > initoffset_3_1.top) {
+		if($("#result_3").html().match(re)){
+			$("#result_3").html($("#result_3").html().replace("arrow_down.png","arrow_up.png"))
+			$("#result_3").parent().next().fadeIn("2500")
+		}
+		$(".lanmu-list a").removeClass("current")
+		$("#result_rawdata").addClass("current");
+	}
+	var initoffset_3_2 = $('#'+{{html_qc_order}}).offset();
+	var currenttop_3_2 = $(window).scrollTop()+100;
+	if (currenttop_3_2 > initoffset_3_2.top) {
+		$(".lanmu-list a").removeClass("current")
+		$("#result_data_quality").addClass("current");
+	}	
+	var initoffset_3_3 = $('#'+{{html_map_order}}).offset();
+	var currenttop_3_3 = $(window).scrollTop()+120;
+	if (currenttop_3_3 > initoffset_3_3.top) {
+		$(".lanmu-list a").removeClass("current")
+		$("#result_ref_compare").addClass("current");
+	}	
+	var initoffset_3_4 = $('#'+{{html_known_order}}).offset();
+	var currenttop_3_4 = $(window).scrollTop()+100;
+	if (currenttop_3_4 > initoffset_3_4.top) {
+		$(".lanmu-list a").removeClass("current")
+		$("#result_known_miRNA").addClass("current");
+	} 
+	var initoffset_3_5 = $('#'+{{html_ncRNA_order}}).offset();
+	var currenttop_3_5 = $(window).scrollTop()+100;
+	if (currenttop_3_5 > initoffset_3_5.top) {
+		$(".lanmu-list a").removeClass("current")
+		$("#result_ncRNA").addClass("current");
+	} 
+	{% if flag_repAna %}
+	var initoffset_3_6 = $('#'+{{html_repAna_order}}).offset();
+	var currenttop_3_6 = $(window).scrollTop()+100;
+	if (currenttop_3_6 > initoffset_3_6.top) {
+		$(".lanmu-list a").removeClass("current")
+		$("#result_repeat_seq").addClass("current");
+	} 
+	{% endif %}
+	{% if flag_NAT %}
+	var initoffset_3_7 = $('#'+{{html_NAT_order}}).offset();
+	var currenttop_3_7 = $(window).scrollTop()+100;
+	if (currenttop_3_7 > initoffset_3_7.top) {
+		$(".lanmu-list a").removeClass("current")
+		$("#result_nat_siRNA").addClass("current");
+	} 
+	{% endif %}
+	{% if flag_gene %}
+	var initoffset_3_7 = $('#'+{{html_gene_order}}).offset();
+	var currenttop_3_7 = $(window).scrollTop()+100;
+	if (currenttop_3_7 > initoffset_3_7.top) {
+		$(".lanmu-list a").removeClass("current")
+		$("#result_exon_intron").addClass("current");
+	} 
+	{% endif %}
+	var initoffset_3_8 = $('#'+{{html_novel_order}}).offset();
+	var currenttop_3_8 = $(window).scrollTop()+100;
+	if (currenttop_3_8 > initoffset_3_8.top) {
+		$(".lanmu-list a").removeClass("current")
+		$("#result_new_miRNA").addClass("current");
+	} 
+	{% if flag_TAS %}
+	var initoffset_3_9 = $('#'+{{html_TAS_order}}).offset();
+	var currenttop_3_9 = $(window).scrollTop()+100;
+	if (currenttop_3_9 > initoffset_3_9.top) {
+		$(".lanmu-list a").removeClass("current")
+		$("#result_ta_siRNA").addClass("current");
+	} 
+	{% endif %}
+	var initoffset_3_10 = $('#'+{{html_category_order}}).offset();
+	var currenttop_3_10 = $(window).scrollTop()+100;
+	if (currenttop_3_10 > initoffset_3_10.top) {
+		$(".lanmu-list a").removeClass("current")
+		$("#result_calssfication").addClass("current");
+	}
+	{% if flag_edit %}
+	var initoffset_3_11 = $('#'+{{html_edit_order}}).offset();
+	var currenttop_3_11 = $(window).scrollTop()+100;
+	if (currenttop_3_11 > initoffset_3_11.top) {
+		$(".lanmu-list a").removeClass("current")
+		$("#result_base_edit").addClass("current");
+	}
+	{% endif %}
+	{% if flag_family %}
+	var initoffset_3_12 = $('#'+{{html_family_order}}).offset();
+	var currenttop_3_12 = $(window).scrollTop()+100;
+	if (currenttop_3_12 > initoffset_3_12.top) {
+		$(".lanmu-list a").removeClass("current")
+		$("#result_family_analysis").addClass("current");
+	}
+	{% endif %}
+	
+	{% if flag_diff %}
+	var initoffset_3_13 = $('#'+{{html_diff_order}}).offset();
+	var currenttop_3_13 = $(window).scrollTop()+100;
+	if (currenttop_3_13 > initoffset_3_13.top) {
+		$(".lanmu-list a").removeClass("current")
+		$("#result_exp").addClass("current");
+	}
+	{% endif %}
+	
+	{% if flag_target %}
+	var initoffset_3_14 = $('#'+{{html_target_order}}).offset();
+	var currenttop_3_14 = $(window).scrollTop()+100;
+	if (currenttop_3_14 > initoffset_3_14.top) {
+		$(".lanmu-list a").removeClass("current")
+		$("#result_target").addClass("current");
+	}
+	{% endif %}
+	
+	{% if flag_enrich %}
+	var initoffset_3_15 = $('#'+{{html_enrich_order}}).offset();
+	var currenttop_3_15 = $(window).scrollTop()+100;
+	if (currenttop_3_15 > initoffset_3_15.top) {
+		$(".lanmu-list a").removeClass("current")
+		$("#result_enrich").addClass("current");
+	}
+	{% endif %}
+	var initoffset_4 = $('#reference_html').offset();
+	var currenttop_4 = $(window).scrollTop()+100;
+	if (currenttop_4 > initoffset_4.top) {
+		$(".lanmu-list a").removeClass("current")
+		$("#reference").addClass("current");
+	}
+	var initoffset_5_1 = $('#note_1').offset();
+	var currenttop_5_1 = $(window).scrollTop()+100;
+	if (currenttop_5_1 > initoffset_5_1.top) {
+		if($("#note").html().match(re)){
+			$("#note").html($("#note").html().replace("arrow_down.png","arrow_up.png"))
+			$("#note").parent().next().fadeIn("2500")
+		}
+		$(".lanmu-list a").removeClass("current")
+		$("#note_file_list").addClass("current");
+	}
+	var initoffset_5_2 = $('#note_2').offset();
+	var currenttop_5_2 = $(window).scrollTop()+140;
+	if (currenttop_5_2 > initoffset_5_2.top) {
+		$(".lanmu-list a").removeClass("current")
+		$("#note_soft_list").addClass("current");
+	}
+	var initoffset_5_3 = $('#note_3').offset();
+	var currenttop_5_3 = $(window).scrollTop()+20;
+	if (currenttop_5_3 > initoffset_5_3.top) {
+		$(".lanmu-list a").removeClass("current")
+		$("#note_methon_en").addClass("current");
+	}
+	var initoffset_5_4 = $('#note_4').offset();
+	var currenttop_5_4 = $(window).scrollTop()+20;
+	if (currenttop_5_4 > initoffset_5_4.top) {
+		$(".lanmu-list a").removeClass("current")
+		$("#note_novofinder").addClass("current");
+	}
+});
+</script>
+<script type="text/javascript">
+    $(function(){
+        $(window).scroll(function(){
+			var initoffset_snp = $('#'+{{html_novel_order}}).offset();
+			var currenttop_snp = $(window).scrollTop()+100;
+			if (currenttop_snp > initoffset_snp.top) {
+				var topScroll=$("#left")[0].scrollHeight;
+				var divheight=$("#left").height();
+				var stop=topScroll-divheight;
+				$("#left").scrollTop(stop);
+			}else{
+				$("#left").scrollTop(0);
+			}
+        })
+    })
+</script>
+</head>
+<body>
+<div class="noprint">
+  <div style="display: block;" id="goTopBtn"><a class="backtotop" title="回顶部"><img src="../images/goTop.jpg" width="30" height="30" class="back-tip"/></a></div>
+</div>
+<div id="menu" class="noprint">
+  <div class="mulu">
+    <center>
+      <a href="javascript:void(0);" id="zhankai"><b>收起目录</b></a><a href="javascript:void(0);" id="kaiguan"><b>【关闭】</b></a>
+    </center>
+  </div>
+  <div id="left">
+    <div class="title" > <a href="javascript:void(0)" class="shouqi" id="library_1">&nbsp;<sapn>建库测序流程</span>&nbsp;<img src="../images/arrow_up.png" style="display:none" class="arrow"/></a></div>
+    <div class="lanmu-content" style="display:block">
+      <dl class="lanmu-list">
+        <dd><a href="#Total RNA样品检测" id="library_seq_1">Total RNA样品检测</a></dd>
+		<dd><a href="#文库构建" id="library_seq_2">文库构建</a></dd>
+		<dd><a href="#库检" id="library_seq_3">库检</a></dd>
+		<dd><a href="#上机测序" id="library_seq_4">上机测序</a></dd>
+      </dl>
+    </div>
+    <div class="title"><a href="#生物信息分析流程" class="shouqi" id="analyses_2">&nbsp;<sapn>生物信息分析流程</span>&nbsp;<img src="../images/arrow_right.png" style="display:none; margin-top:5px" class="arrow"/></a></div>
+    <span></span>
+    
+    <div class="title"><a href="javascript:void(0)" class="shouqi" id="result_3">&nbsp;<sapn>结果展示及说明</span>&nbsp;<img src="../images/arrow_up.png" style="display:none" class="arrow"/></a></div>
+    <div class="lanmu-content" style="display:block">
+      <dl class="lanmu-list">
+      	<dd class="menusecondtitle">QC分析</dd>
+		<dd><a href="#原始序列数据" id="result_rawdata">原始序列数据</a></dd>
+		<dd><a href="#测序数据质量评估" id="result_data_quality">测序数据质量评估</a></dd>
+		<dd class="menusecondtitle">序列比对</dd>
+        <dd><a href="#参考序列比对分析" id="result_ref_compare">参考序列比对分析</a></dd>
+		<dd class="menusecondtitle">分类注释</dd>
+		<dd><a href="#已知miRNA分析" id="result_known_miRNA">已知miRNA分析</a></dd>
+		<dd><a href="#ncRNA分析" id="result_ncRNA">ncRNA分析</a></dd>
+		{% if flag_repAna %}
+		<dd><a href="#重复序列比对" id="result_repeat_seq">重复序列比对</a></dd>
+		{% endif %}
+        {% if flag_NAT %}
+		<dd><a href="#植物NAT-siRNA检测" id="result_nat_siRNA">植物NAT-siRNA检测</a></dd>
+		{% endif %}
+		
+		{% if flag_gene %}
+		<dd><a href="#外显子、内含子比对" id="result_exon_intron">外显子、内含子比对</a></dd>
+		{% endif %}
+		
+		<dd><a href="#新miRNA预测" id="result_new_miRNA">新miRNA预测</a></dd>
+		
+		{% if flag_TAS %}
+		<dd><a href="#植物ta-siRNA检测" id="result_ta_siRNA">植物ta-siRNA检测</a></dd>
+		{% endif %}
+		<dd><a href="#sRNA分类注释统计" id="result_calssfication">sRNA分类注释统计</a></dd>
+		
+      	<dd class="menusecondtitle">miRNA分析</dd>
+		{% if flag_edit %}
+		<dd><a href="#miRNA碱基编辑分析" id="result_base_edit">miRNA碱基编辑分析</a></dd>
+		{% endif %}
+		
+		{% if flag_family %}
+		<dd><a href="#miRNA家族分析" id="result_family_analysis">miRNA家族分析</a></dd>
+		{% endif %}
+		
+		{% if flag_diff %}
+		<dd><a href="#miRNA表达及差异分析" id="result_exp">miRNA表达及差异分析</a></dd>
+		{% endif %}
+		
+		{% if flag_target %}
+		<dd><a href="#miRNA靶基因预测" id="result_target">miRNA靶基因预测</a></dd>
+		{% endif %}
+		
+		{% if flag_enrich %}
+		<dd><a href="#差异miRNA靶基因富集分析" id="result_enrich">差异miRNA靶基因富集分析</a></dd>
+		{% endif %}
+      </dl>
+    </div>
+    <div class="title"><a href="#参考文献" class="shouqi" id="ref_id">&nbsp;<sapn>参考文献</span>&nbsp;<img src="../images/arrow_right.png" style="display:none; margin-top:5px" class="arrow"/></a></div>
+    <span></span>
+	<!--<div class="lanmu-content" style="display:block">
+      <dl class="lanmu-list">
+        <dd><a href="#参考文献" id="reference">参考文献</a></dd>
+      </dl>
+    </div>-->
+    <div class="title"><a href="javascript:void(0)" class="shouqi" id="note">&nbsp;<sapn>附录</span>&nbsp;<img src="../images/arrow_up.png" style="display:none" class="arrow"/></a></div>
+    <div class="lanmu-content" style="display:block">
+      <dl class="lanmu-list">
+        <dd><a href='#文件目录列表' id="note_file_list">文件目录列表</a></dd>
+        <dd><a href='#软件说明列表' id="note_soft_list">软件列表</a></dd>
+        <dd><a href='#Methods' id="note_methon_en">Methods英文版</a></dd>
+        <dd><a href='#结题报告PDF版' id="note_report_pdf">结题报告PDF版</a></dd>
+        <dd><a href='#Novofinder软件使用说明PDF版' id="note_novofinder">Novofinder软件</a></dd>
+      </dl>
+    </div>
+  </div>
+</div>
+<div id="main"> 
+  <!----------------------------------------合同信息----------------------------------------->
+  <div id="page">
+    <p class="head"><a href="#home" title = "返回首页"><img class="logo" align="left" src="../images/logo.png" /></a> <a name="合同及结题信息">北京诺禾致源科技股份有限公司</a>
+    <hr />
+    </p>
+    <h3>合同编号：{{contract_id}}</h3>
+    <h3>合同名称：{{contract_name}}</h3>
+    <h3>结题报告编号：{{code_number}}</h3>
+    <h3>结题时间：{{time}}</h3>
+    <br />
+</div>
+<!----------------------------------------结果汇总----------------------------------------->
+  <div id="page">
+      <p class="head"><a href="#home" title = "返回首页"><img class="logo" align="left" src="../images/logo.png" /></a> <a name="结果汇总">北京诺禾致源科技股份有限公司</a> 
+    <hr />
+    </p>
+    <h2>重要结果汇总</h2>
+    <p class="paragraph">1.该项目鉴定到的已知miRNA成熟体（mature）和前体（hairpin）的个数分别为：</p>
+    <p class="center">
+    <div style="overflow-x: auto">
+	<table class="gy">
+	{{table_known_map_summary_head|safe}}
+          {% for each in table_known_map_summary %}
+	<tr>
+	<td>{{each|safe}}</td>
+	</tr>
+          {% endfor %}
+        </table>
+     </p>
+     <p class="paragraph">2.该项目预测到的novel miRNA成熟体（mature）和前体（hairpin）的个数分别为：</p>
+     <p class="center">
+     <div style="overflow-x: auto">
+        <table class="gy">
+        {{table_novel_map_summary_head|safe}}
+          {% for each in table_novel_map_summary %}
+        <tr>
+        <td>{{each|safe}}</td>
+        </tr>
+          {% endfor %}
+        </table>
+      </p>
+      {% if flag_diff %}
+      <p class="paragraph">3.每个差异比较组合差异（DIFF）miRNA个数，以及上调（UP）、下调（DOWN）的miRNA个数分别为：</p>
+      <p class="center">
+      	 <table class="gy">
+      	 {{table_diffsum_head|safe}}
+      	   {% for each in table_diffsum %}
+      	 <tr>
+      	 <td>{{each|safe}}</td>
+      	 </tr>
+      	   {% endfor %}
+      	 </table>
+      </p>
+      {% endif %}
+</div>
+
+  <!----------------------------------------建库测序流程----------------------------------------->
+  <div id="page">
+    <p class="head"><a href="#home" title = "返回首页"><img class="logo" align="left" src="../images/logo.png" /></a> <a name="建库测序流程">北京诺禾致源科技股份有限公司</a>
+    <hr />
+    </p>
+    <h2>一、建库测序流程</h2>
+    <p class="paragraph">从RNA样品到最终数据获得，样品检测、建库、测序每一个环节都会对数据质量和数量产生影响，而数据质量又会直接影响后续信息分析的结果。为了从源头上保证测序数据的准确性、可靠性，诺禾致源对样品检测、建库、测序每一个生产步骤都严格把控，从根本上确保了高质量数据的产出。流程图如下：</p>
+    <p class="center"> <img class="normal2" src="../images/sRNA_exp_pipe.png" /> </p>
+    <a name="Total RNA样品检测">
+    <h3 id="1_1">1	Total RNA样品检测</h3>
+    </a>
+    {% if flag_exosome %}
+    <p class="paragraph">诺禾致源对外泌体类样本采用高灵敏Agilent 2100 pic600 精确检测RNA的总量和片段分布 </p>
+    {% else %}
+    <p class="paragraph">诺禾致源对RNA样品的检测主要包括4种方法：</p>
+    <p class="paragraph">(1) 琼脂糖凝胶电泳分析RNA降解程度以及是否有污染</p>
+    <p class="paragraph">(2) Nanodrop检测RNA的纯度（OD260/280比值）</p>
+    <p class="paragraph">(3) Qubit对RNA浓度进行精确定量</p>
+    <p class="paragraph">(4) Agilent 2100精确检测RNA的完整性</p>
+    {% endif %}
+    <br />
+    <a name="文库构建">
+    <h3 id="1_2">2	文库构建</h3>
+    </a>
+    <p class="paragraph">样品检测合格后，使用Small RNA Sample Pre Kit构建文库，利用Small RNA的3’及5’端特殊结构（5’端有完整的磷酸基团，3’端有羟基），以total RNA为起始样品，直接将Small RNA两端加上接头，然后反转录合成cDNA。随后经过PCR扩增，PAGE胶电泳分离目标DNA片段，切胶回收得到的即为cDNA文库。
+      构建原理图如下：</p>
+    <center>
+      <img class="exp" src="../images/exp_library.png" />
+    </center>
+    <br />
+    <a name="库检">
+    <h3 id="1_3">3	库检</h3>
+    </a>
+    <p class="paragraph">文库构建完成后，先使用Qubit2.0进行初步定量，稀释文库至1ng/ul，随后使用Agilent 2100对文库的insert size进行检测，insert size符合预期后，使用Q-PCR方法对文库的有效浓度进行准确定量（文库有效浓度 ＞2nM），以保证文库质量。</p>
+    <a name="上机测序">
+    <h3 id="1_4">4	上机测序</h3>
+    </a>
+    <p class="paragraph">库检合格后，把不同文库按照有效浓度及目标下机数据量的需求pooling后进行HiSeq/MiSeq测序。</p>
+  </div>
+  
+  <!----------------------------------------生物信息分析流程----------------------------------------->
+  <div id="page">
+    <p class="head"><a href="#home" title = "返回首页"><img class="logo" align="left" src="../images/logo.png" /></a> <a name="生物信息分析流程">北京诺禾致源科技股份有限公司</a>
+    <hr />
+    </p>
+    <h2 id="pipline">二、生物信息分析流程</h2>
+    <p class="center"> {% if flag_plant  and flag_ref  and flag_diff %}
+    <p class="paragraph">鉴于该物种是植物，且有参考基因组，采用<b>植物small RNA有参分析流程</b>，示意图如下：</p>
+    <div style="text-align:center"> <img class="small2" src="../images/ref_plants.png" /> </div>
+    {% elif flag_plant and  flag_noref  and flag_diff %}
+    <p class="paragraph">鉴于该物种是植物，且无参考基因组，采用<b>植物small RNA无参分析流程</b>，示意图如下：</p>
+    <div style="text-align:center"> <img class="small2" src="../images/noref_plants.png" /> </div>
+    {% elif flag_animal and flag_ref  and flag_diff %}
+    <p class="paragraph">鉴于该物种是动物，且有参考基因组，采用<b>动物small RNA有参分析流程</b>，示意图如下：</p>
+    <div style="text-align:center"> <img class="small" src="../images/ref_animals.png" /> </div>
+    {% elif flag_animal and flag_noref  and flag_diff %}
+    <p class="paragraph">鉴于该物种是动物，且无参考基因组，采用<b>动物small RNA无参分析流程</b>，示意图如下：</p>
+    <div style="text-align:center"> <img class="small2" src="../images/noref_animals.png" /> </div>
+    {% elif flag_plant  and flag_ref %}
+    <p class="paragraph">鉴于该物种是植物，且有参考基因组，采用<b>植物small RNA有参分析流程</b>，示意图如下：</p>
+    <div style="text-align:center"> <img class="small2" src="../images/ref_plant_single.png" /> </div>
+    {% elif flag_plant and  flag_noref %}
+    <p class="paragraph">鉴于该物种是植物，且无参考基因组，采用<b>植物small RNA无参分析流程</b>，示意图如下：</p>
+    <div style="text-align:center"> <img class="small2" src="../images/noref_plant_single.png" /> </div>
+    {% elif flag_animal and flag_ref  %}
+    p class="paragraph">鉴于该物种是动物，且有参考基因组，采用<b>动物small RNA有参分析流程</b>，示意图如下：
+    </p>
+    <div style="text-align:center"> <img class="small2" src="../images/ref_animal_single.png" /> </div>
+    {% elif flag_animal and flag_noref %}
+    <p class="paragraph">鉴于该物种是动物，且无参考基因组，采用<b>动物small RNA无参分析流程</b>，示意图如下：</p>
+    <div style="text-align:center"> <img class="small2" src="../images/noref_animal_single.png" /> </div>
+    {% endif %}
+    </p>
+  </div>
+  
+  <!-------------------------------------------- 原始序列数据 --------------------------------------->
+  <div id="page">
+    <p class="head"><a href="#home" title = "返回首页"><img class="logo" align="left" src="../images/logo.png" /></a> <a name="原始序列数据">北京诺禾致源科技股份有限公司</a>
+    <hr />
+    </p>
+    <h2>三、结果展示及说明</h2>
+    <h3 id="{{html_raw_order}}">{{html_raw_order}} 原始序列数据</h3>
+    <p class="paragraph">高通量测序（如illumina HiSeq<sup>TM</sup>2500/MiSeq等测序平台）测序得到的原始图像数据文件经碱基识别（Base Calling）分析转化为测序序列（Sequenced Reads），我们称之为Raw Data或Raw Reads，结果以FASTQ（简称为fq）文件格式存储，其中包含测序序列（reads）的序列信息以及其对应的测序质量信息。</p>
+    <p class="paragraph">FASTQ格式文件中每个read由四行描述，如下：</p>
+    <p class="seq"> @HWI-ST1276:71:C1162ACXX:1:1101:1208:2458 1:N:0:CGATGT&nbsp;&nbsp;&nbsp;<br />
+      NAAGAACACGTTCGGTCACCTCAGCACACTTGTGAATGTCATGGGATCCAT<br />
+      +<br />
+      #55???BBBBB?BA@DEEFFCFFHHFFCFFHHHHHHHFAE0ECFFD/AEHH<br />
+    </p>
+    <p class="paragraph">其中第一行以“@”开头，随后为Illumina 测序标识别符(Sequence Identifiers)和描述文字(选择性部分)；第二行是碱基序列；第三行以“+”开头，随后为illumina 测序标识符(选择性部分)；第四行是对应序列的测序质量(Cock et al.)。</P>
+    <p class="paragraph">Illumina测序标识符详细信息如下：</p>
+    <p class="center">
+    <table class="gy">
+    <tr>
+        <th>标示符</th>
+        <th>含义</th>
+      </tr>
+      <tr>
+        <td>HWI-ST1276</td>
+        <td>Instrument – unique identifier of the sequencer </td>
+      </tr>
+      <tr>
+        <td>71</td>
+        <td>run number – Run number on instrument</td>
+      </tr>
+      <tr>
+        <td>C1162ACXX</td>
+        <td>FlowCell ID – ID of flowcell</td>
+      </tr>
+      <tr>
+        <td>1</td>
+        <td>LaneNumber – positive integer</td>
+      </tr>
+      <tr>
+        <td>1101</td>
+        <td>TileNumber – positive integer</td>
+      </tr>
+      <tr>
+        <td>1208</td>
+        <td>X – x coordinate of the spot. Integer which can be negative</td>
+      </tr>
+      <tr>
+        <td>2458</td>
+        <td>Y – y coordinate of the spot. Integer which can be negative</td>
+      </tr>
+      <tr>
+        <td>1</td>
+        <td>ReadNumber - 1 for single reads; 1 or 2 for paired ends</td>
+      </tr>
+      <tr>
+        <td>N</td>
+        <td>whether it is filtered - NB：Y if the read is filtered out, not in the delivered fastq file, N otherwise</td>
+      </tr>
+      <tr>
+        <td>0</td>
+        <td>control number - 0 when none of the control bits are on, otherwise it is an even number</td>
+      </tr>
+      <tr>
+        <td>CGATGT</td>
+        <td>Illumina index sequences</td>
+      </tr>
+    </table>
+    </p>
+    <p class="paragraph">第四行中每个字符对应的ASCII值减去33，即为对应第二行碱基的测序质量值。如果测序错误率用e表示，illumina HiSeq<sup>TM</sup>2500/MiSeq的碱基质量值用Q<sub>phred</sub>表示，则有下列关系：</p>
+    <p class="center">公式一：　Q<sub>phred</sub>　=　-10log<sub>10</sub>(e)</p>
+    <p class="paragraph">illumina Casava 1.8版本测序错误率与测序质量值简明对应关系如下：</p>
+    <p class="center">
+    <table class='gy'>
+      <tr>
+        <th>测序错误率</th>
+        <th>测序质量值</th>
+        <th>对应字符</th>
+      </tr>
+      <tr>
+        <td>5%</td>
+        <td>13</td>
+        <td>.</td>
+      </tr>
+      <tr>
+        <td>1%</td>
+        <td>20</td>
+        <td>5</td>
+      </tr>
+      <tr>
+        <td>0.1%</td>
+        <td>30</td>
+        <td>?</td>
+      </tr>
+      <tr>
+        <td>0.01%</td>
+        <td>40</td>
+        <td>I</td>
+      </tr>
+    </table>
+    </p>
+    <br/>
+
+  </div>
+  
+  <!----------------------------------------- 测序数据质量评估 --------------------------------------> 
+  <!----------------------------------------- 2.1测序错误率分布检查 -------------------------------------->
+  <div id="page">
+    <p class="head"><a href="#home" title = "返回首页"><img class="logo" align="left" src="../images/logo.png" /></a> <a name="测序数据质量评估">北京诺禾致源科技股份有限公司</a>
+    <hr />
+    </p>
+    <h3 id="{{html_qc_order}}">{{html_qc_order}} 测序数据质量评估</h3>
+    <h4>{{html_qc_order}}.1 测序错误率分布检查</h4>
+    <p class="paragraph">每个碱基测序错误率是通过测序Phred数值（Phred score，Q<sub>phred</sub>）通过公式1转化得到，而Phred 数值是在碱基识别（Base Calling）过程中通过一种预测碱基判别发生错误概率模型计算得到的，对应关系如下表所显示。</p>
+    <p class="paragraph">illumina Casava 1.8版本碱基识别与Phred分值之间的简明对应关系如下表：</p>
+    <table class="gy">
+      <tr>
+        <th>Phred分值</th>
+        <th>不正确的碱基识别</th>
+        <th>碱基正确识别率</th>
+        <th>Q-sorce</th>
+      </tr>
+      <tr>
+        <td>10</td>
+        <td>1/10</td>
+        <td>90%</td>
+        <td>Q10</td>
+      </tr>
+      <tr>
+        <td>20</td>
+        <td>1/100</td>
+        <td>99%</td>
+        <td>Q20</td>
+      </tr>
+      <tr>
+        <td>30</td>
+        <td>1/1000</td>
+        <td>99.9%</td>
+        <td>Q30</td>
+      </tr>
+      <tr>
+        <td>40</td>
+        <td>1/10000</td>
+        <td>99.99%</td>
+        <td>Q40</td>
+      </tr>
+    </table>
+    <p class="paragraph">测序错误率与碱基质量有关，受测序仪本身、测序试剂、样品等多个因素共同影响。对于RNA-seq技术，测序错误率分布具有两个特点：</p>
+    <p class="paragraph">(1) 测序错误率会随着测序序列（Sequenced Reads）长度的增加而升高，这是由于测序过程中化学试剂的消耗而导致的，并且为Illumina高通量测序平台都具有的特征（Erlich and Mitra，2008；Jiang et al.，2011）。</p>
+    <p class="paragraph">(2) 前几个碱基的位置也会发生较高的测序错误率，是因为在RNA-seq建库过程中反转录需要随机引物，推测前几个碱基测序错误率较高的原因是随机引物碱基和RNA模版的不完全结合（Jiang et al.，2011）。</p>
+    <p class="paragraph">测序错误率分布检查用于检测在测序长度范围内，有无测序错误率异常的碱基位置。一般情况下，每个碱基位置的测序错误率都应该低于0.5%。</p>
+    <br />
+    <p class="paragraph">
+    <!--<h4>项目结果见下图:</h4>-->
+	<p>项目结果见下图：</p>
+    </p>
+    <p class="center">
+    <div class="albumSlider">
+      <div class="fullview"><img src={{figure_error.0.0|safe}}/></div>
+      <div class="slider">
+        <div class="button movebackward" title="向上滚动"></div>
+        <div class="imglistwrap">
+          <ul class="imglist">
+            {% for each in figure_error %}
+            <li><a id="example2" href={{each.0|safe}} ><img src={{each.0|safe}}/></a></li>
+            {% endfor %}
+          </ul>
+        </div>
+        <div class="button moveforward" title="向下滚动"></div>
+      </div>
+    </div>
+    </p>
+    <p class="name_fig">图{{figure_qc_order}}.1 测序错误率分布图</p>
+    <p class="premark">横坐标为reads的碱基位置，纵坐标为单碱基错误率</p>
+  </div>
+  
+  <!----------------------------------------- 2.2测序数据质量情况汇总 -------------------------------------->
+  <div id="page">
+    <p class="head"><a href="#home" title = "返回首页"><img class="logo" align="left" src="../images/logo.png" /></a> <a name="测序数据质量情况汇总">北京诺禾致源科技股份有限公司</a>
+    <hr />
+    </p>
+    <h4 id="{{html_qc_order}}">{{html_qc_order}}.2 测序数据质量情况汇总</h4>
+    <p class="paragraph">样品测序产出原始数据质量评估情况详见<b>表{{table_qc_order}}.1</b>。</p>
+    <br />
+    <p class="name_table">表{{table_qc_order}}.1 数据产出质量情况一览表</p>
+    <p class="center">
+    <table class="gy">
+      <tr>
+        <th>Sample</th>
+        <th>Reads</th>
+        <th>Bases</th>
+        <th>Error rate</th>
+        <th>Q20</th>
+        <th>Q30</th>
+        <th>GC content</th>
+      </tr>
+      {% for each in table_basic %}
+      <tr>
+        <td>{{each.1}}</td>
+        <td>{{each.2}}</td>
+        <td>{{each.3}}</td>
+        <td>{{each.4}}</td>
+        <td>{{each.5}}</td>
+        <td>{{each.6}}</td>
+        <td>{{each.7}}</td>
+      </tr>
+      {% endfor %}
+    </table>
+    </p>
+    <p class="tremark">注：<br />
+      (1) Sample：样品id。<br />
+      (2) Reads：统计原始序列数据，以四行为一个单位，统计每个测序文件的测序序列的个数。<br />
+      (3) Bases：测序序列的个数乘以测序序列的长度，并转化为以G为单位。<br />
+      (4) Error rate：指测序错误率，通过公式一计算得到。<br />
+      (5) Q20：Phred数值大于20的碱基占总体碱基的百分比。<br />
+      (6) Q30：Phred数值大于30的碱基占总体碱基的百分比。<br />
+      (7) GC content：计算碱基G和C的数量总和占总体碱基数量的百分比。</p>
+    <br/>
+  </div>
+  
+  <!----------------------------------------- 2.3测序数据过滤 -------------------------------------->
+  <div id="page">
+    <p class="head"><a href="#home" title = "返回首页"><img class="logo" align="left" src="../images/logo.png" /></a> <a name="测序数据过滤">北京诺禾致源科技股份有限公司</a>
+    <hr />
+    </p>
+    <h4>{{html_qc_order}}.3 测序数据过滤</h4>
+    <p class="paragraph">测序得到的raw reads，里面含有带接头的、低质量的reads，为了保证信息分析的质量，必须对raw reads进行处理，得到clean reads。</p>
+    <p class="paragraph">数据处理的步骤如下： </p>
+    <p class="paragraph">(1) 去除低质量 reads（质量值 sQ &lt;= 5 的碱基数占整个 read 的 50％以上的 reads）；</p>
+    <!-- &lt; 转义小于号-->
+    <p class="paragraph">(2) 去除 N（N 表示无法确定碱基信息）的比例大于 10%的 reads；</p>
+    <p class="paragraph">(3) 去除有5’接头污染的reads；</p>
+    <p class="paragraph">(4) 去除没有3’接头序列和插入片段的reads；</p>
+    <p class="paragraph">(5) trim掉3’接头序列；</p>
+    <p class="paragraph">(6) 去除polyA/T/G/C的reads（大部分连续的polyA/T/G/C，可能来源于测序错误，且信息熵低，可以不做分析）。</p>
+    <br />
+    <p class="paragraph">Small RNA测序的接头信息：<br />
+    <p class="seq">RNA 5’ Adapter (RA5),  part：<br />
+      5’-GTTCAGAGTTCTACAGTCCGACGATC-3’<br />
+      RNA 3’ Adapter (RA3), part：<br />
+      5’-AGATCGGAAGAGCACACGTCT-3’</p>
+    <br />
+    <p class="name_table">表{{table_qc_order}}.2 数据过滤情况一览表</p>
+    <p class="center">
+    <table class="gy">
+      <tr>
+        <th>Sample</th>
+        <th>total reads</th>
+        <th>N% > 10%</th>
+        <th>low quality</th>
+        <th>5 adapter contamine</th>
+        <th>3 adapter null or insert null</th>
+        <th>with ployA/T/G/C</th>
+        <th>clean reads</th>
+      </tr>
+      {% for each in table_filter %}
+      <tr>
+        <td>{{each.1}}</td>
+        <td>{{each.2}}</td>
+        <td>{{each.3}}</td>
+        <td>{{each.4}}</td>
+        <td>{{each.5}}</td>
+        <td>{{each.6}}</td>
+        <td>{{each.7}}</td>
+        <td>{{each.8}}</td>
+      </tr>
+      {% endfor %}
+    </table>
+    </p>
+    <p class="tremark">注：<br />
+      (1) Sample：样品id。<br />
+      (2) total_reads：统计原始序列数据条数。<br />
+      (3) N% &gt; 10%：因 N含量超过10%，过滤掉的reads数及其占总raw reads数的比例。<br />
+      (4) low quality：因低质量，过滤掉的reads数及其占总raw reads数的比例。<br />
+      (5) 5_adapter_contamine：因含有5’接头，过滤掉的reads数及其占总raw reads数的比例。<br />
+      (6) 3_adapter_null or insert_null：因没有3’接头或没有插入片段，过滤掉的reads数及其占总raw reads数的比例。<br />
+      (7) with ployA/T/G/C：因含有ployA/T/G/C，过滤掉的reads数及其占总raw reads数的比例。<br />
+      (8) clean reads：最终得到的clean reads数及其占总raw reads数的比例。 </p>
+  </div>
+  
+  <!----------------------------------------- 2.4 sRNA长度筛选 -------------------------------------->
+  <div id="page">
+    <p class="head"><a href="#home" title = "返回首页"><img class="logo" align="left" src="../images/logo.png" /></a> <a name="sRNA长度筛选">北京诺禾致源科技股份有限公司</a>
+    <hr />
+    </p>
+    <h4>{{html_qc_order}}.4 sRNA长度筛选</h4>
+    <p class="paragraph">对各样品的clean reads，筛选一定长度范围内的sRNA来进行后续分析。以下是对这些小RNA（sRNA）的种类（用uniq表示）及数量（用total表示）<b>【见表{{table_qc_order}}.3】</b>，并对sRNA做长度分布统计<b>【见图{{figure_qc_order}}.2】</b>。一般来说，动物sRNA的长度区间为18~35nt，植物sRNA的长度区间为18~30，长度分布的峰能帮助我们判断sRNA的种类，如miRNA集中在21~22nt，siRNA集中在24nt等。</p>
+    <br />
+    <p class="name_table">表{{table_qc_order}}.3 sRNA种类和数量情况一览表</p>
+    <p class="center">
+    <table class="gy">
+      <tr>
+        <th>Sample</th>
+        <th>Total reads</th>
+        <th>Total bases (bp)</th>
+        <th>Uniq reads</th>
+        <th>Uniq bases (bp)</th>
+      </tr>
+      {% for each in table_lenFilter %}
+      <tr>
+        <td>{{each.1}}</td>
+        <td>{{each.2}}</td>
+        <td>{{each.3}}</td>
+        <td>{{each.4}}</td>
+        <td>{{each.5}}</td>
+      </tr>
+      {% endfor %}
+    </table>
+    </p>
+    <p class="tremark">注：<br />
+      (1) Sample：样品id。<br />
+      (2) Total reads：sRNA的总数。<br />
+      (3) Total bases (bp)：sRNA的总长度。<br />
+      (4) Uniq reads：sRNA的种类。<br />
+      (5) Uniq bases (bp)：各种sRNA的总长度。</p>
+    <br />
+    <!--center><img class="normal1" src="../images/seq_len_distribution.png" /></center-->
+    <p class="center">
+    <div class="albumSlider">
+      <div class="fullview"><img src={{figure_lenFilter.0.0|safe}}/></div>
+      <div class="slider">
+        <div class="button movebackward" title="向上滚动"></div>
+        <div class="imglistwrap">
+          <ul class="imglist">
+            {% for each in figure_lenFilter %}
+            <li><a id="example2" href={{each.0|safe}} ><img src={{each.0|safe}}/></a></li>
+            {% endfor %}
+          </ul>
+        </div>
+        <div class="button moveforward" title="向下滚动"></div>
+      </div>
+    </div>
+    </p>
+    <p class="name_fig">图{{figure_qc_order}}.2 所得total sRNA片段的长度分布统计</p>
+    <p class="premark">横坐标为reads的长度，纵坐标为该长度的reads所占的比例。</p>
+    <!--p class="tremark">注：结题报告中只显示一个样本的sRNA长度分布结果（更多信息见结果文件夹2QualityControl/2.4Length_Filter）。</p>  --> 
+    <br/>
+    {% if flag_exosome %}
+    <h4><a>长度分布Q&A </a></h4>
+        <table width=100% align="center" cellspacing="0" cellpadding="8">
+                <tr><td class="question"><b>问</b>：外泌体small RNA 在21-22bp比列偏低的原因：</td></tr>
+                <tr><td class="answer"><b>答</b>：主要是因为外泌体样本的特殊性，其中含有大量的其他RNA的降解片段，这些片段的片段长度多集中在30-32nt，造成reads片段在30-32nt含量偏高。</td></tr>
+        </table>
+    {% endif %}
+  </div>
+ {% if flag_common %} 
+  <!----------------------------------------- 2.5 公共及特有序列分析 -------------------------------------->
+  <div id="page">
+    <p class="head"><a href="#home" title = "返回首页"><img class="logo" align="left" src="../images/logo.png" /></a> <a name="公共及特有序列分析">北京诺禾致源科技股份有限公司</a>
+    <hr />
+    </p>
+    <br />
+    <h4>{{html_qc_order}}.5	公共及特有序列分析</h4>
+    <p class="paragraph">统计两样品间公共序列和特有序列的种类（用uniq表示）及数量（用total表示）分布情况，【见图{{figure_qc_order}}.3】。</p>
+    <br />
+    <p class="center">
+    <div class="albumSlider">
+      <div class="fullview"><img src={{figure_seqVenn_total.0.0|safe}}/></div>
+      <div class="slider">
+        <div class="button movebackward" title="向上滚动"></div>
+        <div class="imglistwrap">
+          <ul class="imglist">
+            {% for each in figure_seqVenn_total %}
+            <li><a id="example2" href={{each.0|safe}} ><img src={{each.0|safe}}/></a></li>
+            {% endfor %}
+          </ul>
+        </div>
+        <div class="button moveforward" title="向下滚动"></div>
+      </div>
+    </div>
+    <!--<center><img class="normal1" src="../images/com_venn.png" /></center>--> 
+    <!--<center><img class="normal1" src="../images/uniq_venn.png" /></center>-->
+    <p class="name_fig">图{{figure_qc_order}}.3.1公共及特有序列统计(Total sRNA)</p>
+    <p class="center">
+    <div class="albumSlider">
+      <div class="fullview"><img src={{figure_seqVenn_uniq.0.0|safe}}/></div>
+      <div class="slider">
+        <div class="button movebackward" title="向上滚动"></div>
+        <div class="imglistwrap">
+          <ul class="imglist">
+            {% for each in figure_seqVenn_uniq %}
+            <li><a id="example2" href={{each.0|safe}} ><img src={{each.0|safe}}/></a></li>
+            {% endfor %}
+          </ul>
+        </div>
+        <div class="button moveforward" title="向下滚动"></div>
+      </div>
+    </div>
+    <!--<center><img class="normal1" src="../images/com_venn.png" /></center>--> 
+    <!--<center><img class="normal1" src="../images/uniq_venn.png" /></center>-->
+    <p class="name_fig">图{{figure_qc_order}}.3.2公共及特有序列统计(Uniq sRNA)</p>
+    <p class="tremark">注：<br />
+      (1) 样本1 specific：样本1的特有序列。<br />
+      (2) 样本1 & 样本2：样本间的公共序列。<br />
+      (3) 样本2 specific：样本2的特有序列。<br />
+      <!--结题报告中只显示一对样本间的公共及特有结果，其他样本间的信息包含在结果文件夹。--></p>
+    <br/>
+  </div>
+ {% endif %}
+
+ {% if flag_map %} 
+  <!-----------------------------------------参考序列比对分析 -------------------------------------->
+  <div id="page">
+    <p class="head"><a href="#home" title = "返回首页"><img class="logo" align="left" src="../images/logo.png" /></a> <a name="参考序列比对分析">北京诺禾致源科技股份有限公司</a>
+    <hr />
+    </p>
+    <br />
+    <h3 id="{{html_map_order}}">{{html_map_order}}	参考序列比对分析</h3>
+    <p class="paragraph">用bowtie将长度筛选后的sRNA定位到参考序列上，分析small RNA在参考序列上的分布情况（后面的sRNA分类是针对这些mapped sRNA）。</p>
+    <p class="name_table">表{{table_map_order}}.1 与参考基因组比对信息统计表</p>
+    <p class="center">
+    <table class="gy">
+      <tr>
+        <th>Sample</th>
+        <th>Total sRNA</th>
+        <th>Mapped sRNA</th>
+        <th>"+" Mapped sRNA</th>
+        <th>"-" Mapped sRNA</th>
+      </tr>
+      {% for each in table_map %}
+      <tr>
+        <td>{{each.0}}</td>
+        <td>{{each.1}}</td>
+        <td>{{each.2}}</td>
+        <td>{{each.3}}</td>
+        <td>{{each.4}}</td>
+      </tr>
+      {% endfor %}
+    </table>
+    </p>
+    <p class="tremark">注：<br />
+      (1) Sample：样品id。<br />
+      (2) Total sRNA：经分析2.4“sRNA长度筛选”后，各个样本所得到的总reads数。<br />
+      (3) Mapped sRNA：该样本reads中能mapped到参考序列的reads数及所占百分比。<br />
+      (4) “+” Mapped sRNA：该样本reads中能mapped到参考序列方向相同链的reads数及所占百分比。<br />
+      (5) “-” Mapped sRNA：该样本reads中能mapped到参考序列方向相反链的reads数及所占百分比。 </p>
+    <br />
+    {%if flag_ref %}
+    <p class="paragraph">对各个样品所有比对到基因组上各条染色体的reads进行密度统计，用circos作图查看每条染色体上reads的分布情况。无染色体时，选择前10条contigs或scaffolds进行分析。</p>
+    <br />
+    <p class="center">
+    <div class="albumSlider">
+      <div class="fullview"><img src={{figure_map.0.0|safe}}/></div>
+      <div class="slider">
+        <div class="button movebackward" title="向上滚动"></div>
+        <div class="imglistwrap">
+          <ul class="imglist">
+            <!--<center><img class="example2" src="../images/sRNA_distribution_on_chr.png" /></center>--> 
+            {% for each in figure_map %}
+            <li><a id="example2" href={{each.0|safe}} ><img src={{each.0|safe}}/></a></li>
+            {% endfor %}
+          </ul>
+        </div>
+        <div class="button moveforward" title="向下滚动"></div>
+      </div>
+    </div>
+    </p>
+    <p class="name_fig">图{{figure_map_order}}.1 各染色体reads分布密度图</p>
+    <p class="premark">图中最外圈是选择展示的各条染色体；中间的灰色背景区是抽取其中了10000条reads的分布情况，红色mapping到正链，蓝色到负链；最里面的圆圈区是比对到该染色体上的所有reads，橘黄色为正链coverage分布，绿色为负链coverage分布，超过所有coverage集均值+3倍标准差的奇异点将被舍弃。</p>
+    {% endif %} </div>
+	
+	
+	
+  {% endif %}
+  
+  
+  {% if flag_known %} 
+  <!----------------------------------------- 已知miRNA分析 -------------------------------------->
+  <div id="page">
+    <p class="head"><a href="#home" title = "返回首页"><img class="logo" align="left" src="../images/logo.png" /></a> <a name="已知miRNA分析">北京诺禾致源科技股份有限公司</a>
+    <hr />
+    </p>
+    <h3 id="{{html_known_order}}">{{html_known_order}} 已知miRNA分析</h3>
+    <p class="paragraph">将上述mapped到参考序列上的reads，与miRBase中指定范围序列进行比对，得到各样品匹配上的sRNA的详细情况，包括匹配上的已知miRNA的二级结构，各样本中miRNA的序列、长度、出现的次数等信息。miRNA在由前体发育为成熟体时其过程是由Dicer酶切完成的，酶切位点的特异性使得miRNA成熟体序列首位碱基具有很强的偏向性，因此还进行了不同长度miRNA的首位点碱基分布，另外还有miRNA的各位点碱基分布统计。</p>
+    <br />
+    <p class="paragraph"><b>项目结果见如下图表：</b></p>
+    <p class="tremark">注：结题报告中只显示部分已知miRNA分析结果，完整的信息包含在结果文件夹4.Known_miRNA中。</p>
+    <br />
+    <p class="name_table">表{{table_known_miRNA_order}}.1 各样本已知miRNA比对情况统计表</p>
+    <p class="center">
+    <div style="overflow-x: auto">
+    <table class="gy">
+      {{table_known_map_head|safe}}
+      {% for each in table_known_map %}
+      <tr>
+        <td>{{each|safe}}</td>
+      </tr>
+      
+      {% endfor %}
+    </table>
+    </p>
+    <p class="tremark">注：<br />
+      (1) Mapped mature：指比对上的miRNA成熟体。第2列为所有的样本总共匹配上的miRNA成熟体个数；第3到第n+2列分别为样本1到n配上的miRNA成熟体个数。<br />
+      (2) Mapped hairpin：指比对上的miRNA前体。第2列为所有的样本总共匹配上的miRNA前体个数；第3到第n+2列分别为样本1到n匹配上的miRNA前体个数。<br />
+      (3) Mapped uniq sRNA：指比对上的sRNA的种类。第2列为所有的样本总共匹配到已知miRNA前体的sRNA的种类；第3到第n+2列分别为样本1到n匹配到已知miRNA前体的sRNA的种类。<br />
+      (4) Mapped total sRNA：指比对上的sRNA的个数。第2列为所有的样本总共匹配到已知miRNA前体的sRNA的个数；第3到第n+2列分别为样本1到n匹配到已知miRNA前体的sRNA的个数。 </p>
+    <br />
+    <center>
+      <img class="normal" src="../images/known_miRNA_structure.jpg" />
+    </center>
+    <p class="name_fig">图{{figure_known_order}}.1 部分匹配上的已知miRNA的二级结构（示意图）</p>
+    <p class="premark">整个序列是miRNA前体，红色突出部分为成熟体序列所在</p>
+    <br />
+    <p class="name_table">表{{table_known_miRNA_order}}.2 匹配上的已知miRNA的表达情况（部分）</p>
+    <p class="center">
+    <div style="overflow-x: auto">
+    <table class="gy">
+      {{table_known_rc_head|safe}}
+      {% for each in table_known_rc %}
+      {{each|safe}}
+      {% endfor %}
+    </table>
+    </p>
+    <p class="tremark">
+    <p>注：</p>
+    <p>第1列：miRNA成熟体id；第2到n+1列是样本1到n匹配到该成熟体的sRNA的个数（readcount）。 </p>
+    <br />
+  </div>
+
+ <div id="page">
+    <!--<p class="name_left_bord"><h4>匹配上已知miRNA的sRNA的细节情况展示（详解，见图{{figure_mrd_order}}.2)</h4></p>-->
+    <p class="name_left_bord">
+    <!--<h4>匹配上已知miRNA的sRNA的细节情况展示（详解见下图)</h4>-->
+	<p>匹配上已知miRNA的sRNA的细节情况展示（详解见下图)</p>
+    </p>
+    <p class="seq"> {% for each in known_mrd %}
+      {{each|safe}}
+      {% endfor %} </p>
+    <br />
+    <center>
+      <img class="normal" src="../images/miRNA_align_ann.png" />
+    </center>
+    <p class="name_fig">图{{figure_known_order}}.2 sRNA与miRNA匹配信息示例图（蓝色文字为注解）</p>
+    <br />
+    <p class="center">
+    <div class="albumSlider albumSlider_wider">
+      <div class="fullview fullview_lower"><img src={{figure_known_bias1.0.0|safe}}/></div>
+      <div class="slider">
+        <div class="button movebackward" title="向上滚动"></div>
+        <div class="imglistwrap" style="height:195px;">
+          <ul class="imglist">
+            {% for each in figure_known_bias1 %}
+            <li><a id="example2" href={{each.0|safe}} ><img src={{each.0|safe}}/></a></li>
+            {% endfor %}
+          </ul>
+        </div>
+        <div class="button moveforward" title="向下滚动"></div>
+      </div>
+    </div>
+    <!--<center><img class="normal" src="../images/known_miRNA_first_bias.png" /></center>-->
+    <p class="name_fig">图{{figure_known_order}}.3 长度18~30nt的已知miRNA首位碱基偏好性</p>
+    <p class="premark">横坐标为miRNA长度，纵坐标为该长度miRNA中首位碱基出现A/U/C/G的百分率（柱形图上方的数值为该长度miRNA的总条数）</p>
+    <br />
+    <p class="center">
+    <div class="albumSlider albumSlider_wider">
+      <div class="fullview fullview_lower2"><img src={{figure_known_bias2.0.0|safe}}/></div>
+      <div class="slider">
+        <div class="button movebackward" title="向上滚动"></div>
+        <div class="imglistwrap" style="height:209px;">
+          <ul class="imglist">
+            {% for each in figure_known_bias2 %}
+            <li><a id="example2" href={{each.0|safe}} ><img src={{each.0|safe}}/></a></li>
+            {% endfor %}
+          </ul>
+        </div>
+        <div class="button moveforward" title="向下滚动"></div>
+      </div>
+    </div>
+    <!--<center><img class="normal1" src="../images/known_miRNA_each_bias.png" /></center>-->
+    <p class="name_fig">图{{figure_known_order}}.4 已知miRNA各位碱基偏好性</p>
+    <p class="premark">横坐标为miRNA的碱基位置，纵坐标为该位置miRNA中出现碱基A/U/C/G的百分率</p>
+    <br/>
+	<h4><a>已知miRNA分析Q&A </a></h4>
+	  <table width=100% align="center" cellspacing="0" cellpadding="8">
+		<tr><td class="question"><b>问</b>：已知miRNA鉴定时mismatch是几个？</td></tr>
+		<tr><td class="answer"><b>答</b>：0个，不允许错配。</td></tr>
+		
+	</table>
+  </div>
+  {% endif %}
+  
+  
+  {% if flag_ncRNA %} 
+  <!----------------------------------------- ncRNA分析 -------------------------------------->
+  <div id="page">
+    <p class="head"><a href="#home" title = "返回首页"><img class="logo" align="left" src="../images/logo.png" /></a> <a name="ncRNA分析">北京诺禾致源科技股份有限公司</a>
+    <hr />
+    </p>
+    <h3 id="{{html_ncRNA_order}}">{{html_ncRNA_order}}	ncRNA分析</h3>
+    <p class="paragraph">若有该物种ncRNA注释信息，就用该物种ncRNA序列来注释所测得的sRNA。若没有，则选取Rfam中的rRNA、tRNA、snRNA、snoRNA来注释测序所得的sRNA。尽可能的发现并去除其中可能的rRNA、tRNA、snRNA、snoRNA。 </p>
+    <br />
+    <p class="name_table">表{{table_ncRNA_order}}.1 比对上的ncRNA分类统计表</p>
+    <div sytle="overflow-x: auto">
+    <table class="gy">
+      {{table_ncRNA_head|safe}}
+      {% for each in table_ncRNA %}
+      {{each|safe}}
+      {% endfor %}
+    </table>
+    </div>
+    <p class="tremark">注：第1列：Types，指ncRNA类型；第2到n+1列是样本1到n匹配到该种类型ncRNA的sRNA的个数（readcount）。 </p>
+  </div>
+  {% endif %}
+  
+  
+  {% if flag_repAna %} 
+  <!----------------------------------------- 重复序列比对 -------------------------------------->
+  <div id="page">
+    <p class="head"><a href="#home" title = "返回首页"><img class="logo" align="left" src="../images/logo.png" /></a> <a name="重复序列比对">北京诺禾致源科技股份有限公司</a>
+    <hr />
+    </p>
+    <h3 id="{{html_repAna_order}}">{{html_repAna_order}}	重复序列比对</h3>
+    <p class="paragraph">若有该物种重复序列/转座子注释信息，则用其重复序列信息来注释所测得的sRNA。若没有，就根据参考序列信息来进行重复序列的从头预测，并将sRNA与重复序列进行比对。尽可能的发现并去除其中可能的repeat序列，并统计了比对上各种repeat类型的小RNA（sRNA）种类（用uniq表示）及sRNA数量（用total表示）。</p>
+    <br />
+    <p class="paragraph"><b>Repeat分类统计情况如图{{figure_repAna_order}}.1和图{{figure_repAna_order}}.2。</b></p>
+    <!--<p class="tremark">重复序列表示方式：repeat type:strand（“+”表示正链，“-”表示负链）</p>--> 
+    <br />
+    <p class="center">
+    <div class="albumSlider">
+      <div class="fullview"><img src={{figure_repAna1.0.0|safe}}/></div>
+      <div class="slider">
+        <div class="button movebackward" title="向上滚动"></div>
+        <div class="imglistwrap">
+          <ul class="imglist">
+            <!--<center><img class="normal1" src="../images/sRNA_distribution_on_chr.png" /></center>--> 
+            {% for each in figure_repAna1 %}
+            <li><a id="example2" href={{each.0|safe}} ><img src={{each.0|safe}}/></a></li>
+            {% endfor %}
+          </ul>
+        </div>
+        <div class="button moveforward" title="向下滚动"></div>
+      </div>
+    </div>
+    </p>
+    <p class="name_fig">图{{figure_repAna_order}}.1 Total repeat reads 分类统计图</p>
+    <br />
+    <p class="center">
+    <div class="albumSlider">
+      <div class="fullview"><img src={{figure_repAna2.0.0|safe}}/></div>
+      <div class="slider">
+        <div class="button movebackward" title="向上滚动"></div>
+        <div class="imglistwrap">
+          <ul class="imglist">
+            <!--<center><img class="normal1" src="../images/sRNA_distribution_on_chr.png" /></center>--> 
+            {% for each in figure_repAna2 %}
+            <li><a id="example2" href={{each.0|safe}} ><img src={{each.0|safe}}/></a></li>
+            {% endfor %}
+          </ul>
+        </div>
+        <div class="button moveforward" title="向下滚动"></div>
+      </div>
+    </div>
+    </p>
+    <p class="name_fig">图{{figure_repAna_order}}.2 Uniq repeat reads 分类统计图</p>
+    <br/>
+  </div>
+  {% endif %}
+  
+  
+  {% if flag_NAT %} 
+  <!----------------------------------------- 植物NAT-siRNA检测 -------------------------------------->
+  <div id="page">
+    <p class="head"><a href="#home" title = "返回首页"><img class="logo" align="left" src="../images/logo.png" /></a> <a name="植物NAT-siRNA检测">北京诺禾致源科技股份有限公司</a>
+    <hr />
+    </p>
+    <h3 id="{{html_NAT_order}}">{{html_NAT_order}}	植物NAT-siRNA检测</h3>
+    <p class="paragraph">Natural Antisense Transcripts（NAT）是指可以跟其他转录本互补形成RNA双链的编码或非编码RNA序列。根据它们在基因组上的相对位置不同，NAT可以分为两类：<I>cis</I>-NAT和<I>trans</I>-NAT。<I>cis</I>-NAT是指来自于跟有义链转录本同一个基因组座位不同染色体链的序列；<I>trans</I>-NAT是指跟它的互补序列来自于染色体上的不同位置的转录本。NAT-siRNA目前在植物中研究较多，PlantNATsDB（http://bis.zju.edu.cn/pnatdb/; Chen et al., 2011）是针对60几种动植物的基因组进行了NAT预测，构建而成的数据库。对于PlantNATsDB数据库中存在的物种，我们直接用数据库中该物种的NAT基因来进行NAT-siRNA的检测，若没有，就采用PlantNATsDB的分析方法来进行NAT基因从头预测，进而再进行NAT-siRNA检测。</p>
+    <br />
+    <p class="name_table">表{{table_NAT_order}}.1 比对上NAT基因的sRNA分类统计表</p>
+    <div style="overflow-x: auto">
+    <table class="gy">
+      {{table_NAT_head|safe}}
+      {% for each in table_NAT %}
+      {{each|safe}}
+      {% endfor %}
+    </table>
+    </p>
+    <p class="tremark">注：（“+”表示与NAT基因方向相同，“-”表示与NAT基因方向相反）<br />
+      第一列：Types，指NAT类型；第2到n+1列是样本1到n匹配到该种类型NAT的sRNA的个数（readcount）。 </p>
+    <br/>
+  </div>
+  {% endif %}
+  
+  
+  {% if flag_gene %} 
+  <!----------------------------------------- 外显子、内含子比对 -------------------------------------->
+  <div id="page">
+    <p class="head"><a href="#home" title = "返回首页"><img class="logo" align="left" src="../images/logo.png" /></a> <a name="外显子、内含子比对">北京诺禾致源科技股份有限公司</a>
+    <hr />
+    </p>
+    <h3 id="{{html_gene_order}}">{{html_gene_order}}	外显子、内含子比对</h3>
+    <p class="paragraph">将sRNA比对到mRNA的外显子和内含子，找出来自mRNA降解片段的sRNA。</p>
+    <br />
+    <p class="name_table">表{{table_gene_order}}.1 匹配内含子、外显子的sRNA数量统计</p>
+    <p class="center">
+    <div style="overflow-x: auto">
+    <table class="gy">
+      {{table_gene_head|safe}}
+      {% for each in table_gene %}
+      {{each|safe}}
+      {% endfor %}
+    </table>
+    </p>
+    <p class="tremark">注：<br />
+      第一列：Types，分4种类型进行的统计。分别是“exon：+”代表与mRNA的外显子区方向相同，“exon：-”代表与mRNA的外显子区方向相反，“intron：+”代表与mRNA的内含子区方向相同，“intron：-”代表与mRNA的内含子区方向相反。<br />
+      第2到n+1列是样本1到n匹配到该种类型的sRNA的个数（readcount）。 </p>
+	  <h4><a>外显子、内含子比对Q&A </a></h4>
+	
+	<table width=100% align="center" cellspacing="0" cellpadding="8">
+		<tr><td class="question"><b>问</b>：为什么要与外显子和内含子比对，外显子不是mRNA的来源吗？</td></tr>
+		<tr><td class="answer"><b>答</b>：我们测序得到的sRNA有可能有来自mRNA的降解片段，做这部分分析一方面是为了尽可能的注释上测序得到的reads，另一方面是为了在新miRNA预测之前去除这些基因来源的序列，基因来源的序列一般可能是基因降解的产物，这些区域较基因intergenic区能预测出miRNA的相对较少，为了排除干扰，对这部分序列目前采取的是直接去掉的方式。</td></tr>
+		
+	</table>
+	  
+  </div>
+
+  {% endif %}
+  
+  
+  {% if flag_novel %} 
+  <!----------------------------------------- 新miRNA预测 -------------------------------------->
+  <div id="page">
+    <p class="head"><a href="#home" title = "返回首页"><img class="logo" align="left" src="../images/logo.png" /></a> <a name="新miRNA预测">北京诺禾致源科技股份有限公司</a>
+    <hr />
+    </p>
+    <h3 id="{{html_novel_order}}">{{html_novel_order}}	新miRNA预测</h3>
+    <p class="paragraph">miRNA前体的标志性发夹结构，能够用来预测新的miRNA。我们整合miREvo（Wen et al.，2012）和mirdeep2（Friedlander et al.，2011）这些miRNA预测软件来进行新miRNA的分析，基本原理是通过截取一定长度sRNA比对上的参考序列，通过探寻其二级结构及Dicer酶切位点信息、能量等特征进行分析，预测样品中novel miRNA，并进行各样本中匹配上的sRNA的序列、长度、出现的次数等信息，以及不同长度miRNA的首位点碱基分布和所有miRNA的各位点碱基分布情况的统计。</p>
+    <p class="paragraph"><b>项目结果见如下图表：</b></p>
+    <p class="tremark">注：结题报告中只显示部分novel miRNA分析结果，完整的信息包含在结果文件夹中。</p>
+    <p class="name_table">表{{table_novel_miRNA_order}}.1 预测的新miRNA及各样本sRNA与之比对情况统计表</p>
+    <div style="overflow-x: auto">
+    <table class="gy">
+      {{table_novel_map_head|safe}}
+      {% for each in table_novel_map %}
+      {{each|safe}}
+      {% endfor %}
+    </table>
+    </div>
+    <p class="tremark">注：<br />
+      (1) Mapped mature：指预测到的成熟体。第二列为总共预测到的成熟体的数目；第3到第n+2列分别为样本1到n上检测的成熟体体的数目。<br />
+      (2) Mapped star: 预测到的miRNA * 链。第二列为总共预测到的*链的数目；第3到第n+2列分别为样本1到n上检测的*链的数目。<br />
+      (3)Mapped hairpin: 指预测到的前体。第二列为总共预测到的前体的数目；第3到第n+2列分别为样本1到n上检测的前体的数目。<br />
+      (2) Mapped uniq sRNA：指比对上前体的sRNA的种类。第2列为所有的样本总共匹配到新miRNA前体的sRNA的种类；第3到第n+2列分别为样本1到n匹配到新miRNA前体的sRNA的种类。<br />
+      (3) Mapped total sRNA：指比对上前体的sRNA的个数。第2列为所有的样本总共匹配到新miRNA前体的sRNA的个数；第3到第n+2列分别为样本1到n匹配到新miRNA前体的sRNA的个数。 </p>
+    <p class="center"> <img class="normal" src="../images/novel_miRNA_structure.jpg" /> </p>
+    <p class="name_fig">图{{figure_novel_miRNA_order}}.1 部分预测的新miRNA的二级结构（示意图）</p>
+    <p class="premark">整个序列是miRNA前体，红色突出部分为成熟体序列所在</p>
+    <br />
+    <p class="name_table">表{{table_novel_miRNA_order}}.2 匹配上的新miRNA的表达情况（部分）</p>
+    <div style="overflow-x: auto">
+    <table class="gy">
+      {{table_novel_rc_head|safe}}
+      {% for each in table_novel_rc %}
+      {{each|safe}}
+      {% endfor %}
+    </table>
+    <p class="tremark">注：<br />
+      第一列：miRNA成熟体id；第2到n+1列是样本1到n匹配到该成熟体的sRNA的个数（readcount）。 </p>
+    <br />
+  </div>
+  
+  <div id="page">
+    <p class="name_left_bord">
+    <p>匹配上novel miRNA的reads的细节情况展示（详解，见图{{figure_known_order}}.2）</p>
+    </p>
+    <p class="seq"> {% for each in novel_mrd %}
+      {{each|safe}}
+      {% endfor %} </p>
+    <br />
+    <p class="center">
+    <div class="albumSlider albumSlider_wider">
+      <div class="fullview fullview_lower"><img src={{figure_novel_bias1.0.0|safe}}/></div>
+      <div class="slider">
+        <div class="button movebackward" title="向上滚动"></div>
+        <div class="imglistwrap" style="height:195px;">
+          <ul class="imglist">
+            <!--<center><img class="normal1" src="../images/sRNA_distribution_on_chr.png" /></center>--> 
+            {% for each in figure_novel_bias1 %}
+            <li><a id="example2" href={{each.0|safe}} ><img src={{each.0|safe}}/></a></li>
+            {% endfor %}
+          </ul>
+        </div>
+        <div class="button moveforward" title="向下滚动"></div>
+      </div>
+    </div>
+    </p>
+    <p class="name_fig">图{{figure_novel_miRNA_order}}.2 长度18~30nt的新miRNA首位碱基偏好性</p>
+    <p class="premark">横坐标为miRNA长度，纵坐标为该长度sRNA中首位碱基出现A/U/C/G的百分率（柱形图上方的数值为该长度miRNA的总条数）</p>
+    <br />
+    <p class="center">
+    <div class="albumSlider albumSlider_wider">
+      <div class="fullview fullview_lower2"><img src={{figure_novel_bias2.0.0|safe}}/></div>
+      <div class="slider">
+        <div class="button movebackward" title="向上滚动"></div>
+        <div class="imglistwrap" style="height:209px;">
+          <ul class="imglist">
+            <!--<center><img class="normal1" src="../images/sRNA_distribution_on_chr.png" /></center>--> 
+            {% for each in figure_novel_bias2 %}
+            <li><a id="example2" href={{each.0|safe}} ><img src={{each.0|safe}}/></a></li>
+            {% endfor %}
+          </ul>
+        </div>
+        <div class="button moveforward" title="向下滚动"></div>
+      </div>
+    </div>
+    </p>
+    <p class="name_fig">图{{figure_novel_miRNA_order}}.3 新miRNA各位碱基偏好性</p>
+    <p class="premark">横坐标为miRNA的碱基位置，纵坐标为该位置miRNA中出现碱基A/U/C/G的百分率</p>
+    <br/>
+  </div>
+  {% endif %}
+  
+  
+  {% if flag_TAS %} 
+  <!----------------------------------------- 植物ta-siRNA检测 -------------------------------------->
+  <div id="page">
+    <p class="head"><a href="#home" title = "返回首页"><img class="logo" align="left" src="../images/logo.png" /></a> <a name="植物ta-siRNA检测">北京诺禾致源科技股份有限公司</a>
+    <hr />
+    </p>
+    <h3 id="{{html_TAS_order}}">{{html_TAS_order}}	植物ta-siRNA检测</h3>
+    <p class="paragraph">ta-siRNA是植物中发现的一类 siRNA 基因（TAS），它在植物生长发育过程中发挥重要调控功能，目前已在水稻、拟南芥中有相关报道。TAS基因分析，一方面，以水稻和拟南芥的已知TAS基因为数据库进行同源比对；另一方面，运用ta-siRNA识别软件UEA sRNA tools（Moxon et al., 2008）来进行的TAS基因预测。</p>
+    <br />
+    <p class="name_table">表{{table_TAS_order}}.1 比对上TAS基因的sRNA统计表</p>
+    <div style="overflow-x: auto">
+    <table class="gy">
+      {{table_TAS_head|safe}}
+      {% for each in table_TAS %}
+      {{each|safe}}
+      {% endfor %}
+    </table>
+    <p class="tremark">注：（“+”表示与TAS基因方向相同，“-”表示与TAS基因方向相反）<br />
+      第一列：Types，指TAS类型；第2到n+1列是样本1到n匹配到该种类型TAS的sRNA的个数（readcount）。 </p>
+  </div>
+  {% endif  %}
+  
+  
+  {% if flag_category %} 
+  <!----------------------------------------- sRNA分类注释统计 -------------------------------------->
+  
+  <div id="page">
+    <p class="head"><a href="#home" title = "返回首页"><img class="logo" align="left" src="../images/logo.png" /></a> <a name="sRNA分类注释统计">北京诺禾致源科技股份有限公司</a>
+    <hr />
+    </p>
+    <h3 id="{{html_category_order}}">{{html_category_order}}	sRNA分类注释统计</h3>
+    <p class="paragraph">对所有small RNA与各类RNA的比对、注释情况进行总结。由于存在一个sRNA同时比对上几种不同的注释信息的情况，为了使每个unique sRNA有唯一的注释，按照known miRNA > rRNA > tRNA > snRNA > snoRNA > repeat{% if flag_NAT %} > NAT-siRNA{% endif  %}{% if flag_gene %} > gene{% endif  %} > novel miRNA{% if flag_TAS %} > ta-siRNA{% endif  %}检测的优先级顺序将small RNA遍历。分类注释结果中的rRNA总量可以作为一个样品的质控标准：一般情况下质量较好的动物样品中rRNA总量所占比例应低于40%，植物样品中的rRNA总量所占比例应低于60%。</p>
+    <br />
+    <p class="name_table">表{{table_category_order}}.1 比对上的sRNA分类统计表</p>
+    <div style="overflow-x: auto">
+    <table class="gy">
+      {{table_category_head|safe}}
+      {% for each in table_category %}
+      {{each|safe}}
+      {% endfor %}
+    </table>
+    </div>
+    </p>
+    <p class="tremark">注：<br />
+      > total：指各样品比对到参考序列的sRNA数量，后面都是以它为参照，来计算各类sRNA所占的比例。<br />
+      > known_miRNA：指各样本比对到已知miRNA的sRNA的数量及所占比例。<br />
+      > rRNA/tRNA/snRNA/snoRNA：指各样本分别比对到rRNA/tRNA/snRNA/snoRNA的sRNA的数量及所占比例。<br />
+	  {% if flag_repeat %}
+      > repeat：指各样本比对到repeat的sRNA的数量及所占比例。<br />
+	  {% endif  %}
+	  {% if flag_NAT %}
+      > NAT：指各样本比对到NAT基因的sRNA的数量及所占比例。<br />
+	  {% endif  %}
+      > novel_miRNA：指各样本比对到新miRNA的sRNA的数量及所占比例。<br />
+	  {% if flag_TAS %}
+      > TAS：指各样本比对到TAS基因的sRNA的数量及所占比例。<br />
+	  {% endif  %}
+	  {% if flag_gene %}
+      > exon：+/exon：-/intron：+/intron：- ：指个样本比对到exon/intron正、负链的数量及所占比例。<br />
+	  {% endif  %}
+      > other：指各样本比对到参考序列，但没有比对到已知miRNA、ncRNA{% if flag_repeat %}、repeat{% endif  %}、{% if flag_NAT %}NAT、{% endif  %}新miRNA{% if flag_TAS %}、TAS{% endif  %}{% if flag_gene %}以及基因外显子、内含子区{% endif  %}的sRNA的数量及所占比例。 </p>
+      {% if flag_exosome %}
+      <h4><a>sRNA分类注释统计Q&A </a></h4>
+          <table width=100% align="center" cellspacing="0" cellpadding="8">
+                  <tr><td class="question"><b>问</b>：外泌体small RNA中known_miRNA比例偏低的原因:</td></tr>
+                  <tr><td class="answer"><b>答</b>：主要是由于外泌体样本的特殊性造成的。建库富集的RNA中其中含有大量的其他RNA的降解片段，所以分类注释结果中lncRNA降解片段（other），mRNA降解片段（exon，intron）比列偏高，所以已知 miRNA的比例偏低仅有10%左右。</td></tr>
+          </table>
+      {% endif %}
+  </div>
+  {% endif %}
+  
+  
+  {% if flag_edit %} 
+  <!----------------------------------------- miRNA碱基编辑分析 -------------------------------------->
+  <div id="page">
+    <p class="head"><a href="#home" title = "返回首页"><img class="logo" align="left" src="../images/logo.png" /></a> <a name="miRNA碱基编辑分析">北京诺禾致源科技股份有限公司</a>
+    <hr />
+    </p>
+    <h3 id="{{html_edit_order}}">{{html_edit_order}}	miRNA碱基编辑分析</h3>
+    <p class="paragraph">microRNA可能发生部分位置碱基的编辑，导致种子序列改变，进而使得作用靶基因发生改变。通过各样本sRNA与检测到的已知、新miRNA成熟体及其前体进行序列间的比对，来找出可能发生了碱基突变编辑的miRNA。</p>
+    <br />
+    <p class="paragraph">结果详细描述如下：</p>
+    <p class="paragraph">pre-miRNA行：miRNA前体名称、能比对上该前体的reads总数、发生碱基编辑的reads数、后者/前者百分比；</p>
+    <p class="paragraph">matrue miRNA：miRNA成熟体名称（在该前体上），能比对上该成熟体的reads总数、发生碱基编辑的reads数、后者/前者百分比；</p>
+    <p class="paragraph">site[1-n]起下面几行代表该成熟体位点n上的碱基编辑情况。site行，各列分别代表该位点发生碱基编辑的reads数、及其占比对上该成熟体reads数的百分比。随后几行是具体碱基编辑信息，例如该位点发生U到G的突变，突变发生的reads数，及其占比对上该成熟体reads数的百分比。</p>
+    <p class="seq"> {% for each in edit %}
+      {{each|safe}}
+      {% endfor %} </p>
+    <p class="tremark">注：结题报告中只显示部分miRNA碱基编辑分析结果，更多信息见结果文件夹。</p>
+  </div>
+  {% endif %}
+  
+  
+  {% if flag_family %} 
+  <!----------------------------------------- miRNA家族分析 -------------------------------------->
+  <div id="page">
+    <p class="head"><a href="#home" title = "返回首页"><img class="logo" align="left" src="../images/logo.png" /></a> <a name="miRNA家族分析">北京诺禾致源科技股份有限公司</a>
+    <hr />
+    </p>
+    <h3 id="{{html_family_order}}">{{html_family_order}}	miRNA家族分析</h3>
+    <p class="paragraph">对检测到的已知miRNA和新miRNA进行家族分析，探索其所属的miRNA家族在其他物种中的存在情况。结果表格中第一列是miRBase数据库中收录的各个物种名，第一行是检测到的已知和新miRNA前体的家族名，表格中的数据项“+”表示在该物种中存在对应家族，“-”表示不存在。结果见<b>表{{table_family_order}}.1</b>。</p>
+    <br />
+    <p class="name_table">表{{table_family_order}}.1 miRNA家族分析结果（部分）</p>
+    <div style="overflow-x: auto">
+    <table class="gy">
+      {{table_family_head|safe}}
+      {% for each in table_family %}
+      {{each|safe}}
+      {% endfor %}
+    </table>
+    </p>
+    <p class="tremark">注：结题报告中只显示部分miRNA家族分析统计结果，更多信息见结果文件夹。<br />
+    </p>
+     <h4><a>miRNA家族分析Q&A </a></h4>
+	<table width=100% align="center" cellspacing="0" cellpadding="8">
+		<tr><td class="question"><b>问</b>：miRNA家族是什么？确定miRNAs属于一个miRNA家族的依据是什么?？</td></tr>
+		<tr><td class="answer"><b>答</b>：一般来讲，来源于同一个家族的miRNA，通常预测它们调控特定的生物学途径。假如一组miRNA，它们在2~7这些位点（这几个位点是作用靶基因的种子位点）表现为一致的保守型，就会被定义为一个miRNA家族。序列相似性比对，是最为简单直接的方法。</td></tr>
+		
+	</table>
+  </div>
+  {% endif %}
+  
+  
+  <!----------------------------------------- miRNA表达及差异分析 --------------------------------------> 
+  <!----------------------------------------- miRNA表达水平分析 -------------------------------------->
+  <div id="page">
+    <p class="head"><a href="#home" title = "返回首页"><img class="logo" align="left" src="../images/logo.png" /></a> <a name="miRNA表达及差异分析">北京诺禾致源科技股份有限公司</a>
+    <hr />
+    </p>
+    <h3 id="{{html_diff_order}}">{{html_diff_order}}	miRNA表达及差异分析</h3>
+    <h4>{{html_diff_order}}.1	miRNA表达水平分析</h4>
+    <p class="paragraph">对各样本中已知和新miRNA进行表达量的统计，并用TPM（Zhou et al.，2010）进行表达量归一化处理。</p>
+    <p class="paragraph">公式：归一化表达量=(readCount*1,000,000)/libsize (libsize：样品miRNA readcount之和)</p>
+    <br />
+    <p class="name_table">表{{table_diff_order}}.1 miRNA表达水平统计表（部分）</p>
+    <div style="overflow-x: auto">
+    <table class="gy">
+      {{table_tpm_head|safe}}
+      {% for each in table_tpm %}
+      {{each|safe}}
+      {% endfor %}
+    </table>
+    </div>
+    </p>
+    <p class="tremark">注：结题报告中只显示部分miRNA表达水平统计结果，完整信息见结果文件夹。<br />
+      (1) 第1列——“miRNA”，代表 miRNA成熟体id。<br />
+      (2) 第2到n+1列——“样本名”，分别代表样本1到n的readcount。<br />
+      (3) 第n+2到2n+1列——“样本名(TPM)”，分别代表样本1到n的readcount经TPM normalization后的值。 </p>
+
+    <h4><a>miRNA表达水平分析Q&A </a></h4>
+	<table width=100% align="center" cellspacing="0" cellpadding="8">
+		<tr><td class="question"><b>问</b>：用于miRNA表达定量的TPM与转录组中的FPKM有何区别？</td></tr>
+		<tr><td class="answer"><b>答</b>：FPKM和TPM都是对数据归一化的方法，这两个统计量表达的意义是不一样的。
+FPKM(expected number of Fragments Per Kilobase of transcript sequence per Millions base pairs sequenced)是每百万fragments中来自某一基因每千碱基长度的fragments数目，其同时考虑了测序深度和基因长度对fragments计数的影响。
+TPM（transcripts per million reads）=(readCount*1,000,000)/total_ readCount，TPM不用考虑Small RNA长度，因为测序所得sRNA片段，其实是一个完整的sRNA tags。不像转录组一条reads可能是基因的一部分，所以基因的表达量用reads来统计就必须进行基因长度的归一化。</td></tr>
+		
+	</table>
+  </div>
+  
+  <!----------------------------------------- miRNA表达量TPM密度分布图 -------------------------------------->
+  <div id="page">
+    <p class="head"><a href="#home" title = "返回首页"><img class="logo" align="left" src="../images/logo.png" /></a> <a name="miRNA表达量TPM密度分布图">北京诺禾致源科技股份有限公司</a>
+    <hr />
+    </p>
+    <h4>{{html_diff_order}}.2 miRNA表达量TPM密度分布图</h4>
+    <p class="paragraph">TPM密度分布能整体检查样品的基因表达模式，项目结果见<b>图{{figure_diff_order}}.1</b>。</p>
+    <br />
+    <center>
+	  <div class="albumSlider_border"  style="width:480px;">
+      <div><img src='../images/TPM_density_distribution.png' style="width:480px;"/></div>
+    </div>
+    </center>
+    <p class="name_fig">图{{figure_diff_order}}.1 TPM密度分布图</p>
+    <p class="premark">横坐标为miRNA的log10(TPM+1)值，纵坐标为对应log10(TPM+1)的密度</p>
+    <br/>
+  </div>
+ {% if flag_diff %} 
+  <!----------------------------------------- 样品间相关性检查 -------------------------------------->
+  <div id="page">
+    <p class="head"><a href="#home" title = "返回首页"><img class="logo" align="left" src="../images/logo.png" /></a> <a name="样品间相关性检查">北京诺禾致源科技股份有限公司</a>
+    <hr />
+    </p>
+    <h4>{{html_diff_order}}.3	样品间相关性检查</h4>
+    <p class="paragraph">样品间基因表达水平相关性是检验实验可靠性和样本选择是合理性的重要指标。相关系数越接近1，表明样品之间表达模式的相似度越高。若样品中有生物学重复，通常生物重复间相关系数要求较高。</p>
+    <p class="paragraph">项目结果见<b>图{{figure_diff_order}}.2</b> </p>
+    <br />
+    <!--center><img class="normal1" src="../images/corr_plot.png" /></center> -->
+    <p class="center">
+    <div class="albumSlider">
+      <div class="fullview"><img src={{figure_cor.0.0|safe}}/></div>
+      <div class="slider">
+        <div class="button movebackward" title="向上滚动"></div>
+        <div class="imglistwrap">
+          <ul class="imglist">
+            {% for each in figure_cor %}
+            <li><a id="example2" href={{each.0|safe}} ><img src={{each.0|safe}}/></a></li>
+            {% endfor %}
+          </ul>
+        </div>
+        <div class="button moveforward" title="向下滚动"></div>
+      </div>
+    </div>
+    </p>
+    <p class="name_fig">图{{figure_diff_order}}.2 样品间miRNA表达量相关性示意图</p>
+    <p class="premark">横坐标与纵坐标分别为为样品的log10（TPM+1）(R<sup>2</sup>：pearson相关系数的平方; Rho:spearman相关系数；Tau：kendall-tau相关系数)</p>
+    <br/>
+  </div>
+  {% if flag_diff %} 
+  <!----------------------------------------- miRNA差异表达分析结果 -------------------------------------->
+  <div id="page">
+    <p class="head"><a href="#home" title = "返回首页"><img class="logo" align="left" src="../images/logo.png" /></a> <a name="miRNA差异表达分析结果">北京诺禾致源科技股份有限公司</a>
+    <hr />
+    </p>
+    <h4>{{html_diff_order}}.4 miRNA差异表达分析结果</h4>
+    <p class="paragraph">miRNA差异表达的输入数据为miRNA表达水平分析中得到的readcount数据。对于有生物学重复的样品，分析我们采用基于负二项分布的DESeq2（Michael  et al.，2014）进行分析；对于无生物学重复的样品，先采用TMM对readcount数据进行标准化处理，之后用DEGseq（Wang et al.，2010）进行差异分析。</p>
+    <br />
+    <p class="paragraph">差异分析的部分结果示意见<b>表{{table_diff_order}}.2</b>。</p>
+    <p class="tremark">结题报告中只显示一组比较的miRNA差异表达分析部分结果，完整信息见结果文件夹14DiffExprAnalysis/14.4DiffExprAnalysis。</p>
+    <br />
+    <p class="name_table">表{{table_diff_order}}.2 miRNA表达差异分析结果（部分）</p>
+    <div style="overflow-x: auto">
+    <table class="gy">
+      {{table_diff_head|safe}}
+      {% for each in table_diff %}
+      {{each|safe}}
+      {% endfor %}
+    </table>
+    </p>
+    <p class="tremark">注：<br />
+      (1) sRNA: miRNA成熟体id。<br />
+      (2) Group1：校正后样品1的read count值。<br />
+      (3) Group2：校正后样品1的read count值。<br />
+      (4) log2.Fold_change.：log2(Sample1/Sample2)。<br />
+      (5) p.value：p值。<br />
+      (6) q.value.Storey.et.al..2003.：校正后的pvalue，qvalue越小，表示miRNA表达差异越显著。<br />
+    </p>
+  </div>
+  
+  <!----------------------------------------- 差异miRNA筛选 -------------------------------------->
+  <div id="page">
+    <p class="head"><a href="#home" title = "返回首页"><img class="logo" align="left" src="../images/logo.png" /></a> <a name="差异miRNA筛选">北京诺禾致源科技股份有限公司</a>
+    <hr />
+    </p>
+    <h4>{{html_diff_order}}.5	差异miRNA筛选</h4>
+    <p class="paragraph"> 用火山图可以推断差异miRNA的整体分布情况，从差异倍数(Fold change)和校正后的显著水平（padj/qvalue）两个水平进行评估，对差异miRNA进行筛选。</p>
+    <p> 当样品有生物学重复时，默认差异miRNA的筛选条件为：padj<0.05。</p>
+    <p> 当样品无生物学重复时，差异miRNA数目会偏多，为了控制假阳性率，需qvalue结合foldchange来筛选，默认差异miRNA筛选条件为：qvalue<0.01 && | log2(foldchange)|>1。</p>
+    </p>
+    <p class="paragraph">项目结果见<b>图{{figure_diff_order}}.3：</b></p>
+    <!--p class="tremark">注：结题报告中只显示一组比较的差异miRNA火山图，更多信息见结果文件夹。</p>--> 
+    <br />
+    <!--center><img class="normal1" src="../images/vocalno.png" /></center>-->
+    <p class="center">
+    <div class="albumSlider">
+      <div class="fullview"><img src={{figure_volcano.0.0|safe}}/></div>
+      <div class="slider">
+        <div class="button movebackward" title="向上滚动"></div>
+        <div class="imglistwrap">
+          <ul class="imglist">
+            {% for each in figure_volcano %}
+            <li><a id="example2" href={{each.0|safe}} ><img src={{each.0|safe}}/></a></li>
+            {% endfor %}
+          </ul>
+        </div>
+        <div class="button moveforward" title="向下滚动"></div>
+      </div>
+    </div>
+    </p>
+    <p class="name_fig">图{{figure_diff_order}}.3 差异miRNA火山图</p>
+    <p class="premark">横坐标代表miRNA在不同实验组中/不同样品中表达倍数变化，纵坐标代表miRNA表达量变化的统计学显著程度，图中的散点代表各个miRNA，蓝色圆点表示无显著性差异的miRNA，红色圆点表示显著上调的差异miRNA，绿色圆点表示显著下调的差异miRNA</p>
+    <br/>
+  </div>
+  
+  <!----------------------------------------- 差异miRNA聚类分析 -------------------------------------->
+  <div id="page">
+    <p class="head"><a href="#home" title = "返回首页"><img class="logo" align="left" src="../images/logo.png" /></a> <a name="差异miRNA聚类分析">北京诺禾致源科技股份有限公司</a>
+    <hr />
+    </p>
+    <br />
+    <h4>{{html_diff_order}}.6	差异miRNA聚类分析</h4>
+    <p class="paragraph">差异miRNA聚类分析用于判断不同实验条件下差异miRNA表达量的聚类模式。 每个比较组合都会得到一个差异miRNA集，将所有比较组合的差异miRNA集的并集在每个实验组/样品中的的TPM值，用于层次聚类分析（结果见<b>图{{figure_diff_order}}.4</b>），K-means聚类分析和SOM聚类分析（见结果文件夹）。</p>
+    <br />
+    <center>
+      <img class="normal1" src="../images/Hcluster.png" />
+    </center>
+    <p class="name_fig">图{{figure_diff_order}}.4 差异miRNA聚类图</p>
+    <p class="premark">上图为整体层次聚类图，以log10（TPM+1）值进行聚类，红色表示高表达miRNA，蓝色表示低表达miRNA</p>
+    <br/>
+	 <h4><a>差异miRNA聚类分析Q&A </a></h4>
+	<table width=100% align="center" cellspacing="0" cellpadding="8">
+		<tr><td class="question"><b>问</b>：聚类分析是怎么做的？</td></tr>
+		<tr><td class="answer"><b>答</b>：根据小RNA的表达量进行的聚类，通过log10（TPM+1）进行计算，是为了判断不同实验条件下差异miRNA表达量的聚类模式。聚类使用的为R中的聚类软件包pheatmap,所针对的数据为union_for_cluster(差异miRNA的并集),以miRNA的相对表达水平值log2(ratios) 进行聚类。其采用相应的距离算法,算出每个miRNA之间的距离,然后通过反复迭代,计算miRNA之间的相对距离,最后根据miRNA的相对距离远近来分成不同的subcluster,从而实现聚类。该软件包是免费的,只需通过R来运行。H-cluster、K-means和SOM 都是聚类的方法,均采用的是R语言相关代码和函数实现的,也有一些免费的软件可以做这些聚类分析,例如gene_cluster等。</td></tr>
+
+		<tr><td class="question"><b>问</b>：为什么进行聚类分析?</td></tr>
+		<tr><td class="answer"><b>答</b>：聚类分析用于判断差异miRNA在不同实验条件下的表达模式,将表达模式相同或相近的miRNA聚集成类,进而识别未知miRNA的功能或已知miRNA的未知功能,这些同类miRNA可能具有相似的功能。</td></tr>
+	</table>
+  </div>
+  {% if flag_venn %} 
+  <!----------------------------------------- 差异miRNA维恩图 -------------------------------------->
+  <div id="page">
+    <p class="head"><a href="#home" title = "返回首页"><img class="logo" align="left" src="../images/logo.png" /></a> <a name="差异miRNA维恩图">北京诺禾致源科技股份有限公司</a>
+    <hr />
+    </p>
+    <h4>{{html_diff_order}}.7 差异miRNA维恩图</h4>
+    <p class="paragraph">当比较组合数大于等于2个小于等于5个时，可以将各组比较得到的差异miRNA个数进行统计，画成维恩图，直观展现出各个比较组合共有的及特有的差异miRNA数目(如果只有两个样品时，则进行两个样本之间的venn 图绘制）（见<b>图{{figure_diff_order}}.5</b>）。</p>
+    <br />
+    <!--<center><img class="normal1" src="../images/DE_Venn_diagram.png" alt="比较组合数不符合维恩图分析条件"/></center>-->
+    <p class="center">
+    <div class="albumSlider">
+      <div class="fullview"><img src={{figure_venn.0.0|safe}}/></div>
+      <div class="slider">
+        <div class="button movebackward" title="向上滚动"></div>
+        <div class="imglistwrap">
+          <ul class="imglist">
+            {% for each in figure_venn %}
+            <li><a id="example2" href={{each.0|safe}} ><img src={{each.0|safe}}/></a></li>
+            {% endfor %}
+          </ul>
+        </div>
+        <div class="button moveforward" title="向下滚动"></div>
+      </div>
+    </div>
+    </p>
+    <p class="name_fig">图{{figure_diff_order}}.5 差异miRNA维恩图</p>
+    <p class="premark">大圆圈代表各个比较组合，每个大圆圈中的数字之和代表该比较组合的差异miRNA总个数，圆圈交叠的部分表示组合之间共有的差异miRNA个数（只有两个样品时，每个大圆圈中的数字代表在这个样本中表达的miRNA,圆圈交叠的部分代表样本间共表达的miRNA)</p>
+    <br/>
+  </div>
+  {% endif %}
+  {% endif %}
+  {% endif %}
+  
+  
+  {% if flag_target %} 
+  <!----------------------------------------- miRNA靶基因预测 -------------------------------------->
+  <div id="page">
+    <p class="head"><a href="#home" title = "返回首页"><img class="logo" align="left" src="../images/logo.png" /></a> <a name="miRNA靶基因预测">北京诺禾致源科技股份有限公司</a>
+    <hr />
+    </p>
+    <h3 id="{{html_target_order}}">{{html_target_order}}	miRNA靶基因预测</h3>
+    {% if flag_ref %}
+    <p class="paragraph">动物miRNA靶基因预测为miRanda、PITA和RNAhybrid三个软件的交集(结果展示各个软件预测的统计情况)，植物利用在线软件psRNATarget预测。对分析得到的已知、novel miRNA进行靶基因预测，得到miRNA和靶基因间的对应关系。结果如下：</p>
+    {% endif  %}
+    {% if flag_noref %}
+    <p class="paragraph">动物miRNA靶基因预测为miRanda(结果展示软件预测的统计情况) ，植物利用在线软件psRNATarget预测。对分析得到的已知、novel miRNA进行靶基因预测，得到miRNA和靶基因间的对应关系。结果如下：</p>
+    {% endif  %}
+    <br />
+    <table class="gy">
+      {{table_target_head|safe}}
+      {% for each in table_target %}
+      {{each|safe}}
+      {% endfor %}
+    </table>
+    </p>
+    {% if flag_ref %}  
+    <p class="tremark">注：<br />
+      动物：Target::miRNA：预测得到的miRNA和靶向转录本的对应关系；<br />
+            RNAhybrid：表示RNAhybrid软件预测情况，0表示未预测到，1表示预测到；<br />
+            PITA：表示PITA软件预测情况，0表示未预测到，1表示预测到；<br />
+            miRanda：表示miRanda软件预测情况，0表示未预测到，1表示预测到；<br />
+      植物：miRNA:为miRNA ID；<br />
+            target_mRNA：为miRNA靶向转录本ID；<br />
+            target_gene：为转录本ID对应的gene ID（转录本ID和gene ID有可能相同，视参考基因组注释文件而定）；</p>
+    <p class="tremark">注：结题报告中只显示部分miRNA靶基因预测结果，更多信息见结果文件夹。</p>
+    {% endif  %}
+    {% if flag_noref %}
+    <p class="tremark">注：<br />
+      miRNA:为miRNA ID；<br />
+      target_mRNA:miRNA靶向的unigene ID。</p>
+    <p class="tremark">注：结题报告中只显示部分miRNA靶基因预测结果，更多信息见结果文件夹。</p>  
+  {% endif  %}
+  <br/>
+  </div>
+  {% endif  %}
+  
+  
+  {% if flag_enrich %} 
+  <!----------------------------------------- 候选靶基因GO富集分析 -------------------------------------->
+  <div id="page">
+    <p class="head"><a href="#home" title = "返回首页"><img class="logo" align="left" src="../images/logo.png" /></a> <a name="差异miRNA靶基因富集分析">北京诺禾致源科技股份有限公司</a>
+    <hr />
+    </p>
+    <h3 id="{{html_enrich_order}}">{{html_enrich_order}}	差异miRNA靶基因富集分析</h3>
+    <p class="paragraph">得到各组比较间的差异表达miRNA后，根据miRNA与其靶基因间的对应关系，我们对每组差异表达miRNA的靶基因的集合分别进行Gene Ontology和KEGG富集分析（<b>如果只有一个样本，会对所有miRNA的靶基因进行富集分析</b>）。后面为了表述方便，把“差异表达miRNA的靶基因的集合”称为“候选靶基因”。</p>
+    <p class="tremark">注：结题报告中只显示部分富集分析结果，更多信息见结果文件夹。</p>
+    <h4>{{html_enrich_order}}.1	候选靶基因GO富集分析</h4>
+    <p class="paragraph">Gene Ontology（简称GO，http://www.geneontology.org/）是基因功能国际标准分类体系。根据实验目的选出靶基因后，研究候选靶基因在Gene Ontology中的分布状况将阐明实验中样本差异在基因功能上的体现。GO富集分析方法为GOseq（Young et al，2010），此方法基于Wallenius non-central hyper-geometric distribution，相对于普通的Hyper-geometric distribution，此分布的特点是从某个类别中抽取个体的概率与从某个类别之外抽取一个个体的概率是不同的，这种概率的不同是通过对基因长度的偏好性进行估计得到的，从而能更为准确地计算出GOterm被候选靶基因富集的概率。结果如<b>表{{table_enrich_order}}.1</b>所示。</p>
+    <p class="name_table">表{{table_enrich_order}}.1 样品中候选靶基因的Gene Ontology富集列表（部分）</p>
+    <p class="center">
+	<div style="overflow-x: scroll">
+    <table class="gy">
+      {{table_go_head|safe}}
+      {% for each in table_go %}
+      {{each|safe}}
+      {% endfor %}
+    </table>
+	</div>
+    </p>
+    <p class="tremark">注：<br />
+      (1) GO accession：Gene Ontology数据库中唯一的标号信息。<br />
+      (2) Description：Gene Ontology功能的描述信息。<br />
+      (3) Term type：该GO的类别（cellular_component：细胞组分；biological_process：生物学过程；molecular_function：分子功能）。<br />
+      (4) Over represented pValue：富集分析统计学显著水平。<br />
+      (5) Corrected pValue：校正后的P-Value，一般情况下，校正后的P < 0.05 该功能为显著富集项。<br />
+      (6) DEG item：候选靶基因中与该Term相关的基因数。<br />
+      (7) DEG list: GO注释的候选靶基因数目 <br />
+      (8) Bg item：背景（所有）基因中与该Term相关的基因数。<br />
+      (9) Bg list：GO注释的背景（所有）基因的数目 <br />
+    </p>
+    <p class="paragraph">得到上述列表后，统计被显著富集的各个GO term中的基因数，以柱状图的形式展示，如图<b>{{figure_enrich_order}}.1</b>所示。</p>
+    <br />
+    <!--<center><img class="normal1" src="../images/GO_enrichment.png" alt="无显著富集结果"/></center>-->
+    <p class="center">
+    <div class="albumSlider albumSlider_wider">
+      <div class="fullview fullview_lower"><img src={{figure_goBar.0.0|safe}} alt='无显著富集结果'/></div>
+      <div class="slider">
+        <div class="button movebackward" title="向上滚动"></div>
+        <div class="imglistwrap" style="height:195px;">
+          <ul class="imglist">
+            {% for each in figure_goBar %}
+            <li><a id="example2" href={{each.0|safe}} ><img src={{each.0|safe}} alt='无显著富集结果'/></a></li>
+            {% endfor %}
+          </ul>
+        </div>
+        <div class="button moveforward" title="向下滚动"></div>
+      </div>
+    </div>
+    </p>
+    <p class="name_fig">图{{figure_enrich_order}}.1 候选靶基因GO富集柱状图</p>
+    <p class="premark">横坐标为GO三个大类的下一层级的GO term，纵坐标为注释到该term下（包括该term的子term）的候选靶基因个数，及其个数占被注释上的候选靶基因总数的比例。3种不同分类表示Go term的三种基本分类（从左往右依次为生物学过程，细胞成分，分子功能）。</p>
+    <br />
+  </div>
+  
+  <div id="page">
+    <p class="paragraph">有向无环图（Directed Acyclic Graph，DAG）为候选靶基因GO富集分析结果的图形化展示方式，分支代表包含关系，从上至下所定义的功能范围越来越小，一般选取GO富集分析的结果前10位作为有向无环图的主节点，并通过包含关系，将相关联的GO Term一起展示，颜色的深浅代表富集程度。我们的项目中分别绘制生物过程（biological process）、分子功能（molecular function）和细胞组分（cellular component）的候选靶基因DAG图。</p>
+    <p class="center">
+    <div class="albumSlider">
+      <div class="fullview"><img src={{figure_goDAG.0.0|safe}} alt='无显著富集结果'/></div>
+      <div class="slider">
+        <div class="button movebackward" title="向上滚动"></div>
+        <div class="imglistwrap">
+          <ul class="imglist">
+            {% for each in figure_goDAG %}
+            <li><a id="example2" href={{each.0|safe}} ><img src={{each.0|safe}} alt='无显著富集结果'/></a></li>
+            {% endfor %}
+          </ul>
+        </div>
+        <div class="button moveforward" title="向下滚动"></div>
+      </div>
+    </div>
+    </p>
+    <p class="name_fig">图{{figure_enrich_order}}.2 GO富集有向无环图</p>
+    <p class="premark">每个方框或圆圈代表一个GO term，放大之后其中内容从上到下，代表的含义依次为:GOterm的id、GO的描述、GO富集的Pvalue、该GO下候选靶基因的数目/该GO下背景基因的数目。方框代表的是富集程度为TOP10的GO，颜色的深浅代表富集程度，颜色越深就表示富集程度越高。（三张图为一组比较所得，从上到下顺序依次为依次为“生物学过程”，“细胞成分”，“分子功能”）</p>
+  </div>
+  
+  <!----------------------------------------- 候选靶基因KEGG富集分析 -------------------------------------->
+  <div id="page">
+    <p class="head"><a href="#home" title = "返回首页"><img class="logo" align="left" src="../images/logo.png" /></a> <a name="候选靶基因KEGG富集分析">北京诺禾致源科技股份有限公司</a>
+    <hr />
+    </p>
+    <br />
+    <h4>{{html_enrich_order}}.2	候选靶基因KEGG富集分析</h4>
+    <p class="paragraph">在生物体内，不同基因相互协调行使其生物学功能，通过Pathway显著性富集能确定候选靶基因参与的最主要生化代谢途径和信号转导途径。KEGG（Kyoto Encyclopedia of Genes and Genomes）是有关Pathway的主要公共数据库（Kanehisa et al.，2008）。Pathway显著性富集分析以KEGG Pathway为单位，应用超几何检验，找出与整个基因组背景相比，在候选靶基因中显著性富集的Pathway。该分析的计算公式：</p>
+    <br />
+    <center>
+      <img class="formu" src="../images/kegg_pvalue.png" />
+    </center>
+    <p class="paragraph">其中，N为所有基因中具有Pathway注释的基因数目；n为N中候选靶基因的数目；M为所有基因中注释为某特定Pathway的基因数目；m为注释为某特定Pathway的候选靶基因数目。用BH的方法对p-value进行校正，得到的校正后的P-value 值越小代表越显著。这里将值小于0.05的Pathway定义为在候选靶基因中显著富集的Pathway。</p>
+    <br />
+    <p class="name_table">表{{table_enrich_order}}.2 候选靶基因KEGG显著性富集列表</p>
+    <div style="overflow-x: auto">
+    <table class="gy">
+      <tr>
+        <th>Term</th>
+        <th>ID</th>
+        <th>Sample number</th>
+        <th>Background number</th>
+        <th>P-Value</th>
+        <th>Corrected P-Value</th>
+      </tr>
+      {% for each in table_kegg %}
+      <tr>
+        <td>{{each.0}}</td>
+        <!--<td>{{each.1}}</td>-->
+        <td>{{each.2}}</td>
+        <td>{{each.3}}</td>
+        <td>{{each.4}}</td>
+        <td>{{each.5}}</td>
+        <td>{{each.6}}</td>
+      </tr>
+      {% endfor %}
+    </table>
+    
+    <!--{{table_kegg_head|safe}}
+{% for each in table_kegg %}
+	{{each|safe}}
+{% endfor %}
+</table>-->
+    
+    </p>
+    <p class="tremark">注：<br />
+      (1) Term：KEGG通路的描述信息。<br />
+      (2) ID：KEGG数据库中通路唯一的编号信息。<br />
+      (3) Sample number：在该通路下的候选靶基因数。<br />
+      (4) Background number：在该通路下的背景基因数。<br />
+      (5) P-Value：富集分析统计学显著水平。<br />
+      (6) Corrected P-Value：校正后的统计学显著水平，一般情况下，校正后的P-value < 0.05 该功能为显著富集项。 </p>
+    <br />
+    <p class="paragraph">候选靶基因KEGG富集散点图是KEGG富集分析结果的图形化展示方式。在此图中，KEGG富集程度通过Rich factor、Qvalue和富集到此通路上的基因个数来衡量。其中Rich factor指差异表达的基因中位于该pathway条目的基因数目与所有有注释基因中位于该pathway条目的基因总数的比值。Rich factor越大，表示富集的程度越大。Qvalue是做过多重假设检验校正之后的Pvalue，Qvalue的取值范围为【0,1】，越接近于零，表示富集越显著。我们挑选了富集前20位的pathway条目在该图中进行展示，若富集的pathway条目不足20条，则全部展示。</p>
+    <br />
+    <!--<center><img class="normal1" src="../images/pathway_scatterplot.png" /></center>-->
+    <p class="center">
+    <div class="albumSlider">
+      <div class="fullview"><img src={{figure_kegg_scat.0.0|safe}} alt='无显著富集结果'/></div>
+      <div class="slider">
+        <div class="button movebackward" title="向上滚动"></div>
+        <div class="imglistwrap">
+          <ul class="imglist">
+            {% for each in figure_kegg_scat %}
+            <li><a id="example2" href={{each.0|safe}} ><img src={{each.0|safe}} alt='无显著富集结果'/></a></li>
+            {% endfor %}
+          </ul>
+        </div>
+        <div class="button moveforward" title="向下滚动"></div>
+      </div>
+    </div>
+    </p>
+    <p class="name_fig">图{{figure_enrich_order}}.3 候选靶基因KEGG富集散点图</p>
+    <p class="premark">纵轴表示pathway名称，横轴表示Rich factor，点的大小表示此pathway中候选靶基因个数多少，而点的颜色对应于不同的Qvalue范围 。</p>
+    <br />
+  </div>
+  
+  <div id="page">
+    <p class="paragraph">将每条有候选靶基因富集的通路的代谢图展示出来，如下（<b>图{{figure_enrich_order}}.4</b>），其中的小方框代表蛋白，红色的小方框代表候选靶基因对应的蛋白，鼠标悬停于该节点，会弹出相应的靶基因id。以上步骤可脱机实现，如连接互联网，点击各个节点，可以连接到KEGG官方数据库中各个KO的具体信息页。</p>
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <p class="center">
+    <div class="albumSlider">
+      <div class="fullview"><img src={{figure_kegg_path.0.0|safe}}/></div>
+      <div class="slider">
+        <div class="button movebackward" title="向上滚动"></div>
+        <div class="imglistwrap">
+          <ul class="imglist">
+            {% for each in figure_kegg_path %}
+            <li><a id="example2" href={{each.0|safe}} ><img src={{each.0|safe}}/></a></li>
+            {% endfor %}
+          </ul>
+        </div>
+        <div class="button moveforward" title="向下滚动"></div>
+      </div>
+    </div>
+    <!--<center><img class="normal1" src="../images/pathway_API.png" /></center>-->
+    <p class="name_fig">图{{figure_enrich_order}}.4 候选靶基因KEGG富集通路图</p>
+    <br/>
+  </div>
+  {% endif %} 
+  
+  <!-------------------------------------------- 参考文献 ------------------------------------------->
+  <div id="page">
+    <p class="head"><a href="#home" title = "返回首页"><img class="logo" align="left" src="../images/logo.png" /></a> <a name="参考文献">北京诺禾致源科技股份有限公司</a>
+    <hr />
+    </p>
+    <h2 id="reference_html">四、参考文献</h2>
+    <p class="ref"> Langmead, B., Trapnell, C., Pop, M., & Salzberg, S. L. (2009). Ultrafast and memory-efficient alignment of short DNA sequences to the human genome. Genome Biol, 10(3), R25. (Bowtie)<br />
+      Chen D., Yuan C., Zhang J., Zhang Z., Bai L., Meng Y., et al. (2011). PlantNATsDB: a comprehensive database of plant natural antisense transcripts. Nucleic Acids Research 40:D1:D1187–D1193. (PlantNATsDB)<br />
+      Cock, P.J.A., Fields, C.J., Goto, N., Heuer, M.L., and Rice, P.M. (2010). The Sanger FASTQ file format for sequences with quality scores, and the Solexa/Illumina FASTQ variants. Nucleic acids research 38, 1767-1771.<br />
+      Erlich, Y., and Mitra, P.P. (2008). Alta-Cyclic: a self-optimizing base caller for next-generation sequencing. Nature methods 5, 679-682.<br />
+      Friedlander M.R., Mackowiak S.D., Li N., Chen W., Rajewsky N. (2011). miRDeep2 accurately identifies known and hundreds of novel microRNA genes in seven animal clades. Nucleic Acids Res 40:37-52. (miRDeep2)<br />
+      Jiang, L., Schlesinger, F., Davis, C.A., Zhang, Y., Li, R., Salit, M., Gingeras, T.R., and Oliver, B.(2011). Synthetic spike-in standards for RNA-seq experiments. Genome research 21, 1543-1551.<br />
+      Mao, X., Cai, T., Olyarchuk, J.G., and Wei, L. (2005). Automated genome annotation and pathway identification using the KEGG orthology (KO) as a controlled vocabulary. Bioinformatics 21, 3787–3793. (KOBAS)<br />
+      Kanehisa M, Araki M, Goto S, Hattori M, Hirakawa M, et al. (2008). KEGG for linking genomes to life and the environment. Nucleic Acids research36:D480–484. (KEGG)<br />
+      Moxon S., Schwach F., MacLean D., Dalmay T., J Studholme D., and Moulton V. (2008). A toolkit for analysing large-scale plant small RNA datasets. Bioinformatics 24 (19): 2252-2253. (UEA sRNA tools)<br />
+      Michael I Love,Wolfgang Huber,Simon Anders.(2014).Moderated estimation of fold change and dispersion for RNA-seq data with DESeq2.Genome Biology,DOI 10.1186/s13059-014-0550-8.(DESeq2)<br/>
+      Wang L., Feng Z., Wang X., Wang X., Zhang X. (2010). DEGseq: an R package for identifying differentially expressed genes from RNA-seq data. Bioinformatics 26, 136-8. (DEGseq)<br />
+      Storey, J. D. (2003). The positive false discovery rate: A Bayesian interpretation and the q-value, Annals of Statistics. 31: 2013-2035.(qvalue)<br />
+      Wen M., Shen Y., Shi S., and Tang T. (2012). miREvo: An Integrative microRNA Evolutionary Analysis Platform for Next-generation Sequencing Experiments. BMC Bioinformatics 13:140. (miREvo)<br />
+      Wu HJ, Ma YK, Chen T, Wang M, Wang XJ (2012) PsRobot: a web-based plant small RNA meta-analysis toolbox. Nucleic Acids Res 40:W22–W28. (psRobot)<br />
+      Young, M.D., Wakefield, M.J., Smyth, G.K., and Oshlack, A. goseq: Gene Ontology testing for RNA-seq datasets.(goseq)<br />
+      Zhou L., Chen J., Li Z., Li X., Hu X., et al. (2010). Integrated profiling of microRNAs and mRNAs: microRNAs located on Xq27.3 associate with clear cell renal cell carcinoma. PLoS One 5: e15224. (TPM)<br />
+    </p>
+  </div>
+  
+  <!-------------------------------------------- 附录 --------------------------------------------->
+  <div id="page">
+    <p class="head"><a href="#home" title = "返回首页"><img class="logo" align="left" src="../images/logo.png" /></a> <a name="附录">北京诺禾致源科技股份有限公司</a>
+    <hr />
+    </p>
+    <h2>五、附录</h2>
+    <a name="文件目录列表">
+    <h3 id="note_1">1	文件目录列表</h3>
+    </a>
+    <p class="paragraph">文件目录列表：<a href="DirectoryTree.html" title="点击打开" target="_blank">html</a></p>
+    <a name="软件说明列表">
+    <h3 id="note_2">2	软件说明列表</h3>
+    </a>
+    <p class="paragraph">软件说明列表：<a href="../pdf/sRNA.software.pdf" title="点击打开" target="_blank">PDF</a></p>
+    <a name="Methods">
+    <h3 id="note_3">3	Methods英文版</h3>
+    </a>
+    <p class="paragraph">Methods英文版：<a href="../pdf/sRNA.methods.pdf" title="点击打开" target="_blank">PDF</a></p>
+    <a name="结题报告PDF版">
+    <h3 id="note_4">4	结题报告PDF版</h3>
+    </a>
+    <p class="paragraph">结题报告PDF版: <a href="../../{{code_number}}_sRNA_report.pdf" title="点击打开" target="_blank">PDF</a></p>
+    <a name="Novofinder软件使用说明PDF版">
+    <h3 id="note_5">5	Novofinder使用说明</h3>
+    </a>
+    <p class="paragraph">Novofinder使用说明: <a href="../pdf/Novofinder_sRNA_manual.pdf" title="点击打开" target="_blank">PDF</a>
+    </p>
+  </div>
+</div>
+</body>
+</html>

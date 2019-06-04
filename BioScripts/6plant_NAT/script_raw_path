@@ -1,0 +1,14 @@
+[6plant_NAT]
+/PUBLIC/source/RNA/smallRNA/version3/6plant_NAT/NAT_map.pl
+/PUBLIC/source/RNA/smallRNA/version3/6plant_NAT/NAT_predict_map.pl
+/PUBLIC/source/RNA/smallRNA/version3/bin/bwt12collapse.pl
+/PUBLIC/source/RNA/smallRNA/version3/bin/genebwt12count.pl
+/PUBLIC/source/RNA/smallRNA/version3/6plant_NAT/bin/gtf_to_gff.pl
+/PUBLIC/source/RNA/smallRNA/version3/6plant_NAT/bin/gff2seq.pl
+/PUBLIC/source/RNA/smallRNA/version3/6plant_NAT/bin/cis.pl
+/PUBLIC/source/RNA/smallRNA/version3/6plant_NAT/bin/trans.pl
+/PUBLIC/source/RNA/smallRNA/version3/6plant_NAT/bin/NAT_map_fa.pl
+/PUBLIC/source/RNA/smallRNA/version3/6plant_NAT/bin/fasta_id_catch_fasta.pl
+/PUBLIC/source/RNA/smallRNA/version3/bin/bwt12collapse.pl
+/PUBLIC/source/RNA/smallRNA/version3/bin/genebwt12count.pl
+/PUBLIC/source/RNA/smallRNA/version3/bin/paste_col.pl

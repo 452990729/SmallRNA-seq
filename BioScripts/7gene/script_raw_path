@@ -1,0 +1,7 @@
+[7gene]
+/PUBLIC/source/RNA/smallRNA/version3/7gene/gene_map_6_30.pl
+/PUBLIC/source/RNA/smallRNA/version3/7gene/gene_map.pl
+/PUBLIC/source/RNA/smallRNA/version3/7gene/gene_map_hsa.pl
+/PUBLIC/source/RNA/smallRNA/version3/bin/bwt12collapse.pl
+/PUBLIC/source/RNA/smallRNA/version3/bin/genebwt12count.pl
+/PUBLIC/source/RNA/smallRNA/version3/bin/paste_col.pl

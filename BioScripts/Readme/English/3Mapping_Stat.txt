@@ -1,0 +1,23 @@
+Dirction
+
+Mapping to genome
+
+Map the small RNA reads to genome by bowtie to analyze their expression and distribution on the genome.
+
+reference.mapping.stat:	result of mapping £º
+(1)Sample£ºSample id.
+(2)Total sRNA£ºNumber of total sRNAs after the length filter.
+(3)Mapped sRNA£ºNumber of sRNAs mapped to genome and its percentage .
+(4) ¡°+¡± Mapped sRNA£ºNumber of mapped sRNAs in the same direction as the genome and its percentage.
+(5) ¡°-¡± Mapped sRNA£ºNumber of mapped sRNAs in the oppsite direction as the genome and its percentage.
+
+XXX.mapping.stat	statistics of sample XXX mapping to genome.
+Note£º
+(1)Statu£º¡°Total small RNA¡± representing clean reads after length distribution£¬¡°Total Mapped small RNA¡± representing mapped reads£¬¡°Total Sense Mapped small RNA¡±representing reads mapped to sense strand£¬¡°Total Antisense Mapped small RNA ¡± representing reads mapped to antisense strand.
+(2)Total reads¡ª¡ªTotal number of reads after length filter.
+(3)Total bases (bp)¡ª¡ªall reads bases.
+(4)Uniq reads¡ª¡ªunique reads.
+(5)Uniq bases (bp)¡ª¡ªuniq reads bases.
+
+XXX.circos.png		the distribution of reads of sample XXX on each chromosome(png)(showing 10 chromosomes)
+XXX.circos.svg		the distribution of reads of sample XXX on each chromosome(svg)(showing 10 chromosomes)

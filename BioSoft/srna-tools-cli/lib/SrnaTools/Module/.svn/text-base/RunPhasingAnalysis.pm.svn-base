@@ -1,0 +1,43 @@
+#####################################################################
+#
+# This is a module of the sRNA tool kit.
+# It runs the ta-siRNA analysis
+# TODO This class has been converted from a standalone script and might
+# still need some cleanup (e.g. passing of parameters)
+#####################################################################
+
+package SrnaTools::Module::RunPhasingAnalysis ;
+use base SrnaTools::Module ;
+use strict;
+use warnings;
+
+
+
+sub run{
+my $self = shift ;
+
+my $input_file = $self->param('pat_out_file');
+my $genome_file = $self->param('genome');
+my $pval = $self->param('pval');
+my $min_abundance = $self->param('abundance');
+
+# update status on server
+$self->update_status("running phasing analysis") ;
+
+if (! -r $input_file){
+  SrnaTools::Exception::ModuleExecution->throw(message=>"Could not read genome matches file",log_msg=>"file:$input_file");
+}
+$self->job->_run_module(
+  'phasing',{
+    input_file  => $input_file,
+    genome_file => $genome_file,
+    pval        => $pval,
+    min_abundance => $min_abundance,
+  }
+);
+
+return 1;
+}
+
+
+1;

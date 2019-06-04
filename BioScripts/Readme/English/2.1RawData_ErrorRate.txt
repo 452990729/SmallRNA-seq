@@ -1,0 +1,17 @@
+Sequencing error checking
+
+The relationship between sequencing error rate (E) and sequencing quality (sQ) is the formula£ºQphred¡¡=¡¡-10log10(e)
+
+Illumina Casava 1.8 version Phred quality scores Q were logarithmically linked to base-calling error e£º
+	Phred			Error Rate			Right Rate		Q-sorce
+	10			1/10				90%			Q10
+	20			1/100				99%			Q20
+	30			1/1000				99.9%			Q30
+	40			1/10000				99.99%			Q40
+
+
+===========================================================================================================================
+
+
+XXX_error_rate_distribution.png	:the error rate distribution of sample XXX .
+The X axis is the base position of the reads,y axis is the error rate of base.

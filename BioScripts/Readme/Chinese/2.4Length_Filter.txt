@@ -1,0 +1,15 @@
+sRNA长度筛选
+
+对各样品的clean reads，筛选一定长度范围内的sRNA来进行后续分析。（sRNA）的种类（用uniq表示）及数量（用total表示），并对小RNA做长度分布统计。一般来说，小RNA的长度区间为18~40nt，长度分布的峰能帮助我们判断小RNA的种类，如miRNA集中在21~22nt，siRNA集中在24nt等。
+===========================================================================================================================
+total_uniq.xls				经长度筛选后所得sRNA种类和数量情况统计表
+注：
+(1) Sample：样品id。
+(2) Total reads：sRNA的总数。
+(3) Total bases (bp)：sRNA的总长度。
+(4) Uniq reads：clean sRNA的种类。
+(5) Uniq bases (bp)：各种sRNA的总长度。
+
+XXX_seq_len_distribution.png	样品XXX所得sRNA片段的长度分布统计，png格式（位图）
+XXX_seq_len_distribution.pdf	样品XXX所得sRNA片段的长度分布统计，pdf格式（矢量图）
+XXX_seq_len_distribution.txt	样品XXX所得sRNA片段的长度分布统计数据，txt格式 

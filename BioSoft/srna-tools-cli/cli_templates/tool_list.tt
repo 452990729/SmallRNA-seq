@@ -1,0 +1,11 @@
+[% INCLUDE 'header.tt' %]
+
+++++++ The following tools are available to use ++++++++++++
+[% FILTER max_width_text %]
+[% FOREACH tool IN tool_list %]
+[% tool.display_name %]
+[% tool.description %]
+-> to run a job use: --tool [% tool.cmd_name %] [OPTIONS]
+
+[% END %]
+[% END %]

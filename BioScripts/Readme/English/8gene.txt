@@ -1,0 +1,16 @@
+Direction
+Exon and intron alignment
+
+Align small RNA reads to exons and introns of mRNA to find the degraded fragments of mRNA in the small RNA reads.
+
+****************************************************************************
+exon.map.fas	reads mapped to gene exon
+intron.map.fas	reads mapped to gene intron
+gene.map.fas	reads mapped to gene exon and intron
+Note£º
+(1)Lines starting with ">": Behind ">" is id, the first three character is sample name,next is "_",then is the id of this reads in each sample,next is also "_",at last is x and the frequency of this read.
+(2)Read£ºSequencing reads.
+****************************************************************************
+
+rc.stat		statistics of total reads mapped to gene exon and intron
+uc.stat		statistics of unique reads mapped to gene exon and intron

@@ -1,0 +1,21 @@
+miRNA靶基因预测
+对分析得到的已知、novel miRNA进行靶基因预测，得到miRNA和靶基因间的对应关系。
+********************************************************************************
+有参动物：
+*.annotate	预测得到的miRNA成熟体对应靶基因的注释信息(四列信息分别是geneID，miRNA，GeneName，注释信息描述)
+commom_target.xls	三种软件靶基因预测结果（1表示软件预测到靶基因，2表示该软件没有预测靶基因）   
+all_target_gene.xls	预测得到的miRNA成熟体与靶基因序列等具体信息的文件(三列分别是miRNA和target transcript、target gene的id)
+
+********************************************************************************
+无参动物：
+*_targets.pairs	预测得到的miRNA成熟体与靶转录本、靶基因间的对应关系表（三列分别是miRNA和target transcript、target gene的id）
+*.annotate	预测得到的miRNA成熟体对应靶基因的注释信息(geneID,miRNAID,序列长度，注释结果信息描述[3-n])
+*miranda_targets	预测得到的miRNA成熟体与靶基因序列等具体信息的文件(miRNAID,靶基因ID)
+
+********************************************************************************
+植物：
+*_targets.pairs	预测得到的miRNA成熟体与靶转录本、靶基因间的对应关系表（三列分别是miRNA和target transcript、target gene的id）
+*.annotate	预测得到的miRNA成熟体对应靶基因的注释信息(四列信息分别是geneID，miRNA，GeneName，注释信息描述)
+*_targets.txt	预测得到的miRNA成熟体与靶基因序列等具体信息的文件(miRNA_Acc.[miRNAID],Target_Acc.[靶转录本ID],Expectation[期望值],UPE[非配对能],miRNA_start[miRNA起始位置],miRNA_end[miRNA终止位置],Target_start[靶转录本起始位置],Target_end[靶转录本终止位置],miRNA_aligned_fragment[miRNA比对序列],Target_aligned_fragment[靶转录本比对序列],Inhibition[抑制性],Target_Desc.,Multiplicity[靶位点对的数目])
+
+********************************************************************************

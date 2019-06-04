@@ -1,0 +1,7 @@
+[10.0edit_family]
+/PUBLIC/source/RNA/smallRNA/version3/10.0edit_family/run_edit_family.pl 注:涉及到python的环境变量问题，后期需修改
+/PUBLIC/source/RNA/smallRNA/version3/10.0edit_family/rfam_scan.pl
+/PUBLIC/source/RNA/smallRNA/version3/bin/quantifier_gb.pl
+/PUBLIC/source/RNA/smallRNA/version3/10.0edit_family/bin/miRNA_editing.py
+/PUBLIC/source/RNA/smallRNA/version3/10.0edit_family/bin/miRNA_family.py
+/PUBLIC/source/RNA/smallRNA/version3/10.0edit_family/bin/miRNA_family_show.pl 注:涉及到R的环境变量 2.15.3

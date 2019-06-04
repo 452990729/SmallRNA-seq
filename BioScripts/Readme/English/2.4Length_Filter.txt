@@ -1,0 +1,16 @@
+Direction
+
+
+The input date is clean reads£¬the length distribution analysis is helpful to see the compositions of small RNA sample.For example, miRNA is normally 21nt or 22nt, siRNA is 24nt, and piRNA is between 28nt and 30nt.
+===========================================================================================================================
+total_uniq.xls				the statistics of total and unique reads
+Note£º
+(1) Sample£ºSample id.
+(2) Total reads£ºTotal number of sRNA reads.
+(3) Total bases (bp)£ºTotal reads multiplied the length of the sequence, and converted to the unit of G.
+(4) Uniq reads£ºThe kind of sRNA.
+(5) Uniq bases (bp)£ºUniq reads multiplied the length of the sequence, and converted to the unit of G.
+
+XXX_seq_len_distribution.png	The length distribution of sample (png).
+XXX_seq_len_distribution.pdf	The length distribution of sample (pdf).
+XXX_seq_len_distribution.txt	The length distribution of sample (txt). 

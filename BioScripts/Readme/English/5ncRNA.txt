@@ -1,0 +1,17 @@
+Direction
+ncRNA analysis
+	Annotate the small RNA reads with sequences from Rfam and get rid of matched reads from rRNA¡¢tRNA¡¢snRNA¡¢snoRNA.
+
+****************************************************************************
+rRNA.map.fas	reads mapped to rRNA
+tRNA.map.fas	reads mapped to tRNA
+snRNA.map.fas	reads mapped to snRNA
+snoRNA.map.fas	reads mapped to snoRNA
+ncRNA.map.fas	all the reads mapped to rRNA/tRNA/snRNA/snoRNA
+Note£º
+(1)Lines starting with ">": Behind ">" is id, the first three character is sample name,next is "_",then is the id of this reads in each sample,next is also "_",at last is x and the frequency of this read.
+(2)Read£ºSequencing read.
+****************************************************************************
+Statistics of reads mapped to ncRNA
+rc.stat		Statistics of total reads mapped to ncRNA.
+uc.stat		Statistics of unique reads mapped to ncRNA.

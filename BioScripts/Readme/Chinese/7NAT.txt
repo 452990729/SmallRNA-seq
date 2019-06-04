@@ -1,0 +1,16 @@
+植物nat-siRNA检测
+Natural Antisense Transcripts（NAT）是指可以跟其他转录本互补形成RNA双链的编码或非编码RNA序列。根据它们在基因组上的相对位置不同，NAT可以分为两类：cis-NAT和trans-NAT。cis-NAT是指来自于跟有义链转录本同一个基因组座位不同染色体链的序列；trans-NAT是指跟它的互补序列来自于染色体上的不同位置的转录本。Nat-siRNA目前在植物中研究较多，PlantNATsDB（http://bis.zju.edu.cn/pnatdb/; Chen et al., 2011）是针对60几种动植物的基因组进行NAT预测，而建成的数据库。对于PlantNATsDB数据库中存在的物种，我们直接用数据库中该物种的NAT基因来进行NAT-siRNA的检测，若没有，就采用PlantNATsDB的分析方法来进行NAT基因从头预测，进而再进行NAT-siRNA检测。
+
+****************************************************************************
+cis-NAT.map.fas	比对上cis-NAT的sRNA
+trans-NAT.map.fas	比对上trans-NAT的sRNA
+NAT.map.fas	比对上以上几类NATsnRNA的sRNA
+*.fas结果形式注释：
+(1)以“>”开头的行：“>”后面跟着序列id号。id的前3个字符是“样品名”，接着是“_”分隔符，后面的几个连续的数字，该样品中该序列的序列编号，再接着是“_”分隔符，后面跟着x和数字，数字是该测序样品该序列出现的次数。
+(2)序列：对应上行id号的测序序列信息。
+****************************************************************************
+比对上NAT基因的sRNA分类统计结果
+rc.stat		比对上这2种类型NAT分类的个数统计（注：第1列：Types，指NAT类型；第2到n+1是样本1到n匹配到该种类型NAT的sRNA的个数）
+uc.stat		比对上这2种类型NAT分类的种类统计（注：第1列：Types，指NAT类型；第2到n+1是样本1到n匹配到该种类型NAT的sRNA的种类）
+
+add

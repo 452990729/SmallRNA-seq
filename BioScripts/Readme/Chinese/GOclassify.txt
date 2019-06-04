@@ -1,0 +1,14 @@
+差异miRNA靶基因GO分类分析
+当所有比较组合的差异miRNA靶基因都富集不到任何GO term中时，进行差异miRNA靶基因GO分类分析，即根据靶基因的GO注释，将其根据GO三大分类的子节点（TERM）进行分类。
+=============================================================================================================
+GOclassify	各个比较组合差异miRNA靶基因GO分类分析结果文件夹
+GO_classification_bar.pdf	根据GO注释的分类统计图，png格式（位图）
+GO_classification_bar.png	根据GO注释的分类统计图，pdf格式（矢量图）
+GO_classification_count.txt	根据GO注释的分类统计结果
+GO_classification.xls		GO分类统计图的画图数据
+
+GO_classification.txt【GO分类】表头介绍：
+	GO term			GO节点
+	GO description		GO的描述
+	Ontology		GO的本位，分类
+	Gene number		与该GO相关的基因的数目

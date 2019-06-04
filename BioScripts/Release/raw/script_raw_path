@@ -1,0 +1,12 @@
+[release]
+/PUBLIC/source/RNA/smallRNA/version3/release_sRNA_data_new.pl
+/TJPROJ1/MICRO/liuwenbin/publish/bin/dirCheckSize.pl
+/PUBLIC/source/RNA/smallRNA/version3/sRNA_retain_list.pl
+/PUBLIC/source/RNA/smallRNA/version3/dir_process/make_backup.pl 注:这个脚本不用
+/PUBLIC/source/RNA/smallRNA/version3/dir_process/make_del1.pl   注:这个脚本不是很清楚
+/PUBLIC/source/RNA/smallRNA/version3/dir_process/make_delraw.pl_v2.1   注:这个脚本不存在
+/PUBLIC/source/RNA/smallRNA/version3/dir_process/make_Status.py 注:这个脚本不是很清楚
+/PUBLIC/source/RNA/RefRNA/TransRef/data_release/GO_class.pl
+/PUBLIC/source/RNA/smallRNA/version3/10.2target/bin/targets_pairs.transfer.v3.pl
+/PUBLIC/source/RNA/smallRNA/pipeline/sRNA/tools_script/known_haipin_mature_result.pl
+/PUBLIC/source/RNA/smallRNA/pipeline/sRNA/tools_script/novel_haipin_mature_result.pl

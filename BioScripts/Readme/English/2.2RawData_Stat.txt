@@ -1,0 +1,12 @@
+Direction
+
+RawData_Stat.xls	The QC statistics of each sample
+
+Note£º
+(1)Sample£ºSample id.
+(2)Reads£ºStatistics of the original sequence data.
+(3)Bases£ºSequence multiplied the length of the sequence, and converted to the unit of G.
+(4)Error rate£ºSequencing error rate.
+(5)Q20£ºPhred values greater than 20 base percentage accounted for the overall base.
+(6)Q30£ºPhred values greater than 30 base percentage accounted for the overall base.
+(7)GC content£ºThe G base and C base accounted for the overall base.

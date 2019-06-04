@@ -1,0 +1,31 @@
+Direction
+miRNA differential expression
+
+
+The input data was the readcount value from the miRNA expression level analysis. For the samples with biological replicates,DESeq2 was used to do the analysis: For the samples without biological replicates, TMM was first used to normalize the read count value, and the DEGseq  was used to do the analysis.
+===========================================================================================================================
+
+
+Note£º
+*vs*.Differential_analysis_results.xls	all the miRNA differential expression result
+DEGseq note£º
+(1)First line : miRNA mature id.
+(2)Second line : the readcount values of sample1 after normalized. 
+(3)Third line : the readcount values of sample2 after normalized.
+(4)log2.Fold_change: log2(Sample1/Sample2)¡£
+(5)p.value: the p.value. 
+(6)q.value.Storey.et.al..2003.: pvalue after normalized. The smaller the qvalue is, the more significant the difference is.
+DESeq2 note£º
+(1)sRNA: miRNA mature id.
+(2)Group1£ºthe readcount values of sample1 after normalized. 
+(3)Group2£ºthe readcount values of sample2 after normalized.
+(4)log2FoldChange: log2FoldChange.
+(5)pval: p value.
+(6)padj: pvalue after normalized. The smaller the qvalue is, the more significant the difference is.
+
+*vs*.DE.xls			miRNA differential expression result
+*vs*.DElist.txt			miRNA id of differential expression result
+*vs*.DE_up.xls			the list of up-regulated miRNA
+*vs*.DElist_up.txt		the list of up-regulated 
+*vs*.DE_down.xls		the list of down-regulated
+*vs*.DElist_down.txt		the list of up-regulated miRNA id

@@ -1,0 +1,14 @@
+[% INCLUDE 'header.tt' %]
+
+++++++ Help for tool: [% tool %] ++++++++++++
+
+Tool parameters and options:
+============================
+
+[% FILTER max_width_text %]
+[% FOREACH param IN parameter_list %]
+--[% param.name %] 
+    [% param.desc %]
+    
+[% END %]
+[% END %]

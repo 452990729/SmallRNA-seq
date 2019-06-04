@@ -1,0 +1,8 @@
+
+[5repeat]
+/PUBLIC/source/RNA/smallRNA/version3/5repeat/repeat_map.pl
+/PUBLIC/source/RNA/smallRNA/version3/bin/bwt12collapse.pl
+/PUBLIC/source/RNA/smallRNA/version3/bin/genebwt12count.pl
+/PUBLIC/source/RNA/smallRNA/version3/5repeat/bin/paste_col.pl
+/PUBLIC/source/RNA/smallRNA/version3/5repeat/bin/stat_image_txt.pl
+/PUBLIC/source/RNA/smallRNA/version3/5repeat/bin/image_txt_bar.pl

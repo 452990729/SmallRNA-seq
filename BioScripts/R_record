@@ -1,0 +1,12 @@
+10.0edit_family/miRNA_family_show.pl
+10.1diff_aly/DEGseq.R.v3.pl
+10.1diff_aly/DESeq2_sRNA.v3.pl
+10.1diff_aly/plot_only_venn.pl
+10.1diff_aly/plot.R.v2.pl
+10.1diff_aly/plot_single.R.v2.pl
+10.1diff_aly/samples_coExpression_venn2_replicates.pl
+11Enrichment/go_classification_v3.pl
+11Enrichment/goseq_graph.pl
+11Enrichment/goseq_graph_v3.pl
+1QC/raw2flN.pl
+5repeat/image_txt_bar.pl

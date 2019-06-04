@@ -1,0 +1,20 @@
+与参考序列的比对结果（no mismatch）
+用bowtie将长度筛选后的sRNA定位到参考基因组上，分析small RNA在基因组上的分布情况（后面的sRNA分类是针对这些mapped sRNA）。
+
+reference.mapping.stat	与参考序列的比对信息汇总文件，结果每列含义如下：
+(1)Sample：样品id。
+(2)Total sRNA：经分析2.3“测序数据过滤”得到的各个样本的clean reads。
+(3)Mapped sRNA：该样本clean reads中能mapped到参考序列的reads数及所占百分比。
+(4) “+” Mapped sRNA：该样本clean reads中能mapped到参考序列方向相同链的reads数及所占百分比。
+(5) “-” Mapped sRNA：该样本clean reads中能mapped到参考序列方向相反链的reads数及所占百分比。
+
+XXX.mapping.stat	样品XXX对应的比对到参考序列的reads情况统计文件。
+结果形式说明：
+(1)Statu——分以下4类：“Total small RNA”指“所有的reads”，“Total Mapped small RNA”指“所有比对到参考序列的reads”，“Total Sense Mapped small RNA”指“能比对到参考序列，且与参考方向相同的reads”，“Total Antisense Mapped small RNA”指“能比对到参考序列，但与参考序列方向相反的reads”。
+(2)Total reads——该类型的reads总条数。
+(3)Total bases (bp)——该类型的reads总长度，单位是bp。
+(4)Uniq reads——该类型的种类。
+(5)Uniq bases (bp)——该类型的reads总长度，单位是bp。
+
+XXX.circos.png		样品XXX对应的sRNA在染色体上的密度分布图，png格式（位图）
+XXX.circos.svg		样品XXX对应的sRNA在染色体上的密度分布图，svg格式（可伸缩矢量图，使用主流浏览器打开，使用IE浏览器时请安装svg view插件）

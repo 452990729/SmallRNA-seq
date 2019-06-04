@@ -1,0 +1,30 @@
+Example_data
+RawData
+CleanData
+QualityControl
+RawData_ErrorRate
+RawData_Stat
+ReadsClassification
+Length_Filter
+Common-Specific_sRNA
+Mapping_Stat
+Known_miRNA
+ncRNA	tRNA\rRNA\snRNA\snoRNA
+Repeats	repeat
+NAT	NAT-siRNA
+gene	gene
+Novel_miRNA
+TAS	TAS-siRNA
+Category
+miRNA_editing	miRNA
+miRNA_family	miRNA
+DiffExprAnalysis
+miRNAExp
+miRNAExpdensity
+CorAnalysis
+DiffExprAnalysis
+DEsFilter
+DEcluster
+DEvenn
+miRNA_target
+Enrichment

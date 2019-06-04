@@ -1,0 +1,55 @@
+******gene.description.xls******  The description of genes
+	Gene ID£ºThe gene id
+	Associated Gene Name: The gene name
+	Interpro Description: The description of genes
+
+******gene.goannot.xls******     The GO annotation of genes, GO vocabulary is a controlled vocabulary used to classify the following functional attributes of gene products: Biological Process (BP), Molecular Function (MF) and Cellular Component (CC), for the GO enrichment analysis of different expression miRNA targets
+	Gene_ID: The gene id.
+	biological_process: the annotated biological process GO term of this gene.
+	biological_process_description: the annotated biological process GO description of this gene.
+	cellular_component: the annotated cellular component GO term of this gene.
+	cellular_component_description: the annotated cellular component GO description of this gene.
+	molecular_function: the annotated molecular function GO term of this gene.
+	molecular_function_description: the annotated molecular function GO description of this gene.
+
+******mature.fa****** The sequences of known and novel miRNA
+	>ath-miR2111a-5p        : Behind ">" is miRNA id
+	UAAUCUGCAUCCUGAGGUUUA   : Sequencing read.
+
+******hairpin.fa******  The hairpin sequences of known miRNAs and novel miRNA.
+	>ath-MIR2111a           : Behind ">" is hairpin id of known miRNAs.
+	GAUGAUGAGUAUUGGUGAGGACCGGGÿ : Sequencing read.
+
+******meanscount.txt******  Readcount values of known miRNAs in each sample.
+	First column : miRNA id.
+	the others are the readcount of known miRNAs in each sample.
+
+******meanstpm.txt******  TPM values of known miRNAs in each sample
+	First column : miRNA id
+	the others are the TPM values of known miRNAs in each sample	
+
+******targets.pairs.allcom****** miRNAs  id and their targets id corresponding relationship, but also contains gene id and their miRNA id corresponding relationship.£¨split by ¡®,¡¯£©
+	First column : miRNA id or gene id
+	the others are miRNA or targets corresponding to the first column.£¨split by ¡®,¡¯£©
+
+******targets.pairs.alltab****** miRNAs  id and their targets id corresponding relationship, but also contains gene id and their miRNA id corresponding relationship.£¨split by ¡®tab¡¯£©
+	First column : miRNA id or gene id
+	the others are miRNA or targets corresponding to the first column.£¨split by ¡®tab¡¯£©
+
+******known_hairpin_mature.xls******
+	precursor_id: the hairpin id of known miRNAs.
+	precursor_seq: the hairpin sequences of known miRNAs.
+	mfe: free energy of hairpin (just for novel miRNA)
+	position: the location of hairpin on the reference genome£¨chromosome id: start position..end position : positive or negative chain£©(just for novel miRNA)
+	mature_id: mature miRNAs id of hairpin.
+	mature_seq: the sequences of mature miRNAs.
+	the others are the readcount of mature miRNAs in each sample.
+
+******novel_hairpin_mature.xls******
+	novel miRNA information, the header is the same as known_hairpin_mature.xls
+	
+
+
+
+
+

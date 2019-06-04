@@ -1,0 +1,11 @@
+单比较组维恩图
+
+当只有单个比较组时，筛选比较组中每个sample表达的基因，对其进行统计汇总，画成维恩图，从而直观展
+现出各个差异的表达基因数目，及共有的表达基因数目。
+
+结果文件展示：
+        1.sample1_sample2                                       维恩图作图子目录
+        1.1sample1_sample2.DEG_Venn_diagram.png         sample1，sample2共同表达基因维恩图（位图）
+        1.2sample1_sample2.DEG_Venn_diagram.pdf         sample1，sample2共同表达基因维恩图（矢量图）
+        1.3sample1-no-sample2-yes.txt                        表示在“sample2”中是独立表达的基因集，其他文件依类推。
+        1.4 all.txt                                                             所有venn图中的表达的基因id

@@ -1,0 +1,30 @@
+测序数据过滤：
+[1]内容简介：
+	测序得到的raw reads，里面含有带接头的、低质量的reads，为了保证信息分析的质量，必须对raw reads进行处理，得到干净的序列clean reads，后续分析都基于clean reads。
+	数据处理的步骤如下：
+	(1) 去除低质量 reads（质量值 sQ <= 5 的碱基数占整个 read 的 50％以上的 reads）；
+	(2) 去除 N（N 表示无法确定碱基信息）的比例大于 10%的 reads；
+	(3) 去除有5’接头污染的reads；
+	(4) 去除没有3’接头序列和插入片段的reads；
+	(5) trim掉3’接头序列；
+	(6) 去除polyA/T/G/C的reads（大部分连续的polyA/T/G/C，可能来源于测序错误，且信息熵低，可以不做分析）。
+
+	Small RNA测序的接头（Adapter，Oligonucleotide sequences for NEB Small RNA Sample Prep Kit）信息：
+	RNA 5’ Adapter (RA5) 
+	5’ GTTCAGAGTTCTACAGTCCGACGATC
+	RNA 3’ Adapter (RA3) 
+	5’ AAGATCGGAAGAGCACACGTCT-NH2
+
+===========================================================================================================================
+	
+[2]结果说明：
+clean_process_overview.xls			样品XXX对应的测序数据过滤过程统计文件
+注：
+(1) Sample：样品id。
+(2) total_reads：统计原始序列数据条数。
+(3) N% > 10%：因 N含量超过10%，过滤掉的reads数及其占总raw reads数的比例。
+(4) low quality：因低质量，过滤掉的reads数及其占总raw reads数的比例。
+(5) 5_adapter_contamine：因含有5’接头，过滤掉的reads数及其占总raw reads数的比例。
+(6) 3_adapter_null or insert_null：因没有3’接头或没有插入片段，过滤掉的reads数及其占总raw reads数的比例。
+(7) with ployA/T/G/C：因含有ployA/T/G/C，过滤掉的reads数及其占总raw reads数的比例。
+(8) clean reads：最终得到的clean reads数及其占总raw reads数的比例。

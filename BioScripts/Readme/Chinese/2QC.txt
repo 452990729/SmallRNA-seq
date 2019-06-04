@@ -1,0 +1,6 @@
+2 测序数据质量评估：
+2.1RawData_ErrorRate		2.1 测序错误率分布检查
+2.2RawData_Stat			2.2 原始测序数据质量情况汇总
+2.3ReadsClassification		2.3 测序数据过滤
+2.4Length_Filter		2.4 sRNA长度筛选
+2.5Common-Specific_sRNA.txt	2.5 公共及特有序列分析

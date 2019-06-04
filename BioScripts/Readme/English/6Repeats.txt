@@ -1,0 +1,17 @@
+Direction
+Repeat associated RNA
+
+****************************************************************************
+repeat.map.fas	reads mapped to repeat region.
+Note£º
+(1)Lines starting with ">": Behind ">" is id, the first three character is sample name,next is "_",then is the id of this reads in each sample,next is also "_",at last is x and the frequency of this read.
+(2)Read£ºSequencing read.
+****************************************************************************
+The statistics of reads mapped to repeat region.("+" mapped to sense strand,"-" mapped to antisense strand)
+
+rc.stat		statistics of total reads mapped to repeat region.
+rc.stat_XXX_bar.png	the bar chart of rc.stat(png).
+rc.stat_XXX_bar.pdf	the bar chart of rc.stat(pdf).
+uc.stat		statistics of unique reads mapped to repeat region.
+uc.stat_XXX_bar.png	the bar chart of uc.stat(png).
+uc.stat_XXX_bar.pdf	the bar chart of uc.stat(pdf).

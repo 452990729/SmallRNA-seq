@@ -1,0 +1,35 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312" />
+<meta NAME="Author" CONTENT="guoyang@novogene.cn" /> 
+<meta NAME="Version" CONTENT="20130301v1.0" /> 
+<title>KEGG Pathway Annotation</title>
+<link href="src/base.css" type="text/css" rel="stylesheet">
+</head>
+
+<body>
+<div>
+<p><a name="home"><img class="normal" src="src/logo.png" /></a></p>
+</div><br />
+<h1>KEGG Pathway Annotation</h1>
+
+
+<table class="gy">
+<tr>
+<th>Pathway</th>
+<th>Pathway ID</th>
+<th>KO</th>
+<th>KO Definition</th>
+<th>UniGene</th>
+</tr>
+
+{% for each in terms %}
+	<tr>
+	<td><a href={{each.0}} target=_blank>{{each.1}}</a></td><td>{{each.2}}</td><td>{{each.3|safe}}</td><td>{{each.4|safe}}</td><td>{{each.5|safe}}</td>
+	</tr>
+{% endfor %}
+
+</table>
+</body>
+</html>

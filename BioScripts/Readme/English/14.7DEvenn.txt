@@ -1,0 +1,18 @@
+Direction
+
+Difference expression miRNA Venn diagram
+ 
+When the number of combinations is greater than or equal to 2 and less than 5，statistics the number of difference expression miRNA in groups and draw a Venn diagram
+
+===========================================================================================================================
+
+Note：
+venn.txt	venn diagram comparing group
+group1vsgroup2_group3vsgroup4	the file of venn diagram comparing group
+...		...
+	*.venn.pdf		venn diagram(pdf)
+	*.venn.png		venn diagram(png)
+	group1vsgroup2.venn.xls  the different expression miRNA only in group1 and group2
+	group1vsgroup2_group3vsgroup4.venn.xls the different expression miRNA only in group1、group2、group3、group4
+	.....  .....
+	

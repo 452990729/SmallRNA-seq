@@ -1,0 +1,20 @@
+[% INCLUDE 'header.tt' %]
+There are two major modes:
+  submit job:      Select a tool to run and set the parameters.
+                   The job will be run according to the configugation,
+                   i.e. either instantly or by sending it to a job
+                   queue. Usage:
+				   --tool TOOL_NAME [--help] [TOOL_PARAMETERS]
+
+  run batch job:   This is normally not used directly. It runs a 
+                   prepared job in batch mode. Usage:
+				   --run_batch_mode JOB_DIRECTORY
+
+Other modes:
+  --update_mirbase    Downloads and installs the latest version of miRBASE
+
+Common options:
+  --help              Show a help message
+  --tools             List of tools according to config file
+  --out|outdir        Path of directory where results should be written (required)
+

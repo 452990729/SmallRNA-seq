@@ -1,0 +1,145 @@
+#####################################################################
+#
+# This is a module of the sRNA tool kit
+# It checks uploaded files and uncompresses them if neccessary,
+# trying gunzip and unzip
+# Check user uploaded input files and take on of htese actions:
+# - simply rename from .raw to .uncompressed if file is plain text
+# - uncompress with unzip if file is in zip format
+# -uncompress with gunzip if in gzip format
+# gunzip can also handle zip but not if there is more than one
+# file in the archive, so zip is checked first and if there are 
+# several files just write them into a single output.
+#
+#####################################################################
+
+package SrnaTools::Module::UncompressInfiles ;
+use base SrnaTools::Module ;
+use strict;
+use warnings;
+
+sub run{
+  my $self = shift ;
+
+#############################
+# Declarations
+#############################
+my $module_name = "Uncompression of files" ; # for error log
+
+my $working_dir = $self->job->job_working_dir; 
+my $data_dir ;
+my $error_file ;
+
+#############################
+# Check parameters and files
+#############################
+
+eval {
+  die " missing working directory parameter\n" unless $working_dir ;
+  $error_file = $working_dir.'/errors' ;
+  $data_dir = $working_dir.'/data/' ;
+  die " could not find/read working directory\n" unless -d $working_dir ;
+  die " data directory not found in working directory\n" unless -d $data_dir ;
+  
+  SrnaTools::Exception::ModuleExecution->throw("unzip bin file not accessible or not executable") unless $self->binary_in_path('unzip');
+  SrnaTools::Exception::ModuleExecution->throw("gunzip bin file not accessible or not executable") unless $self->binary_in_path('gunzip');
+  
+} ;
+if ($@) {
+ SrnaTools::Exception::ModuleExecution->throw("$module_name: error in parameters: $@") ;
+}
+
+# update status on server
+$self->update_status("$module_name: pre-processing_input_files") ;
+
+
+#############################
+# Uncompress all files with 
+# .raw suffix in 
+# data subdirectory
+# extension. Save uncompressed
+# file with same name but  
+# replace .raw with .uncompressed
+# The method can handle zip and gzip
+# and detects the format
+# automaticaly. Files that were
+# not compressed are not changed
+# except that they are renamed to
+# .uncompressed too.
+#############################
+
+eval{
+   opendir(DIR, $data_dir) || die "can't open data directory\n";
+   
+   while (defined(my $file = readdir(DIR))) {
+    next unless $file=~/\.raw$/ ; # "raw" is the suffix of the input files
+    my $infile = $data_dir.'/'.$file ;
+    my $outfile = $infile ;
+    $outfile =~s/\.raw/.uncompressed/ ; # replace .raw with .uncomprssed in output file
+    
+    # Replace the file with uncompressed version
+    # If the file is plain text then just change the
+    # filname from .raw to .uncompressed
+    $self->uncompress_file($infile, $outfile) or die "Could not auto-detect file format for $file. Please make sure you only upload plain text, zip or gzip files. If you are using Word or Excel, please make sure you save as a plain text (.txt or .csv) file. Please contact us if you are using one of these formats and you are getting this error message.\n";
+  }
+    
+};
+if ($@) {
+ SrnaTools::Exception::ModuleExecution->throw("$module_name, error while uncompressing files: $@") ;
+}
+
+return 1;
+
+} # run 
+
+
+
+#############################
+# Uncompress file with 
+# The method can handle zip and gzip
+# and detects the format
+# automaticaly. Files that were
+# not compressed are not modifed
+# but are renamed.
+#############################
+sub uncompress_file{
+  my $self = shift ;
+  my $infile = shift ;
+  my $outfile = shift ;
+  
+  my ($suffix) = ($infile=~/\.(\w+)$/) ;
+  
+  # test if file is plain text
+  # -> just rename it
+  if (-T $infile) {
+    system("mv $infile $outfile")==0 or die "Problem renaming file\n" ;
+    return 1 ;
+  }
+  
+  # file is not plain text
+  # test for zip format first
+  # then for gzip (gzip can also
+  # handle zip but not if the archive
+  # contains multiple files).
+  # Use -t (test) switch in both
+  # cases to determine file format
+  if (system("unzip -t $infile > /dev/null 2>&1") == 0) {
+    system("unzip -qq -p $infile > $outfile")==0 or die "unzip failed\n" ;
+    system("rm -f $infile") ; # delete compressed file
+    return 1 ;
+  
+  } elsif (system("gunzip -S $suffix -t $infile > /dev/null 2>&1") == 0) {
+    system("gunzip -S $suffix -c $infile > $outfile") == 0 or die "gunzip failed\n" ;
+    system("rm -f $infile") ; # delete compressed file
+    return 1;
+  } 
+    
+  # Format could not be determined
+  return 0 ;
+} # uncompress_file
+
+
+
+# DO NOT DELETE
+1;
+

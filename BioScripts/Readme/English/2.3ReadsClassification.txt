@@ -1,0 +1,30 @@
+Direction
+
+[1]Data cleaning£º
+	The impurities of raw data are 5' primer contaminants,no insert tags,oversized insertion,low quality reads,poly A tags and small tags.We will get rid of some contaminant reads from the fq file and get the final clean reads.
+	The data is processed by the following steps£º
+	(1) Getting rid of reads with sQ <= 5 base percentage > 50% .
+	(2) Getting rid of reads containing N > 10%.
+	(3) Getting rid of reads with 5' primer contaminants.
+	(4) Getting rid of reads without 3' primer and reads without the insert tag.
+	(5) trim 3'primer sequence.
+	(6) Getting rid of reads with polyA/T/G/C.
+
+	Small RNA sequencing adapter£¨Adapter£¬Oligonucleotide sequences for NEB Small RNA Sample Prep Kit£©£º
+	RNA 5¡¯ Adapter (RA5) 
+	5¡¯ GTTCAGAGTTCTACAGTCCGACGATC
+	RNA 3¡¯ Adapter (RA3) 
+	5¡¯ AAGATCGGAAGAGCACACGTCT-NH2
+
+===========================================================================================================================
+	
+[2] clean_process_overview.xls			The data cleaning statistics of each sample 
+Note£º
+(1) Sample£ºSample id.
+(2) total_reads£ºTotal sequenced reads.
+(3) N% > 10%£ºPercentage of reads with N > 10%.
+(4) low quality£ºPercentage of low quality reads.
+(5) 5_adapter_contamine£ºPercentage of reads with 5'adapter contamine.
+(6) 3_adapter_null or insert_null£ºPercentage of reads with 3'adapter null or insert null.
+(7) with ployA/T/G/C£ºPercentage of reads with ployA/T/G/C.
+(8) clean reads£ºTotal clean reads and its percentage accounted for raw reads.

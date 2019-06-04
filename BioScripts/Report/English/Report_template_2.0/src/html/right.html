@@ -1,0 +1,1668 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN">
+<html>
+<head>
+<title>Novegene small RNA Analysis Report</title>
+<META NAME="Author" CONTENT="wangjiajia@novogene.cn">
+<META NAME="Author" CONTENT="qiufujun@novogene.cn">
+<META NAME="Author" CONTENT="jinchuan@novogene.cn">
+<META NAME="Version" CONTENT="20150324v1.0">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<link rel="stylesheet" type="text/css" href="../css/base_new.css">
+<link rel="StyleSheet" href="../js/tree/tree.css" type="text/css">
+<link rel="stylesheet" type="text/css" href="../js/fancybox/jquery.fancybox-1.3.4.css" media="screen" />
+<link rel="stylesheet" href="../css/style.css" />
+<link href="../css/print_style.css" rel="stylesheet" type="text/css" media="print" />
+<script src="../js/jquery-1.4.2.min.js" type="text/javascript"></script>
+<script src="../js/scrollTop.js" type="text/javascript"></script>
+<script src="../js/common.js" type="text/javascript"></script>
+<script src="../js/jquery.albumSlider.min.js" type="text/javascript"></script>
+<script type="text/javascript" src="../js/tree/tree.js"></script>
+<script type="text/javascript" src="../js/fancybox/jquery.mousewheel-3.0.4.pack.js"></script>
+<script type="text/javascript" src="../js/fancybox/jquery.fancybox-1.3.4.pack.js"></script>
+<style media="print">
+.noprint {
+	DISPLAY: none;
+}
+</style>
+<script>
+$(window).scroll(function() {
+	var re = /arrow_down.png/g; 
+	var initoffset_1_1 = $('#1_1').offset();
+	var currenttop_1_1 = $(window).scrollTop()+20;
+	if (currenttop_1_1 > initoffset_1_1.top) {
+		if($("#library_1").html().match(re)){
+			$("#library_1").html($("#library_1").html().replace("arrow_down.png","arrow_up.png"))
+			$("#library_1").parent().next().fadeIn("2500")
+		}
+		$(".lanmu-list a").removeClass("current")
+		$("#library_seq_1").addClass("current");
+	}
+	var initoffset_1_2 = $('#1_2').offset();
+	var currenttop_1_2 = $(window).scrollTop()+20;
+	if (currenttop_1_2 > initoffset_1_2.top) {
+		$(".lanmu-list a").removeClass("current")
+		$("#library_seq_2").addClass("current");
+	}
+	var initoffset_1_3 = $('#1_3').offset();
+	var currenttop_1_3 = $(window).scrollTop()+20;
+	if (currenttop_1_3 > initoffset_1_3.top) {
+		$(".lanmu-list a").removeClass("current")
+		$("#library_seq_3").addClass("current");
+	}
+	var initoffset_1_4 = $('#1_4').offset();
+	var currenttop_1_4 = $(window).scrollTop()+20;
+	if (currenttop_1_4 > initoffset_1_4.top) {
+		$(".lanmu-list a").removeClass("current")
+		$("#library_seq_4").addClass("current");
+	}
+	var initoffset_2 = $('#pipline').offset();
+	var currenttop_2 = $(window).scrollTop()+100;
+	if (currenttop_2 > initoffset_2.top) {
+		$(".lanmu-list a").removeClass("current")
+		$("#analyses_pip").addClass("current");
+	}
+	
+	var initoffset_3_1 = $('#'+{{html_raw_order}}).offset();
+	var currenttop_3_1 = $(window).scrollTop()+100;
+	if (currenttop_3_1 > initoffset_3_1.top) {
+		if($("#result_3").html().match(re)){
+			$("#result_3").html($("#result_3").html().replace("arrow_down.png","arrow_up.png"))
+			$("#result_3").parent().next().fadeIn("2500")
+		}
+		$(".lanmu-list a").removeClass("current")
+		$("#result_rawdata").addClass("current");
+	}
+	var initoffset_3_2 = $('#'+{{html_qc_order}}).offset();
+	var currenttop_3_2 = $(window).scrollTop()+100;
+	if (currenttop_3_2 > initoffset_3_2.top) {
+		$(".lanmu-list a").removeClass("current")
+		$("#result_data_quality").addClass("current");
+	}	
+	var initoffset_3_3 = $('#'+{{html_map_order}}).offset();
+	var currenttop_3_3 = $(window).scrollTop()+120;
+	if (currenttop_3_3 > initoffset_3_3.top) {
+		$(".lanmu-list a").removeClass("current")
+		$("#result_ref_compare").addClass("current");
+	}	
+	var initoffset_3_4 = $('#'+{{html_known_order}}).offset();
+	var currenttop_3_4 = $(window).scrollTop()+100;
+	if (currenttop_3_4 > initoffset_3_4.top) {
+		$(".lanmu-list a").removeClass("current")
+		$("#result_known_miRNA").addClass("current");
+	} 
+	var initoffset_3_5 = $('#'+{{html_ncRNA_order}}).offset();
+	var currenttop_3_5 = $(window).scrollTop()+100;
+	if (currenttop_3_5 > initoffset_3_5.top) {
+		$(".lanmu-list a").removeClass("current")
+		$("#result_ncRNA").addClass("current");
+	} 
+	{% if flag_repAna %}
+	var initoffset_3_6 = $('#'+{{html_repAna_order}}).offset();
+	var currenttop_3_6 = $(window).scrollTop()+100;
+	if (currenttop_3_6 > initoffset_3_6.top) {
+		$(".lanmu-list a").removeClass("current")
+		$("#result_repeat_seq").addClass("current");
+	} 
+	{% endif %}
+	{% if flag_NAT %}
+	var initoffset_3_7 = $('#'+{{html_NAT_order}}).offset();
+	var currenttop_3_7 = $(window).scrollTop()+100;
+	if (currenttop_3_7 > initoffset_3_7.top) {
+		$(".lanmu-list a").removeClass("current")
+		$("#result_nat_siRNA").addClass("current");
+	} 
+	{% endif %}
+	{% if flag_gene %}
+	var initoffset_3_7 = $('#'+{{html_gene_order}}).offset();
+	var currenttop_3_7 = $(window).scrollTop()+100;
+	if (currenttop_3_7 > initoffset_3_7.top) {
+		$(".lanmu-list a").removeClass("current")
+		$("#result_exon_intron").addClass("current");
+	} 
+	{% endif %}
+	var initoffset_3_8 = $('#'+{{html_novel_order}}).offset();
+	var currenttop_3_8 = $(window).scrollTop()+100;
+	if (currenttop_3_8 > initoffset_3_8.top) {
+		$(".lanmu-list a").removeClass("current")
+		$("#result_new_miRNA").addClass("current");
+	} 
+	{% if flag_TAS %}
+	var initoffset_3_9 = $('#'+{{html_TAS_order}}).offset();
+	var currenttop_3_9 = $(window).scrollTop()+100;
+	if (currenttop_3_9 > initoffset_3_9.top) {
+		$(".lanmu-list a").removeClass("current")
+		$("#result_ta_siRNA").addClass("current");
+	} 
+	{% endif %}
+	var initoffset_3_10 = $('#'+{{html_category_order}}).offset();
+	var currenttop_3_10 = $(window).scrollTop()+100;
+	if (currenttop_3_10 > initoffset_3_10.top) {
+		$(".lanmu-list a").removeClass("current")
+		$("#result_calssfication").addClass("current");
+	}
+	{% if flag_edit %}
+	var initoffset_3_11 = $('#'+{{html_edit_order}}).offset();
+	var currenttop_3_11 = $(window).scrollTop()+100;
+	if (currenttop_3_11 > initoffset_3_11.top) {
+		$(".lanmu-list a").removeClass("current")
+		$("#result_base_edit").addClass("current");
+	}
+	{% endif %}
+	{% if flag_family %}
+	var initoffset_3_12 = $('#'+{{html_family_order}}).offset();
+	var currenttop_3_12 = $(window).scrollTop()+100;
+	if (currenttop_3_12 > initoffset_3_12.top) {
+		$(".lanmu-list a").removeClass("current")
+		$("#result_family_analysis").addClass("current");
+	}
+	{% endif %}
+	
+	{% if flag_diff %}
+	var initoffset_3_13 = $('#'+{{html_diff_order}}).offset();
+	var currenttop_3_13 = $(window).scrollTop()+100;
+	if (currenttop_3_13 > initoffset_3_13.top) {
+		$(".lanmu-list a").removeClass("current")
+		$("#result_exp").addClass("current");
+	}
+	{% endif %}
+	
+	{% if flag_target %}
+	var initoffset_3_14 = $('#'+{{html_target_order}}).offset();
+	var currenttop_3_14 = $(window).scrollTop()+100;
+	if (currenttop_3_14 > initoffset_3_14.top) {
+		$(".lanmu-list a").removeClass("current")
+		$("#result_target").addClass("current");
+	}
+	{% endif %}
+	
+	{% if flag_enrich %}
+	var initoffset_3_15 = $('#'+{{html_enrich_order}}).offset();
+	var currenttop_3_15 = $(window).scrollTop()+100;
+	if (currenttop_3_15 > initoffset_3_15.top) {
+		$(".lanmu-list a").removeClass("current")
+		$("#result_enrich").addClass("current");
+	}
+	{% endif %}
+	var initoffset_4 = $('#reference_html').offset();
+	var currenttop_4 = $(window).scrollTop()+100;
+	if (currenttop_4 > initoffset_4.top) {
+		$(".lanmu-list a").removeClass("current")
+		$("#reference").addClass("current");
+	}
+	var initoffset_5_1 = $('#note_1').offset();
+	var currenttop_5_1 = $(window).scrollTop()+100;
+	if (currenttop_5_1 > initoffset_5_1.top) {
+		if($("#note").html().match(re)){
+			$("#note").html($("#note").html().replace("arrow_down.png","arrow_up.png"))
+			$("#note").parent().next().fadeIn("2500")
+		}
+		$(".lanmu-list a").removeClass("current")
+		$("#note_file_list").addClass("current");
+	}
+	var initoffset_5_2 = $('#note_2').offset();
+	var currenttop_5_2 = $(window).scrollTop()+140;
+	if (currenttop_5_2 > initoffset_5_2.top) {
+		$(".lanmu-list a").removeClass("current")
+		$("#note_soft_list").addClass("current");
+	}
+	var initoffset_5_3 = $('#note_3').offset();
+	var currenttop_5_3 = $(window).scrollTop()+20;
+	if (currenttop_5_3 > initoffset_5_3.top) {
+		$(".lanmu-list a").removeClass("current")
+		$("#note_methon_en").addClass("current");
+	}
+	var initoffset_5_4 = $('#note_4').offset();
+	var currenttop_5_4 = $(window).scrollTop()+20;
+	if (currenttop_5_4 > initoffset_5_4.top) {
+		$(".lanmu-list a").removeClass("current")
+		$("#note_novofinder").addClass("current");
+	}
+});
+</script>
+<script type="text/javascript">
+    $(function(){
+        $(window).scroll(function(){
+			var initoffset_snp = $('#'+{{html_novel_order}}).offset();
+			var currenttop_snp = $(window).scrollTop()+100;
+			if (currenttop_snp > initoffset_snp.top) {
+				var topScroll=$("#left")[0].scrollHeight;
+				var divheight=$("#left").height();
+				var stop=topScroll-divheight;
+				$("#left").scrollTop(stop);
+			}else{
+				$("#left").scrollTop(0);
+			}
+        })
+    })
+</script>
+</head>
+<body>
+<div class="noprint">
+  <div style="display: block;" id="goTopBtn"><a class="backtotop" title="回顶部"><img src="../images/goTop.jpg" width="30" height="30" class="back-tip"/></a></div>
+</div>
+<div id="menu" class="noprint">
+  <div class="mulu">
+    <center>
+      <a href="javascript:void(0);" id="zhankai"><b>Pack up the directory</b></a><a href="javascript:void(0);" id="kaiguan"><b>【CLOSE】</b></a>
+    </center>
+  </div>
+  <div id="left">
+    <div class="title" > <a href="javascript:void(0)" class="shouqi" id="library_1">&nbsp;<sapn>Ⅰ Library Prepar... </span>&nbsp;<img src="../images/arrow_up.png" style="display:none" class="arrow"/></a></div>
+   <!-- <div class="lanmu-content" style="display:block">
+       <dl class="lanmu-list">
+       <dd><a href="#Total RNA样品检测" id="library_seq_1">Total RNA样品检测</a></dd>
+		<dd><a href="#文库构建" id="library_seq_2">文库构建</a></dd>
+		<dd><a href="#库检" id="library_seq_3">库检</a></dd>
+		<dd><a href="#上机测序" id="library_seq_4">上机测序</a></dd>
+      </dl>
+    </div> -->
+    <div class="title"><a href="#生物信息分析流程" class="shouqi" id="analyses_2">&nbsp;<sapn>Ⅱ Data analysis process</span>&nbsp;<img src="../images/arrow_right.png" style="display:none; margin-top:5px" class="arrow"/></a></div>
+    <span></span>
+    
+    <div class="title"><a href="javascript:void(0)" class="shouqi" id="result_3">&nbsp;<sapn>Ⅲ Result</span>&nbsp;<img src="../images/arrow_up.png" style="display:none" class="arrow"/></a></div>
+    <div class="lanmu-content" style="display:block">
+      <dl class="lanmu-list">
+      	<dd class="menusecondtitle">QC</dd>
+		<dd><a href="#原始序列数据" id="result_rawdata">Raw Data</a></dd>
+		<dd ><a href="#Sequencing data quality evaluation" id="result_data_quality">Sequencing data qual...</a></dd>
+		<dd class="menusecondtitle">Mapping to genome</dd>
+        <dd><a href="#参考序列比对分析" id="result_ref_compare">mapping to genome</a></dd>
+		<dd class="menusecondtitle">Classification and annotation</dd>
+		<dd><a href="#已知miRNA分析" id="result_known_miRNA">known miRNA</a></dd>
+		<dd><a href="#ncRNA分析" id="result_ncRNA">ncRNA</a></dd>
+		{% if flag_repAna %}
+		<dd><a href="#重复序列比对" id="result_repeat_seq">repeat</a></dd>
+		{% endif %}
+        {% if flag_NAT %}
+		<dd><a href="#植物NAT-siRNA检测" id="result_nat_siRNA">NAT-siRNA</a></dd>
+		{% endif %}
+		
+		{% if flag_gene %}
+		<dd><a href="#外显子、内含子比对" id="result_exon_intron">intron and exon</a></dd>
+		{% endif %}
+		
+		<dd><a href="#新miRNA预测" id="result_new_miRNA">novel miRNA</a></dd>
+		
+		{% if flag_TAS %}
+		<dd><a href="#植物ta-siRNA检测" id="result_ta_siRNA">ta-siRNA</a></dd>
+		{% endif %}
+		<dd><a href="#sRNA分类注释统计" id="result_calssfication">annotation</a></dd>
+		
+      	<dd class="menusecondtitle">MiRNA analysis</dd>
+		{% if flag_edit %}
+		<dd><a href="#miRNA碱基编辑分析" id="result_base_edit">miRNA base editd</a></dd>
+		{% endif %}
+		
+		{% if flag_family %}
+		<dd><a href="#miRNA家族分析" id="result_family_analysis">miRNA family analysis</a></dd>
+		{% endif %}
+		
+		{% if flag_diff %}
+		<dd><a href="#miRNA表达及差异分析" id="result_exp">differential expression</a></dd>
+		{% endif %}
+		
+		{% if flag_target %}
+		<dd><a href="#miRNA靶基因预测" id="result_target">target prediction</a></dd>
+		{% endif %}
+		
+		{% if flag_enrich %}
+		<dd><a href="#差异miRNA靶基因富集分析" id="result_enrich">enrichment analysis</a></dd>
+		{% endif %}
+      </dl>
+    </div>
+    <div class="title"><a href="#参考文献" class="shouqi" id="ref_id">&nbsp;<sapn>Ⅳ Reference</span>&nbsp;<img src="../images/arrow_right.png" style="display:none; margin-top:5px" class="arrow"/></a></div>
+    <span></span>
+	<!--<div class="lanmu-content" style="display:block">
+      <dl class="lanmu-list">
+        <dd><a href="#参考文献" id="reference">参考文献</a></dd>
+      </dl>
+    </div>-->
+    <div class="title"><a href="javascript:void(0)" class="shouqi" id="note">&nbsp;<sapn>Ⅴ Note</span>&nbsp;<img src="../images/arrow_up.png" style="display:none" class="arrow"/></a></div>
+    <div class="lanmu-content" style="display:block">
+      <dl class="lanmu-list">
+        <dd><a href='#文件目录列表' id="note_file_list">List of files...</a></dd>
+        <dd><a href='#软件说明列表' id="note_soft_list">Software used...</a></dd>
+        <dd><a href='#Methods' id="note_methon_en">Methods</a></dd>
+        <dd><a href='#结题报告PDF版' id="note_report_pdf">PDF</a></dd>
+      </dl>
+    </div>
+  </div>
+</div>
+<div id="main">
+
+  <!----------------------------------------合同信息----------------------------------------->
+  <div id="page">
+     <p class="head"><a href="#home" title = "返回首页"><img class="logo" align="left" src="../images/logo.png" /></a> <a name="合同及结题信息">北京诺禾致源生物信息科技有>限公司</a>
+     <hr />
+     </p>
+     <h3>Contract_ID:{{contract_id}}</h3>
+     <h3>Contract_Name:{{contract_name}}</h3>
+     <h3>Report_ID:{{code_number}}</h3>
+     <h3>Final_report_Time:{{time}}</h3>
+     <br />
+  </div>
+  <!----------------------------------------建库测序流程----------------------------------------->
+  <div id="page">
+    <p class="head"><a href="#home" title = "返回首页"><img class="logo" align="left" src="../images/logo.png" /></a> <a name="建库测序流程">Novogene Bioinformatics Institute in Beijing</a>
+    <hr />
+    </p>
+    <h2>Ⅰ、Library Preparation and Sequencing</h2>
+    <p class="paragraph">Small RNA is a special kind of molecule in organisms which induces the gene silence and plays an important role in the regulation of cell growth, gene transcription and translation. The small RNA digitalization analysis based on HiSeq high-throughput sequencing takes the SBS-sequencing by synthesis, which can decrease the loss of nucleotides caused by the secondary structure. It is also strong for its small requirement of sample quantity, high through-put, high accuracy with simply operated automatic platform. Such analysis can obtain millions of small RNA sequence tags in one shot, identify small RNA of certain species in certain condition comprehensively, predict novel miRNA and construct the small RNA differential expression profile between samples, which could be used as a powerful tool on small RNA function research. The experiment process of small RNA sequencing is as follows:</p>
+    
+    <center>
+      <img class="exp" src="../images/exp_library.png" />
+    </center>
+    
+  </div>
+  
+  <!----------------------------------------生物信息分析流程----------------------------------------->
+  <div id="page">
+    <p class="head"><a href="#home" title = "返回首页"><img class="logo" align="left" src="../images/logo.png" /></a> <a name="生物信息分析流程">Novogene Bioinformatics Institute in Beijing</a>
+    <hr />
+    </p>
+    <h2 id="pipline">Ⅱ、Data analysis process</h2>
+    <p class="center"> {% if flag_plant  and flag_ref  and flag_diff %}
+    <p class="paragraph">Considering the sample was obtained from plant with  reference genome,we were using <b>  referenced genome plant small RNA analysis process</b>,as follows ：</p>
+    <div style="text-align:center"> <img class="small2" src="../images/ref_plants.png" /> </div>
+    {% elif flag_plant and  flag_noref  and flag_diff %}
+    <p class="paragraph">Considering the sample was obtained from plant without reference genome,we were using <b>no referenced genome small RNA analysis process</b>,as follows ：</p>
+    <div style="text-align:center"> <img class="small2" src="../images/noref_plants.png" /> </div>
+    {% elif flag_animal and flag_ref  and flag_diff %}
+    <p class="paragraph">Considering the sample was obtained from animal with  a reference genome,we were using <b>referenced animal small RNA analysis process</b>,as follows ：</p>
+    <div style="text-align:center"> <img class="small" src="../images/ref_animals.png" /> </div>
+    {% elif flag_animal and flag_noref  and flag_diff %}
+    <p class="paragraph">Considering the sample was obtained from animal without reference genome,we were using <b>referenced genome animal small RNA analysis process</b>,as follows ：</p>
+    <div style="text-align:center"> <img class="small2" src="../images/noref_animals.png" /> </div>
+    {% elif flag_plant  and flag_ref %}
+    <p class="paragraph">Considering the sample was obtained from plant with a reference genome,we were using<b>  referenced genome plant small RNA analysis process</b>,as follows ：</p>
+    <div style="text-align:center"> <img class="small2" src="../images/ref_plant_single.png" /> </div>
+    {% elif flag_plant and  flag_noref %}
+    p class="paragraph">Considering the sample was obtained from plant without reference genome,we were using <b>no referenced genome small RNA analysis process</b>,as follows ：</p>
+    <div style="text-align:center"> <img class="small2" src="../images/noref_plant_single.png" /> </div>
+    {% elif flag_animal and flag_ref  %}
+    <p class="paragraph">Considering the sample was obtained from animal with a reference genome,we were using <b>referenced animal small RNA analysis process</b>,as follows ：</p>
+    <div style="text-align:center"> <img class="small2" src="../images/ref_animal_single.png" /> </div>
+    {% elif flag_animal and flag_noref %}
+    <p class="paragraph">Considering the sample was obtained from animal without  reference genome,we were using <b>referenced genome animal small RNA analysis process</b>,as follows ：</p>
+    <div style="text-align:center"> <img class="small2" src="../images/noref_animal_single.png" /> </div>
+    {% endif %}
+    </p>
+  </div>
+  
+  <!-------------------------------------------- 原始序列数据 --------------------------------------->
+  <div id="page">
+    <p class="head"><a href="#home" title = "返回首页"><img class="logo" align="left" src="../images/logo.png" /></a> <a name="原始序列数据">Novogene Bioinformatics Institute in Beijing</a>
+    <hr />
+    </p>
+    <h2>Ⅲ、Results</h2>
+    <h3 id="{{html_raw_order}}">{{html_raw_order}} Raw Data</h3>
+    <p class="paragraph">The original raw data from high throughput sequencing(illumina HiSeq<sup>TM</sup>2500/MiSeq) which consisted of raw pictures were first transformed to Sequenced Reads which contained reads sequence and corresponding base quality(in FASTQ format) through Base Calling.</p>
+    <p class="paragraph">Each read has four descriptive lines in  as follow:</p>
+    <p class="seq"> @HWI-ST1276:71:C1162ACXX:1:1101:1208:2458 1:N:0:CGATGT&nbsp;&nbsp;&nbsp;<br />
+      NAAGAACACGTTCGGTCACCTCAGCACACTTGTGAATGTCATGGGATCCAT<br />
+      +<br />
+      #55???BBBBB?BA@DEEFFCFFHHFFCFFHHHHHHHFAE0ECFFD/AEHH<br />
+    </p>
+    <p class="paragraph">1st line: Illumina Sequence Identifiers and description information comes after "@" sign; 2nd line: bases sequence (A G C T) 3ed line: "+" sign, then Illumina Sequence Identifiers(optional) 4th line: each base's quality corresponding to 2nd line (Cock et al.).</P>
+    <p class="paragraph">Illumina Sequence Identifiers:</p>
+    <p class="center">
+    <table class="gy">
+       <tr>
+        <th>ID Symbol</th>
+        <th>meaning</th>
+      </tr>
+	  <tr>
+        <td>HWI-ST1276</td>
+        <td>Instrument – unique identifier of the sequencer </td>
+      </tr>
+      <tr>
+        <td>71</td>
+        <td>run number – Run number on instrument</td>
+      </tr>
+      <tr>
+        <td>C1162ACXX</td>
+        <td>FlowCell ID – ID of flowcell</td>
+      </tr>
+      <tr>
+        <td>1</td>
+        <td>LaneNumber – positive integer</td>
+      </tr>
+      <tr>
+        <td>1101</td>
+        <td>TileNumber – positive integer</td>
+      </tr>
+      <tr>
+        <td>1208</td>
+        <td>X – x coordinate of the spot. Integer which can be negative</td>
+      </tr>
+      <tr>
+        <td>2458</td>
+        <td>Y – y coordinate of the spot. Integer which can be negative</td>
+      </tr>
+      <tr>
+        <td>1</td>
+        <td>ReadNumber - 1 for single reads; 1 or 2 for paired ends</td>
+      </tr>
+      <tr>
+        <td>N</td>
+        <td>whether it is filtered - NB ：Y if the read is filtered out, not in the delivered fastq file, N otherwise</td>
+      </tr>
+      <tr>
+        <td>0</td>
+        <td>control number - 0 when none of the control bits are on, otherwise it is an even number</td>
+      </tr>
+      <tr>
+        <td>CGATGT</td>
+        <td>Illumina index sequences</td>
+      </tr>
+    </table>
+    </p>
+    <p class="paragraph">Each character in the fourth row of the corresponding ASCII value minus 33, which is corresponding to the second line base sequencing quality value.The relationship between sequencing error rate (E) and sequencing quality (sQ) is shown in the below formula：</p>
+    <p class="center">Formula one ：　Q<sub>phred</sub>　=　-10log<sub>10</sub>(e)</p>
+    <p class="paragraph">The relationship of Phred quality scores Q and base-calling error which were predicted by Illumina Casava 1.8 version Phred quality scores Q were logarithmically linked to base-calling error e ：</p>
+    <p class="center">
+    <table class='gy'>
+      <tr>
+        <th>Error Rate</th>
+        <th>Quality Scores</th>
+        <th>ASCII code</th>
+      </tr>
+      <tr>
+        <td>5%</td>
+        <td>13</td>
+        <td>.</td>
+      </tr>
+      <tr>
+        <td>1%</td>
+        <td>20</td>
+        <td>5</td>
+      </tr>
+      <tr>
+        <td>0.1%</td>
+        <td>30</td>
+        <td>?</td>
+      </tr>
+      <tr>
+        <td>0.01%</td>
+        <td>40</td>
+        <td>I</td>
+      </tr>
+    </table>
+    </p>
+    <br/>
+  </div>
+  
+  <!----------------------------------------- Sequencing data quality evaluation --------------------------------------> 
+  <!----------------------------------------- 2.1测序错误率分布检查 -------------------------------------->
+  <div id="page">
+    <p class="head"><a href="#home" title = "返回首页"><img class="logo" align="left" src="../images/logo.png" /></a> <a name="Evaluation of sequencing data quality ">Novogene Bioinformatics Institute in Beijing</a>
+    <hr />
+    </p>
+    <h3 id="{{html_qc_order}}">{{html_qc_order}} Sequencing data quality evaluation</h3>
+    
+  
+  <!----------------------------------------- 2.2测序数据质量情况汇总 -------------------------------------->
+ 
+    <hr />
+    </p>
+    <h4 id="{{html_qc_order}}">{{html_qc_order}}.1 Data Quality summary</h4>
+    </p>
+    <br />
+    <p class="name_table">Table {{table_qc_order}}.1 Summary of the Data Production </p>
+    <p class="center">
+    <table class="gy">
+      <tr>
+        <th>Sample</th>
+        <th>Reads</th>
+        <th>Bases</th>
+        <th>Error rate</th>
+        <th>Q20</th>
+        <th>Q30</th>
+        <th>GC content</th>
+      </tr>
+      {% for each in table_basic %}
+      <tr>
+        <td>{{each.1}}</td>
+        <td>{{each.2}}</td>
+        <td>{{each.3}}</td>
+        <td>{{each.4}}</td>
+        <td>{{each.5}}</td>
+        <td>{{each.6}}</td>
+        <td>{{each.7}}</td>
+      </tr>
+      {% endfor %}
+    </table>
+    </p>
+    <p class="tremark">Note：<br />
+      (1) Sample ：Sample id.<br />
+      (2) Reads ：Statistics of the original sequence data.<br />
+      (3) Bases ：Sequence multiplied the length of the sequence, and converted to the unit of G.<br />
+      (4) Error rate ：Sequencing error rate.<br />
+      (5) Q20 ：Phred values greater than 20 base percentage accounted for the overall base.<br />
+      (6) Q30 ：Phred values greater than 30 base percentage accounted for the overall base.<br />
+      (7) GC content ：The G base and C base accounted for the overall base.</p>
+    <br/>
+  </div>
+  
+  <!----------------------------------------- 2.3测序数据过滤 -------------------------------------->
+  <div id="page">
+    <p class="head"><a href="#home" title = "返回首页"><img class="logo" align="left" src="../images/logo.png" /></a> <a name="测序数据过滤">Novogene Bioinformatics Institute in Beijing</a>
+    <hr />
+    </p>
+    <h4>{{html_qc_order}}.2 Data cleaning </h4>
+    <p class="paragraph">The unpurified raw data are 5' primer comtains,no insert tags,oversized insertion,low quality reads,poly A tags and small tags.We will get rid of some contaminant reads from the fq file and get the final clean reads</p>
+    <p class="paragraph">The data is processed by the following steps ： </p>
+    <p class="paragraph">(1) Get rid of reads which sQ <= 5 base percentage > 50% .</p>
+    <!-- &lt; 转义小于号-->
+    <p class="paragraph">(2)  Get rid of reads containing N > 10%.</p>
+    <p class="paragraph">(3) Get rid of reads with 5' primer contaminants.</p>
+    <p class="paragraph">(4) Get rid of reads without 3' primer and reads without the insert tag.</p>
+    <p class="paragraph">(5) Trim 3'primer sequenc.</p>
+    <p class="paragraph">(6) Get rid of reads with polyA/T/G/C.</p>
+    <br />
+    <p class="paragraph"> Small RNA adapte sequences ：<br />
+    <p class="seq">RNA 5’ Adapter (RA5),  part ：<br />
+      5’-GTTCAGAGTTCTACAGTCCGACGATC-3’<br />
+      RNA 3’ Adapter (RA3), part ：<br />
+      5’-AGATCGGAAGAGCACACGTCT-3’</p>
+    <br />
+    <p class="name_table">Table{{table_qc_order}}.2 Data filtering summary</p>
+    <p class="center">
+    <table class="gy">
+      <tr>
+        <th>Sample</th>
+        <th>total reads</th>
+        <th>N% > 10%</th>
+        <th>low quality</th>
+        <th>5' adapter contamine</th>
+        <th>3' adapter null or insert null</th>
+        <th>with ployA/T/G/C</th>
+        <th>clean reads</th>
+      </tr>
+      {% for each in table_filter %}
+      <tr>
+        <td>{{each.1}}</td>
+        <td>{{each.2}}</td>
+        <td>{{each.3}}</td>
+        <td>{{each.4}}</td>
+        <td>{{each.5}}</td>
+        <td>{{each.6}}</td>
+        <td>{{each.7}}</td>
+        <td>{{each.8}}</td>
+      </tr>
+      {% endfor %}
+    </table>
+    </p>
+    <p class="tremark">Note：<br />
+      (1) Sample ：Sample id.<br />
+      (2) total_reads ：Total sequenced reads.<br />
+      (3) N% &gt; 10% ：Percentage of reads with N &gt; 10%.<br />
+      (4) low quality ：Percentage of low quality reads .<br />
+      (5) 5'adapter contamine ：Percentage of reads with 5'adapter contamine .<br />
+      (6) 3'adapter null or insert null ：Percentage of reads with 3'adapter null or insert null.<br />
+      (7) with ployA/T/G/C ：Percentage of reads with ployA/T/G/C.<br />
+      (8) clean reads ：Total clean reads and its percentage accounted for raw reads. </p>
+  </div>
+  
+  <!----------------------------------------- 2.4 sRNA长度筛选 -------------------------------------->
+  <div id="page">
+    <p class="head"><a href="#home" title = "返回首页"><img class="logo" align="left" src="../images/logo.png" /></a> <a name="sRNA长度筛选">Novogene Bioinformatics Institute in Beijing</a>
+    <hr />
+    </p>
+    <h4>{{html_qc_order}}.3 Length distribution</h4>
+    <p class="paragraph">Generally speaking,the length of sRNA is between 18nt and 30nt. The length distribution analysis is helpful to see the compositions of small RNA sample.For example, miRNA is normally 21nt or 22nt, siRNA is 24nt, and piRNA is between 28nt and 30nt.The length distribution varies between plants and animals,in detail,the peak of plant often locates in 21nt or 24nt while animals is 22nt.The above data and information is helpful for us to do initial judgment. </p>
+    <br />
+    <p class="name_table">Table{{table_qc_order}}.3 The type and quantity of sRNA</p>
+    <p class="center">
+    <table class="gy">
+      <tr>
+        <th>Sample</th>
+        <th>Total reads</th>
+        <th>Total bases (bp)</th>
+        <th>Uniq reads</th>
+        <th>Uniq bases (bp)</th>
+      </tr>
+      {% for each in table_lenFilter %}
+      <tr>
+        <td>{{each.1}}</td>
+        <td>{{each.2}}</td>
+        <td>{{each.3}}</td>
+        <td>{{each.4}}</td>
+        <td>{{each.5}}</td>
+      </tr>
+      {% endfor %}
+    </table>
+    </p>
+      (1) Sample ：Sample ID.<br />
+      (2) Total reads ：Total number of sRNA reads.<br />
+      (3) Total bases (bp) ：Total reads multiplied the length of the sequence, and converted to the unit of G.<br />
+      (4) Unique reads ：The kinds of sRNA.<br />
+      (5) Unique bases (bp) ：Unique reads multiplied the length of the sequence, and converted to the unit of G.</p>
+    <br />
+    <!--center><img class="normal1" src="../images/seq_len_distribution.png" /></center-->
+    <p class="center">
+    <div class="albumSlider">
+      <div class="fullview"><img src={{figure_lenFilter.0.0|safe}}/></div>
+      <div class="slider">
+        <div class="button movebackward" title="up roll"></div>
+        <div class="imglistwrap">
+          <ul class="imglist">
+            {% for each in figure_lenFilter %}
+            <li><a id="example2" href={{each.0|safe}} ><img src={{each.0|safe}}/></a></li>
+            {% endfor %}
+          </ul>
+        </div>
+        <div class="button moveforward" title="down roll"></div>
+      </div>
+    </div>
+    </p>
+    <p class="name_fig">Figure{{figure_qc_order}}.2 The length distribution of total sRNA</p>
+    <p class="premark">The abscissa is the length of sRNA reads,the ordinate is the percentage of one length read accounted for total sRNA.</p>
+    <!--p class="tremark">注：结题报告中只显示一个样本的sRNA长度分布结果（更多信息见结果文件夹2QualityControl/2.4Length_Filter）.</p>  --> 
+    <br/>
+  </div>
+  {% if flag_common %}
+  <!----------------------------------------- 2.5 公共及特有序列分析 -------------------------------------->
+  <div id="page">
+    <p class="head"><a href="#home" title = "返回首页"><img class="logo" align="left" src="../images/logo.png" /></a> <a name="公共及特有序列分析">Novogene Bioinformatics Institute in Beijing</a>
+    <hr />
+    </p>
+    <br />
+    <h4>{{html_qc_order}}.4	Common and specific reads between samples</h4>
+    <p class="paragraph">Summarize the common and specific reads of two samples, including the summary of unique reads and total reads. Generally speaking, a huge difference of reads exists among different samples but the common reads are concentrated, which demonstrates that uniformity of different samples on the whole of sequencing is good. 【See figure{{figure_qc_order}}.3】.</p>
+    <br />
+    <p class="center">
+    <div class="albumSlider">
+      <div class="fullview"><img src={{figure_seqVenn_total.0.0|safe}}/></div>
+      <div class="slider">
+        <div class="button movebackward" title="up roll"></div>
+        <div class="imglistwrap">
+          <ul class="imglist">
+            {% for each in figure_seqVenn_total %}
+            <li><a id="example2" href={{each.0|safe}} ><img src={{each.0|safe}}/></a></li>
+            {% endfor %}
+          </ul>
+        </div>
+        <div class="button moveforward" title="down roll"></div>
+      </div>
+    </div>
+    <!--<center><img class="normal1" src="../images/com_venn.png" /></center>--> 
+    <!--<center><img class="normal1" src="../images/uniq_venn.png" /></center>-->
+    <p class="name_fig">Figure{{figure_qc_order}}.3.1Common and specific reads between samples(Total sRNA)</p>
+    <p class="center">
+    <div class="albumSlider">
+      <div class="fullview"><img src={{figure_seqVenn_uniq.0.0|safe}}/></div>
+      <div class="slider">
+        <div class="button movebackward" title="up roll"></div>
+        <div class="imglistwrap">
+          <ul class="imglist">
+            {% for each in figure_seqVenn_uniq %}
+            <li><a id="example2" href={{each.0|safe}} ><img src={{each.0|safe}}/></a></li>
+            {% endfor %}
+          </ul>
+        </div>
+        <div class="button moveforward" title="down roll"></div>
+      </div>
+    </div>
+    <!--<center><img class="normal1" src="../images/com_venn.png" /></center>--> 
+    <!--<center><img class="normal1" src="../images/uniq_venn.png" /></center>-->
+    <p class="name_fig">Figure{{figure_qc_order}}.3.2 Common and specific reads between samples(Uniq sRNA)</p>
+    <p class="tremark">Note：<br />
+      (1) Sample 1 specific ：Specific reads in sample 1.<br />
+      (2) Sample 1 & Sample 2 ：Common reads between sample 1 and sample 2.<br />
+      (3) Sample 2 specific ：Specific reads in sample 2.<br />
+      <!--结题报告中只显示一对样本间的公共及特有结果,其他样本间的信息包含在结果文件夹。--></p>
+    <br/>
+  </div>
+ {% endif %}
+
+  {% if flag_map %} 
+  <!-----------------------------------------参考序列比对分析 -------------------------------------->
+  <div id="page">
+    <p class="head"><a href="#home" title = "返回首页"><img class="logo" align="left" src="../images/logo.png" /></a> <a name="参考序列比对分析">Novogene Bioinformatics Institute in Beijing</a>
+    <hr />
+    </p>
+    <br />
+    <h3 id="{{html_map_order}}">{{html_map_order}}	Mapping to genome</h3>
+    <p class="paragraph">Map the small RNA reads to genome by bowtie to analyze their expression and distribution on the genome.</p>
+    <p class="name_table">Table{{table_map_order}}.1 Statistics of mapping results</p>
+    <p class="center">
+    <table class="gy">
+      <tr>
+        <th>Sample</th>
+        <th>Total sRNA</th>
+        <th>Mapped sRNA</th>
+        <th>"+" Mapped sRNA</th>
+        <th>"-" Mapped sRNA</th>
+      </tr>
+      {% for each in table_map %}
+      <tr>
+        <td>{{each.0}}</td>
+        <td>{{each.1}}</td>
+        <td>{{each.2}}</td>
+        <td>{{each.3}}</td>
+        <td>{{each.4}}</td>
+      </tr>
+      {% endfor %}
+    </table>
+    </p>
+    <p class="tremark">Note ：<br />
+      (1) Sample ：Sample id.<br />
+      (2) Total sRNA ：Quantily of total sRNAs after the length filter.<br />
+      (3) Mapped sRNA ：Quantily and percentage of sRNAs mapped to genome .<br />
+      (4) “+” Mapped sRNA ：Quantily and percentage of mapped sRNAs in the same direction as the genome .<br />
+      (5) “-” Mapped sRNA ：Quantily and percentage of mapped sRNAs in the oppsite direction as the genome . </p>
+    <br />
+    {%if flag_ref %}
+    <p class="paragraph">Count the number of each sample small RNA reads that locate  on each chromosome,using Circos  to view the distribution of reads on each chromosome. We choose the longest 10 contigs or scafords to analysis.</p>
+    <br />
+    <p class="center">
+    <div class="albumSlider">
+      <div class="fullview"><img src={{figure_map.0.0|safe}}/></div>
+      <div class="slider">
+        <div class="button movebackward" title="up roll"></div>
+        <div class="imglistwrap">
+          <ul class="imglist">
+            <!--<center><img class="example2" src="../images/sRNA_distribution_on_chr.png" /></center>--> 
+            {% for each in figure_map %}
+            <li><a id="example2" href={{each.0|safe}} ><img src={{each.0|safe}}/></a></li>
+            {% endfor %}
+          </ul>
+        </div>
+        <div class="button moveforward" title="down roll"></div>
+      </div>
+    </div>
+    </p>
+    <p class="name_fig">Figure{{figure_map_order}}.1 reads distribution on each chromosome</p>
+    <p class="premark">The chromosome is shown in the outer circle ;grey background in the middle area shown 10000 reads distribution on the chromosome,red is the number of sRNAs on the sense strand of chromosome,blue is the number of sRNAs on the antisense strand of chromosome;in the center area of the circle shown all the reads,croci is the number of sRNAs on the sense strand of chromosome,green is the number of sRNAs on the antisense strand of chromosome.</p>
+    {% endif %} </div>
+  {% endif %}
+  
+  
+  {% if flag_known %} 
+  <!----------------------------------------- 已知miRNA分析 -------------------------------------->
+  <div id="page">
+    <p class="head"><a href="#home" title = "返回首页"><img class="logo" align="left" src="../images/logo.png" /></a> <a name="已知miRNA分析">Novogene Bioinformatics Institute in Beijing</a>
+    <hr />
+    </p>
+    <h3 id="{{html_known_order}}">{{html_known_order}} Analysis of known miRNA </h3>
+    <p class="paragraph">miRNA is produced by Dicer from pri-miRNA. Because of specificity of the cleavage site, miRNA has some preference on bases at different positions. For example, the first base from the 5' end has a strong preference of U, but resistant to G; bases from position 2 to 4 on the 5' end are usually resistant to U; bases from position10 (this position is the cleavage site when miRNA regulates mRNA) has a strong A preference. The mapped reads align to a specific special in the miRBase21, get the details of each sample's known miRNA information.</p>
+    <br />
+    <p class="paragraph"><b>Result table and figure ：</b></p>
+    <p class="name_table">Table{{table_known_miRNA_order}}.1 Summary of known miRNA in each sample</p>
+    <p class="center">
+    <table class="gy">
+      {{table_known_map_head|safe}}
+      {% for each in table_known_map %}
+      <tr>
+        <td>{{each|safe}}</td>
+      </tr>
+      {% endfor %}
+    </table>
+    </p>
+    <p class="tremark">Note ：<br />
+      (1) Mapped mature ：The number of sRNAs align to miRNA mature sequence.The second line is the number of all samples align to miRNA mature sequence,line(3) to line(n+1) is the number of each sample align to miRNA mature sequence.<br />
+      (2) Mapped hairpin ：The number of sRNAs align to miRNA hairpin sequence.The second line is the number of all samples align to miRNA hairpin sequence,line(3) to line(n+1) is the number of each sample align to miRNA hairpin sequence.<br />
+      (3) Mapped uniq sRNA ：The number of mapped unique sRNAs.<br />
+      (4) Mapped total sRNA :The number of mapped total sRNAs.  </p>
+    <br />
+    <center>
+      <img class="normal" src="../images/known_miRNA_structure.jpg" />
+    </center>
+    <p class="name_fig">Figure{{figure_known_order}}.1 The stem loop structure of precursors of known miRNA</p>
+    <p class="premark">red partial is mature sequence</p>
+    <br />
+    <p class="name_table">Table{{table_known_miRNA_order}}.2 Known miRNA expression profile</p>
+    <p class="center">
+    <table class="gy">
+      {{table_known_rc_head|safe}}
+      {% for each in table_known_rc %}
+      {{each|safe}}
+      {% endfor %}
+    </table>
+    </p>
+    <p class="tremark">
+    <p>Note：</p>
+    <li>First line : mature miRNA id;the second line to n+2 line is each sample's readcount. </li>
+    <br />
+  </div>
+
+ <div id="page">
+    <!--<p class="name_left_bord"><h4>匹配上已知miRNA的sRNA的细节情况展示（详解,见图{{figure_mrd_order}}.2)</h4></p>-->
+    <p class="name_left_bord">
+    <!--<h4>匹配上已知miRNA的sRNA的细节情况展示（详解见下图)</h4>-->
+	<li>The details of mapped known miRNA:</li>
+	<li>> miRNAs hairpin name</li>
+	<li>total readcount : the number of reads mapped to this hairpin</li>
+	<li>the mature miRNA name and the number of reads mapped to this mature</li>
+	<li>remaining read count : reads mapped to the hairpin but not in the mature region</li>
+	<li>exp: the annotation of  miRNA hairpin  each position,5 representing 5' region,3 representing 3' region,f representing others region of hairpin.</li>
+	<li>pri_seq : hairpin sequences</li>
+	<li>pri_struct : second structure of miRNA hairpin</li>
+	<li>XXX_X_x_X : the first three character is sample name,next is "_",then is the id of this reads in each sample,next is also "_",at last is x and the frequency of this read</li>
+     
+	</p>
+    <p class="seq"> {% for each in known_mrd %}
+      {{each|safe}}
+      {% endfor %} </p>
+    <br />
+    <br />
+    <p class="center">
+    <div class="albumSlider albumSlider_wider">
+      <div class="fullview fullview_lower"><img src={{figure_known_bias1.0.0|safe}}/></div>
+      <div class="slider">
+        <div class="button movebackward" title="up roll"></div>
+        <div class="imglistwrap" style="height:195px;">
+          <ul class="imglist">
+            {% for each in figure_known_bias1 %}
+            <li><a id="example2" href={{each.0|safe}} ><img src={{each.0|safe}}/></a></li>
+            {% endfor %}
+          </ul>
+        </div>
+        <div class="button moveforward" title="down roll"></div>
+      </div>
+    </div>
+    <!--<center><img class="normal" src="../images/known_miRNA_first_bias.png" /></center>-->
+    <p class="name_fig">Figure{{figure_known_order}}.3 miRNA first nucleotide bias</p>
+    <p class="premark">The length of miRNAs is shown in the X axis,the Y axis is the percentage.</p>
+    <br />
+    <p class="center">
+    <div class="albumSlider albumSlider_wider">
+      <div class="fullview fullview_lower2"><img src={{figure_known_bias2.0.0|safe}}/></div>
+      <div class="slider">
+        <div class="button movebackward" title="up roll"></div>
+        <div class="imglistwrap" style="height:209px;">
+          <ul class="imglist">
+            {% for each in figure_known_bias2 %}
+            <li><a id="example2" href={{each.0|safe}} ><img src={{each.0|safe}}/></a></li>
+            {% endfor %}
+          </ul>
+        </div>
+        <div class="button moveforward" title="down roll"></div>
+      </div>
+    </div>
+    <!--<center><img class="normal1" src="../images/known_miRNA_each_bias.png" /></center>-->
+    <p class="name_fig">Figure{{figure_known_order}}.4 miRNA nucleotide bias at each position</p>
+    <p class="premark">The X axis shown each position of miRNA nucleotide,The Y axis shown the percentage</p>
+    <br/>
+  </div>
+  {% endif %}
+  
+  
+  {% if flag_ncRNA %} 
+  <!----------------------------------------- ncRNA分析 -------------------------------------->
+  <div id="page">
+    <p class="head"><a href="#home" title = "返回首页"><img class="logo" align="left" src="../images/logo.png" /></a> <a name="ncRNA分析">Novogene Bioinformatics Institute in Beijing</a>
+    <hr />
+    </p>
+    <h3 id="{{html_ncRNA_order}}">{{html_ncRNA_order}} Alignment to Rfam</h3>
+    <p class="paragraph">Annotate the small RNA reads with sequences from Rfam and get rid of matched reads from rRNA、tRNA、snRNA、snoRNA. </p>
+    <br />
+    <p class="name_table">Table{{table_ncRNA_order}}.1 Statistics of annotated ncRNA</p>
+    <div sytle="overflow-x: auto">
+    <table class="gy">
+      {{table_ncRNA_head|safe}}
+      {% for each in table_ncRNA %}
+      {{each|safe}}
+      {% endfor %}
+    </table>
+    </div>
+    <p class="tremark">Note：<br>
+	First line：Types,the kinds of ncRNA；the second line to n+1 are sample(1) to sample(n+1)'s reads mapping to that kind of ncRNA.</p>
+  </div>
+  {% endif %}
+  
+  
+  {% if flag_repAna %} 
+  <!----------------------------------------- 重复序列比对 -------------------------------------->
+  <div id="page">
+    <p class="head"><a href="#home" title = "返回首页"><img class="logo" align="left" src="../images/logo.png" /></a> <a name="重复序列比对">Novogene Bioinformatics Institute in Beijing</a>
+    <hr />
+    </p>
+    <h3 id="{{html_repAna_order}}">{{html_repAna_order}}	Repeat associated RNA alignment</h3>
+    <p class="paragraph">Align small RNA reads to repeat associated RNA to find matched tags in the sample. Repeat sequence was predicted by RepeatMasker.</p>
+    <br />
+    <p class="paragraph"><b>Statistics the repeat type{{figure_repAna_order}}.1and figure{{figure_repAna_order}}.2.</b></p>
+    <!--<p class="tremark">重复序列表示方式：repeat type:strand（“+”表示正链,“-”表示负链）</p>--> 
+    <br />
+    <p class="center">
+    <div class="albumSlider">
+      <div class="fullview"><img src={{figure_repAna1.0.0|safe}}/></div>
+      <div class="slider">
+        <div class="button movebackward" title="up roll"></div>
+        <div class="imglistwrap">
+          <ul class="imglist">
+            <!--<center><img class="normal1" src="../images/sRNA_distribution_on_chr.png" /></center>--> 
+            {% for each in figure_repAna1 %}
+            <li><a id="example2" href={{each.0|safe}} ><img src={{each.0|safe}}/></a></li>
+            {% endfor %}
+          </ul>
+        </div>
+        <div class="button moveforward" title="down roll"></div>
+      </div>
+    </div>
+    </p>
+    <p class="name_fig">Figure{{figure_repAna_order}}.1 Total repeat reads </p>
+    <br />
+    <p class="center">
+    <div class="albumSlider">
+      <div class="fullview"><img src={{figure_repAna2.0.0|safe}}/></div>
+      <div class="slider">
+        <div class="button movebackward" title="up roll"></div>
+        <div class="imglistwrap">
+          <ul class="imglist">
+            <!--<center><img class="normal1" src="../images/sRNA_distribution_on_chr.png" /></center>--> 
+            {% for each in figure_repAna2 %}
+            <li><a id="example2" href={{each.0|safe}} ><img src={{each.0|safe}}/></a></li>
+            {% endfor %}
+          </ul>
+        </div>
+        <div class="button moveforward" title="down roll"></div>
+      </div>
+    </div>
+    </p>
+    <p class="name_fig">Figure{{figure_repAna_order}}.2 Uniq repeat reads </p>
+    <br/>
+  </div>
+  {% endif %}
+  
+  
+  {% if flag_NAT %} 
+  <!----------------------------------------- 植物NAT-siRNA检测 -------------------------------------->
+  <div id="page">
+    <p class="head"><a href="#home" title = "返回首页"><img class="logo" align="left" src="../images/logo.png" /></a> <a name="植物NAT-siRNA检测">Novogene Bioinformatics Institute in Beijing</a>
+    <hr />
+    </p>
+    <h3 id="{{html_NAT_order}}">{{html_NAT_order}}	Plant NAT-siRNA</h3>
+    <p class="paragraph">Natural antisense transcripts (NATs), as one type of regulatory RNAs, occur prevalently in plant genomes and play significant roles in physiological and pathological processes.NATs can be grouped into two categories, cis-NATs and trans-NATs, based on whether they act in cis or trans. Cis-NAT pairs are transcribed from opposing DNA strands at the same genomic locus
+and have a variety of orientations and differing lengths of overlap between the perfect sequence complementary regions, whereas trans-NAT pairs are transcribed from different loci and form partial complementarily.We use PlantNATsDB（http://bis.zju.edu.cn/pnatdb/; Chen et al., 2011）Database to identify known NATs and novel NATs.</p>
+    <br />
+    <p class="name_table">Table{{table_NAT_order}}.1 sRNAs mapped to NATs</p>
+    <table class="gy">
+      {{table_NAT_head|safe}}
+      {% for each in table_NAT %}
+      {{each|safe}}
+      {% endfor %}
+    </table>
+    </p>
+    <p class="tremark">Note：（“+” mapping to the sense strand ,“-” mapping to the antisense strand.<br />
+      First line：NATs types；the second line to n+1 line is each sample's sRNAs. </p>
+    <br/>
+  </div>
+  {% endif %}
+  
+  
+  {% if flag_gene %} 
+  <!----------------------------------------- 外显子、内含子比对 -------------------------------------->
+  <div id="page">
+    <p class="head"><a href="#home" title = "返回首页"><img class="logo" align="left" src="../images/logo.png" /></a> <a name="外显子、内含子比对">Novogene Bioinformatics Institute in Beijing</a>
+    <hr />
+    </p>
+    <h3 id="{{html_gene_order}}">{{html_gene_order}}	Exon and intron alignment</h3>
+    <p class="paragraph">Align small RNA reads to exons and introns of mRNA to find the degraded fragments of mRNA in the small RNA reads.</p>
+    <br />
+    <p class="name_table">Table{{table_gene_order}}.1 sRNAs mapped to exon and intron</p>
+    <p class="center">
+    <table class="gy">
+      {{table_gene_head|safe}}
+      {% for each in table_gene %}
+      {{each|safe}}
+      {% endfor %}
+    </table>
+    </p>
+    <p class="tremark">Note ：<br />
+      First line ：Types,four types.“exon ：+”sRNAs mapped to sense exon,“exon ：-” sRNAs mapping to antisense exon,“intron ：+”sRNAs mapping to sense intron ,“intron ：-”sRNAs mapped to antisense intron.<br />
+      the second line to n+1 line is each sample's sRNAs. </p>
+  </div>
+  {% endif %}
+  
+  
+  {% if flag_novel %} 
+  <!----------------------------------------- 新miRNA预测 -------------------------------------->
+  <div id="page">
+    <p class="head"><a href="#home" title = "返回首页"><img class="logo" align="left" src="../images/logo.png" /></a> <a name="新miRNA预测">Novogene Bioinformatics Institute in Beijing</a>
+    <hr />
+    </p>
+    <h3 id="{{html_novel_order}}">{{html_novel_order}}	Novel miRNA prediction</h3>
+    <p class="paragraph">The characteristic hairpin structure of miRNA precursor can be used to predict novel miRNA. We use miREvo（Wen et al.,2012）and mirdeep2（Friedlander et al.,2011）to predict novel miRNA.</p>
+    <p class="paragraph"><b>result ：</b></p>
+    <!--<p class="tremark">注：结题报告中只显示部分novel miRNA分析结果,完整的信息包含在结果文件夹中。</p>-->
+    <p class="name_table">table{{table_novel_miRNA_order}}.1 Summary of novel miRNA</p>
+    <div style="overflow-x: auto">
+    <table class="gy">
+      {{table_novel_map_head|safe}}
+      {% for each in table_novel_map %}
+      {{each|safe}}
+      {% endfor %}
+    </table>
+    </div>
+    <p class="tremark">Note ：<br />
+      (1) Novel hairhin ：Predicted hairpin.The second line is the number of all predicted hairpin,line(3) to line(n+2) is the number of each sample align to  predicted  hairpin .<br />
+      (2) Mapped uniq sRNA ：Mapped unique sRNAs.<br />
+      (3) Mapped total sRNA ：Mapped total sRNAs </p>
+    <p class="center"> <img class="normal" src="../images/novel_miRNA_structure.jpg" /> </p>
+    <p class="name_fig">Figure{{figure_novel_miRNA_order}}.1 The stem loop structure of precursors of novel  miRNA</p>
+    <p class="premark">Red partial is mature sequence</p>
+    <br />
+    <p class="name_table">Table{{table_novel_miRNA_order}}.2 Novel miRNA expression profile</p>
+    <table class="gy">
+      {{table_novel_rc_head|safe}}
+      {% for each in table_novel_rc %}
+      {{each|safe}}
+      {% endfor %}
+    </table>
+    <p class="tremark">Note：<br />
+      First line: mature miRNA id;the second line to n+2 line is each sample's readcount. </p>
+    <br />
+  </div>
+  
+  <div id="page">
+    <p class="name_left_bord">
+   <!-- <p>匹配上novel miRNA的reads的细节情况展示（详解,见图{{figure_known_order}}.2）</p>
+    </p>
+    <p class="seq"> {% for each in novel_mrd %}
+      {{each|safe}}
+      {% endfor %} </p>
+    <br />-->
+    <p class="center">
+    <div class="albumSlider albumSlider_wider">
+      <div class="fullview fullview_lower"><img src={{figure_novel_bias1.0.0|safe}}/></div>
+      <div class="slider">
+        <div class="button movebackward" title="up roll"></div>
+        <div class="imglistwrap" style="height:195px;">
+          <ul class="imglist">
+            <!--<center><img class="normal1" src="../images/sRNA_distribution_on_chr.png" /></center>--> 
+            {% for each in figure_novel_bias1 %}
+            <li><a id="example2" href={{each.0|safe}} ><img src={{each.0|safe}}/></a></li>
+            {% endfor %}
+          </ul>
+        </div>
+        <div class="button moveforward" title="down roll"></div>
+      </div>
+    </div>
+    </p>
+    <p class="name_fig">Figure{{figure_novel_miRNA_order}}.2  miRNA first nucleotide bias</p>
+    <p class="premark">The length of miRNAs is shown in the X axis,the Y axis is the percentage.</p>
+    <br />
+    <p class="center">
+    <div class="albumSlider albumSlider_wider">
+      <div class="fullview fullview_lower2"><img src={{figure_novel_bias2.0.0|safe}}/></div>
+      <div class="slider">
+        <div class="button movebackward" title="up roll"></div>
+        <div class="imglistwrap" style="height:209px;">
+          <ul class="imglist">
+            <!--<center><img class="normal1" src="../images/sRNA_distribution_on_chr.png" /></center>--> 
+            {% for each in figure_novel_bias2 %}
+            <li><a id="example2" href={{each.0|safe}} ><img src={{each.0|safe}}/></a></li>
+            {% endfor %}
+          </ul>
+        </div>
+        <div class="button moveforward" title="down roll"></div>
+      </div>
+    </div>
+    </p>
+    <p class="name_fig">Figure{{figure_novel_miRNA_order}}.3 miRNA nucleotide bias at each position</p>
+    <p class="premark">The X axis shown each position of miRNA nucleotide,The Y axis shown the percentage</p>
+    <br/>
+  </div>
+  {% endif %}
+  
+  
+  {% if flag_TAS %} 
+  <!----------------------------------------- 植物ta-siRNA检测 -------------------------------------->
+  <div id="page">
+    <p class="head"><a href="#home" title = "返回首页"><img class="logo" align="left" src="../images/logo.png" /></a> <a name="植物ta-siRNA检测">Novogene Bioinformatics Institute in Beijing</a>
+    <hr />
+    </p>
+    <h3 id="{{html_TAS_order}}">{{html_TAS_order}}	Plant ta-siRNA </h3>
+    <p class="paragraph">Trans-acting siRNAs (ta-siRNAs) are a new class of small RNAs that regulate plant development.The identification of known TAS gene based on Arabidopsis and Oryza sativa database.We used UEA sRNA tools（Moxon et al., 2008）to predict new TAS gene.</p>
+    <br />
+    <p class="name_table">Table{{table_TAS_order}}.1 Statistics of sRNA mapped to TAS gene </p>
+    <table class="gy">
+      {{table_TAS_head|safe}}
+      {% for each in table_TAS %}
+      {{each|safe}}
+      {% endfor %}
+    </table>
+    <p class="tremark">Note ：（“+”sRNA mapped to sense TAS gene,“-”sRNA mapped to antisense TAS gene）<br />
+      First line ：Types,types of TAS gene；the second line to n+1 line is each sample's sRNAs mapped to TAS gene. </p>
+  </div>
+  {% endif  %}
+  
+  
+  {% if flag_category %} 
+  <!----------------------------------------- sRNA分类注释统计 -------------------------------------->
+  
+  <div id="page">
+    <p class="head"><a href="#home" title = "返回首页"><img class="logo" align="left" src="../images/logo.png" /></a> <a name="sRNA分类注释统计">Novogene Bioinformatics Institute in Beijing</a>
+    <hr />
+    </p>
+    <h3 id="{{html_category_order}}">{{html_category_order}}	small RNA annotation</h3>
+    <p class="paragraph">Summarize all alignments and annotation, some small RNA reads may be mapped to more than one categories. To make every unique small RNA mapped to only one annotation, we follow the following priority rule:known miRNA > rRNA > tRNA > snRNA > snoRNA > repeat{% if flag_NAT %} > NAT-siRNA{% endif  %}{% if flag_gene %} > gene{% endif  %} > novel miRNA{% if flag_TAS %} > ta-siRNA{% endif  %}.</p>
+    <br />
+    <p class="name_table">Table{{table_category_order}}.1 Result table</p>
+    <div style="overflow-x: auto">
+    <table class="gy">
+      {{table_category_head|safe}}
+      {% for each in table_category %}
+      {{each|safe}}
+      {% endfor %}
+    </table>
+    </div>
+    </p>
+    <p class="tremark">Note ：<br />
+      > total ：The quantity of sRNA reads mapped to genome.<br />
+      > known_miRNA ：The number and percentage of sRNAs reads mapped to konwn miRNA.<br />
+      > rRNA/tRNA/snRNA/snoRNA ：The number and percentage of sRNAs reads mapped to rRNA/tRNA/snRNA/snoRNA.<br />
+      > repeat ：The number and percentage of sRNAs reads mapped to repeat region.<br />
+	  {% if flag_NAT %}
+      > NAT ：The number and percentage of sRNAs reads mapped to NAT gene.<br />
+	  {% endif  %}
+      > novel_miRNA ：The number and percentage of sRNAs reads mapped to novel miRNA.<br />
+	  {% if flag_TAS %}
+      > TAS ：The number and percentage of sRNAs reads mapped to TAS gene.<br />
+	  {% endif  %}
+	  {% if flag_gene %}
+      > exon ：+/exon ：-/exon ：+/intron ：-/intron ：The number and percentage of sRNAs reads mapped to exon (+/-)and intron(+/-).<br />
+	  {% endif  %}
+      > other ：The number and percentage of sRNAs reads mapped genome but cound not map to known miRNA、ncRNA、repeat、{% if flag_NAT %}NAT、{% endif  %}novel miRNA{% if flag_TAS %}、TAS{% endif  %}{% if flag_gene %}、exon/intron{% endif %}. </p>
+  </div>
+  {% endif %}
+  
+  
+  {% if flag_edit %} 
+  <!----------------------------------------- miRNA碱基编辑分析 -------------------------------------->
+  <div id="page">
+    <p class="head"><a href="#home" title = "返回首页"><img class="logo" align="left" src="../images/logo.png" /></a> <a name="miRNA碱基编辑分析">Novogene Bioinformatics Institute in Beijing</a>
+    <hr />
+    </p>
+    <h3 id="{{html_edit_order}}">{{html_edit_order}}	miRNA base edit</h3>
+    <p class="paragraph">Position 2~8 of a mature miRNA is called seed region which is highly conserved. The target of a miRNA might be different with the change of nucleotides in this region. In our analysis pipeline, miRNAs which might have base edit can be detected by aligning unannotated sRNA reads with mature miRNAs from miRBase.</p>
+    <br />
+    <p class="paragraph">Result ：</p>
+    <p class="paragraph">pre-miRNA ：miRNA precursor ,the number of reads mapped to precursor,the number and percentage of reads with base edit.</p>
+    <p class="paragraph">matrue miRNA ：mature miRNA,the number of reads mapped to mature miRNA,the number and percentage of reads with base edit.</p>
+    <p class="paragraph">site[1-n] : the details of each base of this mature miRNA,each line represent the number and percentage of reads with base edit.</p>
+    <p class="seq"> {% for each in edit %}
+      {{each|safe}}
+      {% endfor %} </p>
+  </div>
+  {% endif %}
+  
+  
+  {% if flag_family %} 
+  <!----------------------------------------- miRNA家族分析 -------------------------------------->
+  <div id="page">
+    <p class="head"><a href="#home" title = "返回首页"><img class="logo" align="left" src="../images/logo.png" /></a> <a name="miRNA家族分析">Novogene Bioinformatics Institute in Beijing</a>
+    <hr />
+    </p>
+    <h3 id="{{html_family_order}}">{{html_family_order}}	miRNA family analysis </h3>
+    <p class="paragraph">Explore the occurrence of known miRNA and novel miRNA families identified from the sample in other species.The first row is the species' name in miRBase21,the first line is the name of known and novel miRNA precursor family name."+" means that the miRNA family exists in a species and "-" means the inexistence of the miRNA family in a species.</p>
+    <br />
+    <p class="name_table">Table{{table_family_order}}.1 result</p>
+    <table class="gy">
+      {{table_family_head|safe}}
+      {% for each in table_family %}
+      {{each|safe}}
+      {% endfor %}
+    </table>
+    </p>
+    </p>
+  </div>
+  {% endif %}
+  
+  
+  {% if flag_diff %} 
+  <!----------------------------------------- miRNA表达及差异分析 --------------------------------------> 
+  <!----------------------------------------- miRNA表达水平分析 -------------------------------------->
+  <div id="page">
+    <p class="head"><a href="#home" title = "返回首页"><img class="logo" align="left" src="../images/logo.png" /></a> <a name="miRNA表达及差异分析">Novogene Bioinformatics Institute in Beijing</a>
+    <hr />
+    </p>
+    <h3 id="{{html_diff_order}}">{{html_diff_order}}	miRNA expression and differential expression </h3>
+    <h4>{{html_diff_order}}.1	miRNA expression</h4>
+    <p class="paragraph">Statistics the expression of known and novel miRNA in each samples,TPM（Zhou et al.,2010）method was used.</p>
+    <p class="paragraph"> The normalized expression=readCount*1,000,000)/libsize(libsize ：sample miRNA readcount)</p>
+    <br />
+    <p class="name_table">Table{{table_diff_order}}.1 result</p>
+    <div style="overflow-x: auto">
+    <table class="gy">
+      {{table_tpm_head|safe}}
+      {% for each in table_tpm %}
+      {{each|safe}}
+      {% endfor %}
+    </table>
+    </div>
+    </p>
+      (1) First line-"miRNA", representing the miRNA mature id.<br />
+      (2) Second line to n+1 line-"sample name",representing the sample 1 to n+1 readcount. <br />
+      (3) n+2 line to 2n+1 line -"sample name(TPM)",represent the each samples readcount(TPM normalization) </p>
+  </div>
+  
+  <!----------------------------------------- miRNA表达量TPM密度分布图 -------------------------------------->
+  <div id="page">
+    <p class="head"><a href="#home" title = "返回首页"><img class="logo" align="left" src="../images/logo.png" /></a> <a name="miRNA表达量TPM密度分布图">Novogene Bioinformatics Institute in Beijing</a>
+    <hr />
+    </p>
+    <h4>{{html_diff_order}}.2 miRNA TPM distribution</h4>
+    </p>
+    <br />
+    <center>
+	  <div class="albumSlider_border"  style="width:480px;">
+      <div><img src='../images/TPM_density_distribution.png' style="width:480px;"/></div>
+    </div>
+    </center>
+    <p class="name_fig">Figure{{figure_diff_order}}.1 TPM distribution</p>
+    <p class="premark">The x axis is sample names and  y axis is  the price of miRNA log10(TPM+1).</p>
+    <br/>
+  </div>
+  
+  <!----------------------------------------- 样品间相关性检查 -------------------------------------->
+  <div id="page">
+    <p class="head"><a href="#home" title = "返回首页"><img class="logo" align="left" src="../images/logo.png" /></a> <a name="样品间相关性检查">Novogene Bioinformatics Institute in Beijing</a>
+    <hr />
+    </p>
+    <h4>{{html_diff_order}}.3	RNA-Seq Correlation</h4>
+    <p class="paragraph">Biological replicates are necessary for any biological experiment, including those involving RNA-seq technology (Hansen et al.). In RNA-seq, replicates have a two-fold purpose. First, they demonstrate whether the experiment is repeatable, and secondly, they can reveal differences in gene expression between samples. The correlation between samples is an important indicator for testing the reliability of the experiment. The closer the correlation coefficient is to 1, the greater the similarity of the samples. ENCODE suggests that the square of the Pearson correlation coefficient should be larger than 0.92, under ideal experimental conditions. In this project, the R2 should be larger that 0.8. </p>
+    <p class="paragraph"><b>Figure{{figure_diff_order}}.2</b> </p>
+    <br />
+    <!--center><img class="normal1" src="../images/corr_plot.png" /></center> -->
+    <p class="center">
+    <div class="albumSlider">
+      <div class="fullview"><img src={{figure_cor.0.0|safe}}/></div>
+      <div class="slider">
+        <div class="button movebackward" title="up roll"></div>
+        <div class="imglistwrap">
+          <ul class="imglist">
+            {% for each in figure_cor %}
+            <li><a id="example2" href={{each.0|safe}} ><img src={{each.0|safe}}/></a></li>
+            {% endfor %}
+          </ul>
+        </div>
+        <div class="button moveforward" title="down roll"></div>
+      </div>
+    </div>
+    </p>
+    <p class="name_fig">Figure{{figure_diff_order}}.2 RNA-Seq Correlation</p>
+    <p class="premark">The x axis and y axis represented the log10（TPM+1）(R<sup>2</sup>：pearson RSQ; Rho:spearman coefficient of association；Tau：kendall-tau coefficient of association)</p>
+    <br/>
+  </div>
+  {% if flag_diff %} 
+  <!----------------------------------------- miRNA差异表达分析结果 -------------------------------------->
+  <div id="page">
+    <p class="head"><a href="#home" title = "返回首页"><img class="logo" align="left" src="../images/logo.png" /></a> <a name="miRNA差异表达分析结果">Novogene Bioinformatics Institute in Beijing</a>
+    <hr />
+    </p>
+    <h4>{{html_diff_order}}.4 Differential expression</h4>
+    <p class="paragraph">The input data is the readcount value from the miRNA expression level analysis. For  samples with biological replicates,DESeq2（Michael et al.,2014） was used to do the analysis.
+    For the samples without biological replicates, TMM was first used to normalize the read count value, and the DEGseq （Wang et al.,2010）was used to do the analysis.The different expression miRNA list was as follows:</p>
+    <br />
+    <p class="paragraph"><b>Table{{table_diff_order}}.2</b>.</p>
+    <br />
+    <p class="name_table">Table{{table_diff_order}}.2 result</p>
+    <table class="gy">
+      {{table_diff_head|safe}}
+      {% for each in table_diff %}
+      {{each|safe}}
+      {% endfor %}
+    </table>
+    </p>
+    <p class="tremark">Note：<br />
+      (1) sRNA : miRNA mature id.<br />
+      (2) Group1 ：readcount values of sample1 after normalized.<br />
+      (3) Group2 ：readcount values of sample2 after normalized.<br />
+      (4) log2.Fold_change. ：log2(Sample1/Sample2).<br />
+      (5) p.value ：the p.value in hypergenometric test.<br />
+      (6) q.value.Storey.et.al..2003. ：pvalue after normalized.<br />
+    </p>
+  </div>
+  
+  <!----------------------------------------- 差异miRNA筛选 -------------------------------------->
+  <div id="page">
+    <p class="head"><a href="#home" title = "返回首页"><img class="logo" align="left" src="../images/logo.png" /></a> <a name="差异miRNA筛选">Novogene Bioinformatics Institute in Beijing</a>
+    <hr />
+    </p>
+    <h4>{{html_diff_order}}.5	 Filtering the Different Expression miRNA</h4>
+    <p class="paragraph"> Volcano plot could be used to infer the overall distribution of different expression miRNAs. For the experiment without biological replicate, the threshold is normally set as: |log2(FoldChange)| > 1 and qvalue < 0.01. For the experiment with biological replicate, as the DESeq2 has already eliminate the biological variation, our threshold is normally set as: padj < 0.05.
+    </p>
+    <p class="paragraph">result<b>Figure{{figure_diff_order}}.3：</b></p>
+    <!--p class="tremark">注：结题报告中只显示一组比较的差异miRNA火山图,更多信息见结果文件夹。</p>--> 
+    <br />
+    <!--center><img class="normal1" src="../images/vocalno.png" /></center>-->
+    <p class="center">
+    <div class="albumSlider">
+      <div class="fullview"><img src={{figure_volcano.0.0|safe}}/></div>
+      <div class="slider">
+        <div class="button movebackward" title="up roll"></div>
+        <div class="imglistwrap">
+          <ul class="imglist">
+            {% for each in figure_volcano %}
+            <li><a id="example2" href={{each.0|safe}} ><img src={{each.0|safe}}/></a></li>
+            {% endfor %}
+          </ul>
+        </div>
+        <div class="button moveforward" title="down roll"></div>
+      </div>
+    </div>
+    </p>
+    <p class="name_fig">Figure{{figure_diff_order}}.3 Volcano Plot</p>
+    <p class="premark">The x-axis shows the fold change in miRNA expression between different samples, and the y-axis shows the statistical significance of the differences. Statistically significant differences are represented by red dots.</p>
+    <br/>
+  </div>
+  
+  <!----------------------------------------- 差异miRNA聚类分析 -------------------------------------->
+  <div id="page">
+    <p class="head"><a href="#home" title = "返回首页"><img class="logo" align="left" src="../images/logo.png" /></a> <a name="差异miRNA聚类分析">Novogene Bioinformatics Institute in Beijing</a>
+    <hr />
+    </p>
+    <br />
+    <h4>{{html_diff_order}}.6	Cluster Analysis of miRNAs Expression Difference</h4>
+    <p class="paragraph">The cluster analysis is used to find miRNAs expression patterns under different experiment conditions. By clustering miRNAs with similar expression patterns, the unknown function of miRNAs or the function of unknown miRNAs could be recognized. In the hierarchical clustering, different area with different colours is presenting different groups of the cluster, and miRNAs within each group might have similar functions or take part in a same biological process.
+    In addition to the TPM cluster,  K-means and SOM was also be used to cluster the log2(ratios). miRNAs within the same cluster have the same changing trend in expression levels under different conditions.（result<b>see{{figure_diff_order}}.4</b>）</p>
+    <br />
+    <center>
+      <img class="normal1" src="../images/Hcluster.png" />
+    </center>
+    <p class="name_fig">Figure{{figure_diff_order}}.4 Cluster Analysis</p>
+    <p class="premark">Figure1： The overall TPM cluster analysis result, clustered by log10(TPM+1) value, red represents miRNAs with high expression level, blue represents miRNAs with low expression level. The colour from red to blue represents the log10(TPM+1) value from large to small. Figure2： log2(ratios) line chart. Every grey line in a sub line chart represents the relative expression value in different experiment conditions of a miRNA cluster, and the blue line represents the mean value of it. The x-axis represents the experiment condition and the y-axis represents the relative expression value.</p>
+    <br/>
+  </div>
+  {% if flag_venn %} 
+  <!----------------------------------------- 差异miRNA维恩图 -------------------------------------->
+  <div id="page">
+    <p class="head"><a href="#home" title = "返回首页"><img class="logo" align="left" src="../images/logo.png" /></a> <a name="差异miRNA维恩图">Novogene Bioinformatics Institute in Beijing</a>
+    <hr />
+    </p>
+    <h4>{{html_diff_order}}.7  Difference expression miRNA Venn diagram</h4>
+    <p class="paragraph">The Venn diagram presents the number of miRNAs that are uniquely expressed within each group, with the overlapping regions showing the number of miRNAs that are expressed in two or more groups.（See<b>Figure{{figure_diff_order}}.5</b>）.</p>
+    <br />
+    <!--<center><img class="normal1" src="../images/DE_Venn_diagram.png" alt="比较组合数不符合维恩图分析条件"/></center>-->
+    <p class="center">
+    <div class="albumSlider">
+      <div class="fullview"><img src={{figure_venn.0.0|safe}}/></div>
+      <div class="slider">
+        <div class="button movebackward" title="up roll"></div>
+        <div class="imglistwrap">
+          <ul class="imglist">
+            {% for each in figure_venn %}
+            <li><a id="example2" href={{each.0|safe}} ><img src={{each.0|safe}}/></a></li>
+            {% endfor %}
+          </ul>
+        </div>
+        <div class="button moveforward" title="down roll"></div>
+      </div>
+    </div>
+    </p>
+    <p class="name_fig">Figure{{figure_diff_order}}.5 Difference expression miRNA Venn diagram</p>
+    <p class="premark">The large circle represents the total number of miRNA in a combination. Circle overlapping part is the number of miRNAs expression in  all the overlapping combinations.</p>
+    <br/>
+  </div>
+  {% endif %}
+  {% endif %}
+  {% endif %}
+  
+  
+  {% if flag_target %} 
+  <!----------------------------------------- miRNA靶基因预测 -------------------------------------->
+  <div id="page">
+    <p class="head"><a href="#home" title = "返回首页"><img class="logo" align="left" src="../images/logo.png" /></a> <a name="miRNA靶基因预测">Novogene Bioinformatics Institute in Beijing</a>
+    <hr />
+    </p>
+    <h3 id="{{html_target_order}}">{{html_target_order}}	Target prediction for known and novel miRNA</h3>
+    <p class="paragraph">Predicting the target gene of known and novel miRNA, and find the relationship between miRNA and target gene.The results are as follows:</p>
+    <br />
+    <table class="gy">
+      {{table_target_head|safe}}
+      {% for each in table_target %}
+      {{each|safe}}
+      {% endfor %}
+     </table>
+     </p>
+     {% if flag_ref %}
+     <p class="tremark">Note:<br />
+       miRNA:miRNA ID;<br />
+       target_mRNA:Targeted Transcript ID of miRNA;<br />
+       target_gene:Corresponding Gene ID of Transcript ID(Gene ID and Transcript ID may be the same depending on the gtf or gff file);</p>
+     <p class="tremark">Note: Only partly target gene prediction results was show in report,more could be senn in result directory.</p>
+     {% endif  %}
+     {% if flag_noref %}
+     <p class="tremark">Note:<br />
+       miRNA:miRNA ID;<br />
+       target_gene:Targeted Unigene ID of miRNA.</p>
+       <p class="tremark">Note: Only partly target gene prediction results were show in report,more could be senn in result directory.</p>
+     {% endif  %}
+    <br/>
+    </div>
+    {% endif  %} 
+  
+  {% if flag_enrich %} 
+  <!----------------------------------------- 候选靶基因GO富集分析 -------------------------------------->
+  <div id="page">
+    <p class="head"><a href="#home" title = "返回首页"><img class="logo" align="left" src="../images/logo.png" /></a> <a name="差异miRNA靶基因富集分析">Novogene Bioinformatics Institute in Beijing</a>
+    <hr />
+    </p>
+    <h3 id="{{html_enrich_order}}">{{html_enrich_order}}Enrichment analysis </h3>
+    
+    <h4>{{html_enrich_order}}.1	GO enrichment analysis</h4>
+    <p class="paragraph">Gene Ontology (GO) is an international standardized classification system for gene function, which supplies a set of controlled vocabulary to comprehensively describe the property of genes and gene products. There are 3 ontologies in GO: molecular function, cellular component and biological process. The basic unit of GO is GO-term, each of which belongs to one type of ontology. 
+    GO enrichment analysis is used on predicted target gene candidates of known and novel miRNAs ("target gene candidates" in the following). It will provide all GO terms significantly enriched in the predicted target gene candidates of known and novel miRNAs compared to the reference gene background, as well as the genes corresponding to certain biological function. The result could reveal the functions significantly related with predicted target gene candidates of known and novel miRNAs. This method(Young et al,2010) firstly maps all target gene candidates to GO terms in the database (http://www.geneontology.org/), calculating gene numbers for each term, then using Wallenius non-central hyper-geometric distribution to find significantly enriched GO terms in target gene candidates comparing to the reference gene background. <b>Result table{{table_enrich_order}}.1</b>.</p>
+    <p class="name_table">Table{{table_enrich_order}}.1 Result</p>
+    <p class="center">
+	<div style="overflow-x: scroll">
+    <table class="gy">
+      {{table_go_head|safe}}
+      {% for each in table_go %}
+      {{each|safe}}
+      {% endfor %}
+    </table>
+	</div>
+    </p>
+    <p class="tremark">Note：<br />
+      (1) GO accession ：Gene Ontology entry.<br />
+      (2) Description ：Detail description of Gene Ontology.<br />
+      (3) Term type ：GO types,including cellular_component,biological_process,molecular_function.<br />
+      (4) Over represented pValue ：P-value in hypergenometric test.<br />
+      (5) Corrected pValue ：Corrected P-value,GO with Corrected P-value < 0.05 are significantly enriched in DEGs.<br />
+      (6) CAD item ：The number of target gene candidates related to this term.<br />
+      (7) CAD list : The number of target gene candidates with GO Annotation. <br />
+      (8) Bg item ：The number of reference gene related to this term.<br />
+      (9) Bg list ：The number of all gene in GO. <br />
+    </p>
+    <p class="paragraph">Using histogram to show enriched target gene candidates<b>{{figure_enrich_order}}.1</b>.</p>
+    <br />
+    <!--<center><img class="normal1" src="../images/GO_enrichment.png" alt="no enriched result"/></center>-->
+    <p class="center">
+    <div class="albumSlider albumSlider_wider">
+      <div class="fullview fullview_lower"><img src={{figure_goBar.0.0|safe}} alt='no enriched result'/></div>
+      <div class="slider">
+        <div class="button movebackward" title="up roll"></div>
+        <div class="imglistwrap" style="height:195px;">
+          <ul class="imglist">
+            {% for each in figure_goBar %}
+            <li><a id="example2" href={{each.0|safe}} ><img src={{each.0|safe}} alt='no enriched result'/></a></li>
+            {% endfor %}
+          </ul>
+        </div>
+        <div class="button moveforward" title="down roll"></div>
+      </div>
+    </div>
+    </p>
+    <p class="name_fig">Figure{{figure_enrich_order}}.1 The histogram of target gene candidates</p>
+    <p class="premark">The x axis shown the 3  GO ontologies' next GO term,the y axis shown the number and percentage of target gene candidates annotated in this GO term.</p>
+    <br />
+  </div>
+  
+  <div id="page">
+    <p class="paragraph">The Directed Acyclic Graph (DAG) is used to visualize the GO enrichment, where branches represent inclusion of the two GO terms, and the scope of the term definitions becomes smaller and smaller from top to bottom. Normally, the top 10 results from GO enrichment are selected as main nodes in directed acyclic graph, where the associated terms are also represented and the depth of colors indicates enrichment level. DAGs for biological process, molecular function and cellular component are shown respectively.</p>
+    <p class="center">
+    <div class="albumSlider">
+      <div class="fullview"><img src={{figure_goDAG.0.0|safe}} alt='no significant  enrichment'/></div>
+      <div class="slider">
+        <div class="button movebackward" title="up roll"></div>
+        <div class="imglistwrap">
+          <ul class="imglist">
+            {% for each in figure_goDAG %}
+            <li><a id="example2" href={{each.0|safe}} ><img src={{each.0|safe}} alt='no significant enrichment '/></a></li>
+            {% endfor %}
+          </ul>
+        </div>
+        <div class="button moveforward" title="down roll"></div>
+      </div>
+    </div>
+    </p>
+    <p class="name_fig">Figure{{figure_enrich_order}}.2 DAGs of GO enrichment</p>
+    <p class="premark">Each node represents a GO term, and TOP10 GO terms are boxed. The darker the color is, the higher is the enrichment level of the term. The name and p-value of each term are present on the node.</p>
+  </div>
+  
+  <!----------------------------------------- 候选靶基因KEGG富集分析 -------------------------------------->
+  <div id="page">
+    <p class="head"><a href="#home" title = "返回首页"><img class="logo" align="left" src="../images/logo.png" /></a> <a name="候选靶基因KEGG富集分析">Novogene Bioinformatics Institute in Beijing</a>
+    <hr />
+    </p>
+    <br />
+    <h4>{{html_enrich_order}}.2	KEGG pathway analysis</h4>
+    <p class="paragraph">The interactions of multiple genes may be involved in certain biological functions. KEGG (Kyoto Encyclopedia of Genes and Genomes) is a collection of manually curated databases dealing with genomes, biological pathways, diseases, drugs, and chemical substances. KEGG is utilized for bioinformatics research and education, including data analysis in genomics, metagenomics, metabolomics and other omics studies. Pathway enrichment analysis identifies significantly enriched metabolic pathways or signal transduction pathways associated with differentially expressed miRNAs target genes compared with the whole genome background ：</p>
+    <br />
+    <center>
+      <img class="formu" src="../images/kegg_pvalue.png" />
+    </center>
+    <p class="paragraph">Here N is the number of all genes with KEGG annotation,n is the number of target gene candidates in N,M is the number of all genes annotated to a certain pathway , and m is the number of target gene candidates in M . Genes with BH smaller than 0.05 are considered as significantly enriched in target gene candidates . The KEGG analysis could reveal the main pathways which the target gene candidates are involved in . </p>
+    <br />
+    <p class="name_table">Table{{table_enrich_order}}.2 Pathway annotation result</p>
+    <table class="gy">
+      <tr>
+        <th>Term</th>
+        <th>ID</th>
+        <th>Sample number</th>
+        <th>Background number</th>
+        <th>P-Value</th>
+        <th>Corrected P-Value</th>
+      </tr>
+      {% for each in table_kegg %}
+      <tr>
+        <td>{{each.0}}</td>
+        <!--<td>{{each.1}}</td>-->
+        <td>{{each.2}}</td>
+        <td>{{each.3}}</td>
+        <td>{{each.4}}</td>
+        <td>{{each.5}}</td>
+        <td>{{each.6}}</td>
+      </tr>
+      {% endfor %}
+    </table>
+    
+    <!--{{table_kegg_head|safe}}
+{% for each in table_kegg %}
+	{{each|safe}}
+{% endfor %}
+</table>-->
+    
+    </p>
+    <p class="tremark">Note：<br />
+      (1) Term ： Description of this KEGG pathway.<br />
+      (2) Id ： Unique  ID of this pathway in the KEGG database.<br />
+      (3) Sample number ：Number of target genes related to this pathway.<br />
+      (4) Background number ：Number of reference genes related to this pathway.<br />
+      (5) P-value ：P-value in hypergenometric test..<br />
+      (6) Corrected P-value ：Corrected P-value smaller than 0.05 are considered as significantly enriched in target gene candidates. </p>
+    <br />
+    <p class="paragraph">Scatter plot of KEGG enrichment of target genes</p>
+    <br />
+    <!--<center><img class="normal1" src="../images/pathway_scatterplot.png" /></center>-->
+    <p class="center">
+    <div class="albumSlider">
+      <div class="fullview"><img src={{figure_kegg_scat.0.0|safe}} alt='no enriched result'/></div>
+      <div class="slider">
+        <div class="button movebackward" title="up roll"></div>
+        <div class="imglistwrap">
+          <ul class="imglist">
+            {% for each in figure_kegg_scat %}
+            <li><a id="example2" href={{each.0|safe}} ><img src={{each.0|safe}} alt='no enriched result'/></a></li>
+            {% endfor %}
+          </ul>
+        </div>
+        <div class="button moveforward" title="down roll"></div>
+      </div>
+    </div>
+    </p>
+    <p class="name_fig">Figure{{figure_enrich_order}}.3 KEGG enrichment scatter plot of DEGs</p>
+    <p class="premark">The y-axis shows the name of the pathway and the x-axis shows the Rich factor. Dot size represents the number of target genes and the color indicates the q-value.</p>
+    <br />
+  </div>
+  
+  <div id="page">
+    <p class="paragraph"> The metabolic map of  target genes （<b>Figure{{figure_enrich_order}}.4</b>）</p>
+    <br />
+    <p class="center">
+    <div class="albumSlider">
+      <div class="fullview"><img src={{figure_kegg_path.0.0|safe}}/></div>
+      <div class="slider">
+        <div class="button movebackward" title="up roll"></div>
+        <div class="imglistwrap">
+          <ul class="imglist">
+            {% for each in figure_kegg_path %}
+            <li><a id="example2" href={{each.0|safe}} ><img src={{each.0|safe}}/></a></li>
+            {% endfor %}
+          </ul>
+        </div>
+        <div class="button moveforward" title="down roll"></div>
+      </div>
+    </div>
+    <!--<center><img class="normal1" src="../images/pathway_API.png" /></center>-->
+    <!--<p class="name_fig">Figure{{figure_enrich_order}}.4 Enriched KEGG pathways候选靶基因KEGG富集通路图</p>-->
+    <br/>
+  </div>
+  {% endif %} 
+  
+  <!-------------------------------------------- 参考文献 ------------------------------------------->
+  <div id="page">
+    <p class="head"><a href="#home" title = "返回首页"><img class="logo" align="left" src="../images/logo.png" /></a> <a name="参考文献">Novogene Bioinformatics Institute in Beijing</a>
+    <hr />
+    </p>
+    <h2 id="reference_html">Ⅳ、Reference</h2>
+    <p class="ref"> Langmead, B., Trapnell, C., Pop, M., & Salzberg, S. L. (2009). Ultrafast and memory-efficient alignment of short DNA sequences to the human genome. Genome Biol, 10(3), R25. (Bowtie)<br />
+      Chen D., Yuan C., Zhang J., Zhang Z., Bai L., Meng Y., et al. (2011). PlantNATsDB: a comprehensive database of plant natural antisense transcripts. Nucleic Acids Research 40:D1:D1187–D1193. (PlantNATsDB)<br />
+      Cock, P.J.A., Fields, C.J., Goto, N., Heuer, M.L., and Rice, P.M. (2010). The Sanger FASTQ file format for sequences with quality scores, and the Solexa/Illumina FASTQ variants. Nucleic acids research 38, 1767-1771.<br />
+      Erlich, Y., and Mitra, P.P. (2008). Alta-Cyclic: a self-optimizing base caller for next-generation sequencing. Nature methods 5, 679-682.<br />
+      Friedlander M.R., Mackowiak S.D., Li N., Chen W., Rajewsky N. (2011). miRDeep2 accurately identifies known and hundreds of novel microRNA genes in seven animal clades. Nucleic Acids Res 40:37-52. (miRDeep2)<br />
+      Jiang, L., Schlesinger, F., Davis, C.A., Zhang, Y., Li, R., Salit, M., Gingeras, T.R., and Oliver, B.(2011). Synthetic spike-in standards for RNA-seq experiments. Genome research 21, 1543-1551.<br />
+      Mao, X., Cai, T., Olyarchuk, J.G., and Wei, L. (2005). Automated genome annotation and pathway identification using the KEGG orthology (KO) as a controlled vocabulary. Bioinformatics 21, 3787–3793. (KOBAS)<br />
+      Kanehisa M, Araki M, Goto S, Hattori M, Hirakawa M, et al. (2008). KEGG for linking genomes to life and the environment. Nucleic Acids research36:D480–484. (KEGG)<br />
+      Moxon S., Schwach F., MacLean D., Dalmay T., J Studholme D., and Moulton V. (2008). A toolkit for analysing large-scale plant small RNA datasets. Bioinformatics 24 (19): 2252-2253. (UEA sRNA tools)<br />
+      Michael I Love,Wolfgang Huber,Simon Anders.(2014).Moderated estimation of fold change and dispersion for RNA-seq data with DESeq2.Genome Biology,DOI 10.1186/s13059-014-0550-8.(DESeq2)<br />
+      Wang L., Feng Z., Wang X., Wang X., Zhang X. (2010). DEGseq: an R package for identifying differentially expressed genes from RNA-seq data. Bioinformatics 26, 136-8. (DEGseq)<br />
+      Storey, J. D. (2003). The positive false discovery rate: A Bayesian interpretation and the q-value, Annals of Statistics. 31: 2013-2035.(qvalue)<br />
+      Wen M., Shen Y., Shi S., and Tang T. (2012). miREvo: An Integrative microRNA Evolutionary Analysis Platform for Next-generation Sequencing Experiments. BMC Bioinformatics 13:140. (miREvo)<br />
+      Wu HJ, Ma YK, Chen T, Wang M, Wang XJ (2012) PsRobot: a web-based plant small RNA meta-analysis toolbox. Nucleic Acids Res 40:W22–W28. (psRobot)<br />
+      Young, M.D., Wakefield, M.J., Smyth, G.K., and Oshlack, A. goseq: Gene Ontology testing for RNA-seq datasets.(goseq)<br />
+      Zhou L., Chen J., Li Z., Li X., Hu X., et al. (2010). Integrated profiling of microRNAs and mRNAs: microRNAs located on Xq27.3 associate with clear cell renal cell carcinoma. PLoS One 5: e15224. (TPM)<br />
+    </p>
+  </div>
+  
+  <!-------------------------------------------- 附录 --------------------------------------------->
+  <div id="page">
+    <p class="head"><a href="#home" title = "返回首页"><img class="logo" align="left" src="../images/logo.png" /></a> <a name="附录">Novogene Bioinformatics Institute in Beijing</a>
+    <hr />
+    </p>
+    <h2>Ⅴ、Notes</h2>
+    <a name="文件目录列表">
+    <h3 id="note_1">1	List of files and directories</h3>
+    </a>
+    <p class="paragraph">List of files and directories ：<a href="DirectoryTree.html" title="click open" target="_blank">html</a></p>
+    <a name="软件说明列表">
+    <h3 id="note_2">2	Software used in the analysis</h3>
+    </a>
+    <p class="paragraph">Software used in the analysis ：<a href="../pdf/sRNA.software.pdf" title="click open" target="_blank">PDF</a></p>
+    <a name="Methods">
+    <h3 id="note_3">3	Methods</h3>
+    </a>
+    <p class="paragraph">Methods ：<a href="../pdf/sRNA.methods.pdf" title="click open" target="_blank">PDF</a></p>
+    <a name="结题报告PDF版">
+    <h3 id="note_4">4	PDF</h3>
+    </a>
+    <p class="paragraph">PDF : <a href="../../{{title}}_sRNA_report.pdf" title="click open" target="_blank">PDF</a></p>
+      </p>
+  </div>
+</div>
+</body>
+</html>

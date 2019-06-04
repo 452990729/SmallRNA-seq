@@ -1,0 +1,14 @@
+Direction
+
+Summary each sample's TPM density distribution.
+===========================================================================================================================
+
+Note:
+1.TPM_density_distribution.png  each sample's TPM density distribution(png).
+  TPM_density_distribution.pdf  each sample's TPM density distribution(pdf).
+The x axis is sample names and y axis is the price of miRNA log10(TPM+1).
+
+2.TPM_boxplot.png  each sample's TPM boxplot (png).
+  TPM_boxplot.pdf  each sample's TPM boxplot (pdf).
+The x axis is sample names and y axis is the price of miRNA log10(TPM+1).
+

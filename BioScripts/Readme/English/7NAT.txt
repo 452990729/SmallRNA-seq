@@ -1,0 +1,18 @@
+Direction
+Plant NAT-siRNA
+
+Natural antisense transcripts (NATs), as one type of regulatory RNAs, occur prevalently in plant genomes and play significant roles in physiological and pathological processes.
+
+****************************************************************************
+cis-NAT.map.fas: reads mapped to cis-NAT gene
+trans-NAT.map.fas	reads mapped to trans-NAT gene
+NAT.map.fas	reads mapped to the two types of NAT gene
+Note£º
+(1)Lines starting with ">": Behind ">" is id, the first three character is sample name,next is "_",then is the id of this reads in each sample,next is also "_",at last is x and the frequency of this read.
+(2)Read£ºSequencing reads.
+****************************************************************************
+
+rc.stat		First line£ºNATs types£»the second line to n+1 line is each sample's total NAT sRNAs.
+uc.stat		First line£ºNATs types£»the second line to n+1 line is each sample's unique NAT sRNAs.
+
+

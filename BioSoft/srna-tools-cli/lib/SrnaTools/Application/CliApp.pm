@@ -1,0 +1,772 @@
+######################################################################
+# The UEA sRNA Toolkit: Perl Implementation - A collection of
+# open-source stand-alone tools for analysing small RNA sequences.
+# Copyright © 2011 University of East Anglia
+#
+# This program is free software: you can redistribute it and/or
+# modify it under the terms of the GNU General Public License as
+# published by the Free Software Foundation, either version 3 of
+# the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+######################################################################
+
+
+####################################################################
+#
+# This is the Srna-Tools Application command line interface class
+# It is designed to be similar to the WebApp implementation of the
+# sRNA tools. A perl script just initialises the CliApp object and 
+# calls its run method. 'run' calls the 'setup' method, which
+# is mostly needed to set up the template toolkit. Then, the command
+# line is parsed and a decision on the run mode to executeis made based
+# on the options parsed from the command line. The run mode is executed
+# and if it returns output, it is printed to STDOUT.
+# There are two major modes to run the app: submit_job creates a new
+# job with its parameters and data files. run_batch_job executes an
+# already prepared job and is used to run jobs through queues, e.g.
+# on the cluster or in the local batch. This is also used by the website
+# to run jobs on a remote machine.
+#
+#####################################################################
+
+package SrnaTools::Application::CliApp;
+use base SrnaTools::Application;
+use FindBin qw($Bin); # find script directory
+use lib "$Bin/../../"; 
+use SrnaTools::JobFactory ;
+use strict;
+use warnings;
+use Exception::Class::TryCatch;
+use Template;
+use Cwd 'abs_path';
+use File::Copy ; 
+use File::Basename;
+use Data::Dumper ; # for development only
+
+#######################################################
+# Run the App
+#######################################################
+sub run{
+  my $self = shift ;
+  
+  eval {
+  $self->setup ;
+  $self->parse_cmd_line_params(\@ARGV) ;
+
+# run : run a job. tools config decides whether this is
+# instant or batch mode. Needs the name of a tool
+# PROBLEM: how to retrieve batch job results? Maybe
+# by submitting email address. Otherwise have to check
+# manually for completed status.  
+
+  my $run_mode = $self->select_runmode ; 
+  $self->dispatch($run_mode) ;
+  } ; # eval
+  
+  if ( catch my $err ) {
+    $self->handle_error($err);
+  }
+   
+  1 ;
+} #run
+
+
+#######################################################
+# Some setting up of output templates etc
+#######################################################
+sub setup{
+  my $self = shift ;
+  $self->environment('cmd') ;
+  
+  # Get a new Template::Toolkit::Simple obj
+  # and configure it
+  my $tt_opts = {
+    INCLUDE_PATH => $self->path_to('cli_template_path'),
+    ABSOLUTE     => 1,
+    DEBUG        => 1,
+    FILTERS => {
+        max_width_text  => \&max_width_text,
+    },
+
+  };
+  $self->{_tt} = Template->new($tt_opts);
+} # setup
+
+#######################################################
+# Generate output for errors
+# 'error_page' is a method of the Application 
+# parent class. It just uses different templates for
+# Web and CLI.
+# Queued jobs have to be treated differently: log the
+# error locally and on remote server rather than 
+# displaying it here.
+#######################################################
+sub handle_error{
+  my ($self, $err) = @_ ;
+  my ($err_name, $details, $log_details) = $self->parse_error($err) ;
+  if ($self->job && $self->job->queue_mode) {
+    $self->handle_queue_job_error($err);
+    eval{ $self->log_job_activity("ERROR: $log_details") } ;
+  } else {
+    $self->dispatch('error_page',$err_name, $details) ;
+  }
+  
+} # handle_error
+
+
+#######################################################
+# runmode: usage message 
+#######################################################
+sub usage{
+  my $self = shift ;
+  my $output ;
+  $output = $self->tt_process('usage.tt') ;
+  return $output ;
+} # usage
+
+
+#######################################################
+# runmode: show help text
+#######################################################
+sub help{
+  my $self = shift ;
+  my $output ;
+  # TODO make a proper help page
+  $output = $self->tt_process('usage.tt') ;
+  return $output ;
+} # help
+
+
+#######################################################
+# runmode: submit a new job
+# NOTE All jobs are submitted in 'instant' mode, 
+# regardless of the tool config. We could change this
+# here and trace the job progress with simple messages
+# to STDOUT but it is probably better to use the web
+# version for that anyway
+#######################################################
+sub submit_job{
+  my $self = shift ;
+  my $output ;
+  
+  my $tool_name = $self->param('tool') ;
+  
+  if (! $self->tool_is_available($tool_name)) {
+    SrnaTools::Exception::ToolNotAvailable->throw;
+  }
+  
+  my $job = SrnaTools::JobFactory->create_job(
+    app            => $self,
+    tool_name      => $tool_name, 
+    tool_conf_file => $self->tools_cfg_file,
+    environment    => $self->environment,
+    params         => $self->params,
+  ) ;
+  $self->job($job) ; # store connection to job
+  $job->mode('instant') ; # for now, all jobs are forced into instant mode
+  
+   # in this mode we use file names for genomes, not the 
+  # display names that the WebApp uses. Set the display
+  # name to the basename of the path. We then also set a
+  # flag genome_by_path to indicate that we have a full 
+  # path to a genome file
+  if (my $gfile = $self->param('genome')){
+    SrnaTools::Exception::FileAccess->throw("Genome file $gfile is not accessible") unless -r $gfile;
+    my ($basename) = fileparse($gfile);
+    $job->param('genome_dname', $basename);
+    $job->param('genome_by_path', '1');
+  }
+
+  # validate the submitted parameters.
+  # display error messag if neccessary
+  if ( ! $job->validate_user_parameters) {
+    my $template_params = {
+      errors => $job->param_err_names, # these are associated with err-messages
+    } ;
+    $output = $self->tt_process('job_error_page.tt', $template_params ) ;
+    return $output;
+  }
+  $job->setup_job_directory( $self->path_to('job_storage_dir') );
+   
+  $job->create_job_param_file ;
+  $job->create_tool_config_file ;
+  $job->create_app_config_file($self->config) ;
+  
+  # Copy the data files into job dta directory
+  # if any (as per tools config)
+  if (ref $job->data_file_params eq 'ARRAY') {
+    foreach my $file_param ( @{$job->data_file_params} ) {
+      $self->_copy_input_file($file_param, $job->job_working_dir.'/data')
+    }
+  }
+  
+  $job->run ;
+  
+  my $outdir = $self->param('out') || $self->param('outdir');
+  $self->_move_results_to_out_dir($job->job_working_dir, $outdir );
+  
+  #$job->delete;
+  
+  return $output ;
+} # submit_job
+
+
+#######################################################
+# runmode: execute a job that is sitting in a queue
+# directory. We get a path to the job and need to
+# recreate it from the config and params files stored
+# with it. This can be a job that came from a remote
+# server to be executed on a cluster for example.
+# The path is absolute and doesn't have to be in the
+# job directory path, configured for this app.
+#######################################################
+sub run_batch_job{
+  my $self = shift ;
+  my $output ;
+  
+  my $job_path = $self->param('run_batch_job') ;
+  if (! $job_path){
+    SrnaTools::Exception::Parameter->throw("Parameter run_batch_job missing or it has an empty value assigned to it. Please provide a path to a job directory") ;
+  }
+  $job_path = abs_path($job_path) ;
+
+  # TODO: if it does not exist, check one level up to
+  # see wether this is a problem with the job itself
+  # (wrong job ID) or with the job storage directory
+  if (! -e $job_path){
+    SrnaTools::Exception::FileAccess->throw(message=>"Directory '$job_path' does not exist. Please check the name of the job",log_msg=>"trying to access '$job_path' - expecting an absolute path to a directory for a specific job") ;
+  }
+  
+  if (! -d $job_path or ! -r $job_path ) {
+    SrnaTools::Exception::FileAccess->throw(message=>"Job directory error: not a directory or not readable",log_msg=>"trying to access '$job_path' - expecting an absolute path to a directory for a specific job") ;
+  }
+  
+  # The job directory must be marked as 'awaiting submission'
+  if (! -e $job_path.'/status/awaiting_submission'){
+    SrnaTools::Exception::JobPreparation->throw(message=>"This job has not been marked as fully prepared for submission - please check the process that created this job.",log_msg=>"expecting a flag file '$job_path/status/awaiting_submission' but it wasn't found.") ;
+  }
+  
+  # recreate the job from its files
+  # give it a connection back to this
+  # instance of the App
+  my $job = SrnaTools::JobFactory->create_job_from_config(
+    app     => $self,
+    job_dir => $job_path,
+  ) ;
+  $self->job($job) ; # store connection to job
+  
+  # If the job brings its own copy of an
+  # application config file then we use it
+  # to reconfigure this instance of the app
+  $self->cfg_file($job->app_config_file) if $job->app_config_file;
+  
+  # log the start of job execution
+  # this is not ciritcal
+  eval{ $self->log_job_activity("started job") } ;
+  
+  $job->run($self) ;
+  
+  # Copy job data back to storage directory
+  # on the server. Then call this script on the
+  # server in email notification mode
+  $self->_transfer_job_to_server;
+  if ($job->param('email') ) {
+    $self->_send_completion_notification_from_server;
+  }
+  eval{ $self->log_job_activity("completed") } ; # not critical
+  $output = "\n--- Job completed ---\n" ;
+  return $output ;
+} # submit_job
+
+
+
+
+#######################################################
+# runmode: show a list of the available tools on this
+# site with some description.
+#######################################################
+sub show_tool_list{
+  my $self = shift ;
+  my @tool_list = $self->tool_list ;
+  my $params = {
+    tool_list  => \@tool_list,
+  } ;
+  my $output = $self->tt_process('tool_list.tt',$params) ;
+  return $output ;
+  
+}
+
+
+######################################################
+# runmode: print help for a specific tool
+#######################################################
+sub tool_help{
+  my $self = shift ;
+  my $output ;
+  
+  my $tool_name = $self->param('tool') ;
+  if (! $self->tool_is_available($tool_name)) {
+    SrnaTools::Exception::ToolNotAvailable->throw;
+  }
+  
+  my $job = SrnaTools::JobFactory->create_job(
+    app            => $self,
+    tool_name      => $tool_name, 
+    tool_conf_file => $self->tools_cfg_file,
+    environment    => $self->environment,
+  ) ;
+  
+  my @input_parameter_list = $job->input_parameter_list;
+  ##############
+  # TODO: format the parameters into a help message.
+  # this should in its own method in Job.pm as it could then
+  # also be used to display explanation in ballon popups in web form
+  my $template_params = {
+    tool           => $tool_name,
+    parameter_list => \@input_parameter_list,
+  };
+
+  $output = $self->tt_process('tool_help.tt', $template_params ) ;
+  return $output;
+    
+} # tool_help
+
+
+#######################################################
+# runmode: send job completion notification
+#######################################################
+sub send_email_notification_mode{
+  my $self = shift ;
+  my $job_path = $self->param('send_email_notification');
+  
+  die "Need an abs path to a job" unless $job_path and -d $job_path;
+  
+  $self->do_send_completion_notification($job_path);
+  return ;
+} # send_email_notification
+  
+
+#######################################################
+# runmode: fetch latest version of mirbase files and
+# replace them in data dir
+# It attempts to download the file mature.fa and hairpin.fa
+# from mirbase and saves them as mature.fa and hairpin.fa
+# then it generates the files for patman matching with overhang
+# by adding "XX" on both sides of each sequence and saves
+# these as mature_plusX.fa and hairpin_plusX.fa
+#######################################################
+sub update_mirbase{
+  my $self = shift ;
+  
+  use lib ("/usr/local/Bioperl/lib/perl5/site_perl/5.8.3", "/usr/lib/perl5/site_perl/5.8.3");
+  use Bio::SeqIO;
+  use Cwd;
+  
+  my $cwd = getcwd;
+  warn <<END ;
+
+###################################
+# Warning: this script will download
+# new versions of the miRBASE files
+# mature.fa and hairpin.fa into the
+# current directory and replace existing
+# files. It will also generate versions
+# called mature_plusX.fa and hairpin_plusX.fa
+# for Patman matching with overhangs and
+# it generates filtered subsets for all files 
+# for Metazoa and Viridiplantae using the
+# file organism.txt from miRBASE.
+####################################
+
+CONTINUE [y/n] ?
+END
+
+  chomp( my $cont = <STDIN>) ;
+
+  if ( $cont ne "y" && $cont ne "Y" ) { 
+    exit 0 ;
+  }
+
+  # Get the files and uncompress them.
+  # then make copies for adding the Xs 
+  my $DOWNLOAD_SUFF=".fa.gz" ;
+  my $UNCOMPR_SUFF=".fa" ;
+
+  my $mirbase_url=$self->cfg->{mirbase_download_url};
+  SrnaTools::Exception::Misconfiguration->throw("mirbase_download_url is not defined in application.conf") unless $mirbase_url;
+  my $tax_file = "organism.txt" ;
+  my $tax_file_rename = "mirbase_organisms.txt" ;
+  my $cmd ;
+  
+  # change into data dir
+  chdir $self->path_to('data_dir');
+  
+  # Download the taxonomy files
+  warn "Fetching $tax_file from $mirbase_url...\n" ;
+  $cmd="wget -q ".$mirbase_url.$tax_file ;
+  system($cmd) == 0 || SrnaTools::Exception->throw("Could not download taxonomy file $tax_file - please contact mirbase administrator, it is possible that this file was omitted from the current release") ;
+  # rename file to mirbase_organisms.txt
+  warn "done - renaming file to 'mirbase_organisms.txt'\n" ;
+  rename($tax_file, $tax_file_rename) or SrnaTools::Exception->throw("Could not rename file $tax_file") ;
+  warn "done\n" ;
+  warn "\n" ;
+
+  # Parse taxonomy file to associate organisms prefixes
+  # with top level taxonomic unit (Metazoa, Viridiplantae)
+  my %tax ;
+  warn "Building table of organisms...\n" ;
+  open (TAX, '<', $tax_file_rename) or SrnaTools::Exception->throw("Could not open $tax_file_rename") ;
+  while (<TAX>) {
+    if (/^(\w+?)\t.+(Metazoa|Viridiplantae)/) {
+      $tax{$1} = $2 ;
+      warn "$1: $2\n" ;
+    }
+  }
+  $tax{'cre'}= 'Viridiplantae' ;
+  warn "done\n" ;
+  warn "\n" ;
+
+  close TAX ;
+
+  # Download the databases
+  my @dfile_names = ( 'mature','hairpin' );
+
+  foreach my $dfile_name (@dfile_names) {
+    my $dfile=$dfile_name.$DOWNLOAD_SUFF ;
+
+    warn "Fetching $dfile from $mirbase_url...\n" ;
+    $cmd = "wget -q ".$mirbase_url.$dfile ;
+    system($cmd) == 0 || SrnaTools::Exception->throw("$cmd failed") ;
+    warn "done\n" ;
+    warn "\n" ;
+    
+    warn "uncompressing file ...\n" ;
+    $cmd = "gunzip $dfile" ;
+    system($cmd) == 0 || SrnaTools::Exception->throw("$cmd failed") ;
+    warn "done\n" ;
+    warn "\n" ;
+    
+    my $ufile=$dfile_name.$UNCOMPR_SUFF ; # uncompressed file name
+    warn "converting IDs and generating file with XX added to both ends of the sequences ...\n" ;
+    
+    # shorten fasta IDs to /^>\S/
+    # and generate the version with
+    # leading/trailing Xs and the sub
+    # lists of plant and animal data 
+    $self->convert_mirbase_file($ufile, \%tax) ;
+    
+    warn "done\n" ;
+    warn "\n" ;
+  }
+  chdir $cwd ; # get out of here before we delete the dir (causes error)
+  return " -- completed successfully -- Please update 'tools.conf' to show version in forms\n" ;
+  
+}  
+  
+
+#######################################################
+# Read command line parameters from reference to ARGV.
+# Simply assume that everything that starts with -- is
+# a param name and every bareword or number is a value.
+# Parameters without values are assigned an empty string
+# Multivalued parameters are stored as
+# array-references to the parameter-name key.
+# Keep the last encountered param name
+# If we next find a new name then we treat the
+# previous parameter as a flag and simply use it's
+# name as its value too. If we get a bareword or
+# number next then we assume that it is a value for
+# the last parameter name. If it had one value already
+# then we start making a list of it's values as a
+# array ref. 
+# So this: --someflag --file FILE1 --file FILE2 --max 10
+# is turned into this:
+# {someflag => someflag,
+#  file     => [ FILE1, FILE2 ],
+#  max      => 10 }
+#######################################################
+sub parse_cmd_line_params{
+  my $self = shift ;
+  my $arg_ref = shift ;
+  if (! $arg_ref || ! ref $arg_ref eq 'ARRAY') {
+    SrnaTools::Exception->throw("Missing argument: reference to ARGV array needed.") ;
+  }
+  
+  my $params_ref = {} ;
+  my $last_name; # the last seen param name
+  foreach my $arg (@$arg_ref){
+    last if $arg eq '--';
+    if ($arg=~s/^--([^-]+)/$1/){ # it's a param name
+      if ($last_name){
+        $params_ref->{$last_name} = '' ;
+      }
+      $last_name = $arg;
+    } else { # this is a value
+      SrnaTools::Exception::Parameter->throw("bare word '$arg' not assigned to any argument name") unless $last_name;
+      if (!defined $params_ref->{$last_name}){
+        $params_ref->{$last_name} = $arg;
+      } elsif (ref $params_ref->{$last_name} ne 'ARRAY'){
+        my $current_value = $params_ref->{$last_name} ;
+        $params_ref->{$last_name} = [$current_value, $arg];
+      } else {
+        push @{ $params_ref->{$last_name} }, $arg ;
+      }
+      $last_name = undef;
+    } # if param name 
+  } # foreach
+  # if the last one had no value, deal with it here
+  $params_ref->{$last_name} = '' if $last_name ;
+  
+  $self->{_params} = $params_ref ;
+  
+  return keys %$params_ref ? 1 : 0 ;
+} # parse_cmd_line_params
+
+
+#######################################################
+# Return hashref of all user-submitted parameters
+#######################################################
+sub params{
+  return unless keys %{$_[0]->{_params}}>0 ;
+  $_[0]->{_params} ;
+}
+
+#######################################################
+# Return specific user-submitted parameter.
+# Return array if the values are a list
+#######################################################
+sub param{
+  my ($self, $pname) = @_ ;
+  my $value = $self->{_params}{$pname} ;
+  if (defined $value && ref $value eq 'ARRAY'){
+   return @$value ;
+  } else {
+    return $value;
+  }
+}
+#######################################################
+# Choose a run mode by analysing the parameters we have 
+# been given. If a path to an existing job is given
+# we need to execute that job in batch mode (submit to
+# a queue). Otherwise we need a tool name and parameters
+# to run a new job or submit it to a queue (depends on 
+# the config for that tool)
+#######################################################
+sub select_runmode{
+  my $self = shift ;
+
+  if (! $self->params ) {
+    return 'usage' ;
+  }
+  
+  if ( ! defined $self->param('tool') &&
+      (defined $self->param('h') || defined $self->param('help') ) ) {
+    return 'help' ;
+  }
+  
+  if (defined $self->param('tools') || defined $self->param('tool-list') ) {
+    return 'show_tool_list' ;
+  }
+  
+  if (defined $self->param('send_email_notification') ) {
+    return 'send_email_notification_mode' ;
+  }
+  
+  if (defined $self->param('update_mirbase') ) {
+    return 'update_mirbase' ;
+  }
+  
+  if ( defined $self->param('tool') && defined $self->param('run_batch_job') ) {
+    SrnaTools::Exception::Parameter->throw("Parameters 'tool' and 'run_batch_job' can not be used together. Please use 'tool' only to start a new job and 'run_batch_job' only to run a prepared job through a queue.") ;
+  }
+  
+  if ( ! $self->param('tool') && ! $self->param('run_batch_job') ) {
+    SrnaTools::Exception::Parameter->throw("Must have either one of these two parameters: 'tool' (submit a new job) or 'run_batch_job' (execute a prepared job in batch mode). Parameters are either missing or no value has been given.") ;
+  }
+  
+  if ( $self->param('tool') ){
+    if (defined $self->param('h') || defined $self->param('help') ) {
+      return 'tool_help';
+    } else {
+      return 'submit_job' ;
+    }
+  } elsif ( $self->param('run_batch_job') ) {
+    return 'run_batch_job' ;
+  }
+  
+} # select_runmode
+
+
+#######################################################
+# Dispatch to selected runmode
+#######################################################
+sub dispatch{
+  my $self = shift ;
+  my $run_mode = shift ;
+  
+  if ( !$run_mode ) {
+     SrnaTools::Exception->throw("Missing parameter: run_mode") ;
+  }
+  my $output = $self->$run_mode(@_) ;
+  print $output if $output ;
+} # dispatch
+
+
+#######################################################
+# Handle and configure TT templates similar to what 
+# the WebApp does with a CGI::Application plugin
+#######################################################
+sub tt_obj{ $_[0]->{_tt}}
+sub tt_process{
+  my $self = shift ;
+  my ($template,$data) = @_ ;
+  my $out;
+  $self->tt_obj->process($template,$data,\$out) || SrnaTools::Exception::TemplateError->throw(message=>"Could not process template '$template'",log_msg=>$self->tt_obj->error." Also make sure that all files in INCLUDE directives in the template exist and are readabe (e.g. header.tt etc)");
+  return $out;
+}
+
+#######################################################
+# Format text to a max length of 80 characters.
+# This is used as a FILTER by the Template Toolkit
+# (see $tt_opts in 'setup')
+#######################################################
+sub max_width_text{
+  my $text = shift ;
+  my $max_char = 80 ;
+  my $min_char = $max_char - 20 ;
+  $min_char = 20 if $min_char < 20 ;
+  $text=~s/(.{$min_char,$max_char}\s)/$1\n/g ;
+  $text=~s/\n\n/\n/g ;
+  return $text ;
+}
+
+
+######################################################
+# Copy an input file into the 
+# job data sub-dir.
+#######################################################
+sub _copy_input_file{
+  my $self = shift ;
+  my $field_name = shift ;
+  my $dest_dir = shift ;
+
+  SrnaTools::Exception->throw(message=>"missing arguments: field_name and dest_dir required",log_msg=>"field_name: $field_name, dest_dir: $dest_dir") unless $field_name && $dest_dir;
+  
+  my $filename = $self->param($field_name); 
+  
+  # we can have empty fields - it is the responsibility of the Job class to 
+  # check wether this is allowed. Here we just return
+  return unless $filename; 
+  if (!-r $filename or -z $filename ) {
+    SrnaTools::Exception->throw(message=>"uploaded file does not exist, is not readable or it is empty.",log_msg=>"tmp_filename: $filename") ;
+  }
+  
+  my $target_file = $dest_dir.'/'.$field_name.'.raw' ;
+  copy ( $filename, $target_file) || SrnaTools::Exception->throw(message=>"Could not copy file",log_msg=>"target_file: $target_file") ;
+  
+} # upload_file
+
+
+######################################################
+# Move everything in results to output dir
+#######################################################
+sub _move_results_to_out_dir{
+  my $self = shift ;
+  my $job_working_dir = shift ;
+  my $dest_dir = shift ;
+
+  SrnaTools::Exception->throw(message=>"missing arguments: job working dir and detination dir required") unless $job_working_dir && $dest_dir;
+  
+  mkdir $dest_dir || SrnaTools::Exception->throw(message=>"Could not generate output directory $dest_dir - please check permissions in destination directory or try a different path"); 
+  
+  my $cmd = "mv $job_working_dir/results/* $dest_dir";
+  system($cmd) == 0 || SrnaTools::Exception->throw(message=>"Could not move result files to output directory"); 
+
+} # _move_results_to_out_dir
+
+
+
+##########################################
+# Part of update_mirbase:
+# Generate two files:
+# one temp file that contains
+# the original sequences but the ID
+# lines are shortend to the miRNA IDs
+# only (i.e. /^>\S/), this will then
+# replace the original input file
+# the other one has the sequences with
+# "XX" at 5' and 3' end fo Patman matching
+# with allowed overlaps of the query
+# sequences to the db sequence
+############################################
+sub convert_mirbase_file {
+  my ($self, $infile, $tax_ref) = @_ ; 
+  my $tfile="temp_mirbase_conversion_file" ;# a temp file
+  
+  # file names for:
+  # all mirbase (normal and plusX)
+  # metazoa
+  # viridiplantae
+  my ($file_base) = ($infile=~/^(.+?)\./) ;
+  my $all_file = $file_base.'_all.fa';
+  my $all_fileX =  $file_base.'_all_plusX.fa';
+  my $animal_file = $file_base.'_animal.fa';
+  my $animal_fileX = $file_base.'_animal_plusX.fa';
+  my $plant_file = $file_base.'_plant.fa';
+  my $plant_fileX = $file_base.'_plant_plusX.fa';
+  
+  # open files
+  open (ALL_FILE, '>', $all_file) or die "Could not generate file $all_file\n" ;
+  open (ALLX_FILE, '>', $all_fileX) or die "Could not generate file $all_fileX\n" ;
+  open (ANIMAL_FILE, '>', $animal_file) or die "Could not generate file $animal_file\n" ;
+  open (ANIMALX_FILE, '>', $animal_fileX) or die "Could not generate file $animal_fileX\n" ;
+  open (PLANT_FILE, '>', $plant_file) or die "Could not generate file $plant_file\n" ;
+  open (PLANTX_FILE, '>', $plant_fileX) or die "Could not generate file $plant_fileX\n" ;
+   
+  my $in = Bio::SeqIO->new( -file => $infile, -format => "Fasta" );
+  while (my $is = $in->next_seq) {
+    my $seq = $is->seq;
+    my $seq_x = "XX".$seq."XX";
+    
+    my $id = $is->id;
+    my $org_prefix ;
+    if ($id=~/^(\w+)-/) {
+      $org_prefix = $1 ;
+    } else {
+      die "Could not find organism suffix in ID $id\n#### terminated ####\n"
+    }
+    
+    print ALL_FILE ">$id\n$seq\n";
+    print ALLX_FILE ">$id\n$seq_x\n";
+    
+    if (my $tax = $$tax_ref{$org_prefix}) {
+      if( $tax eq 'Metazoa') {
+        print ANIMAL_FILE ">$id\n$seq\n";
+        print ANIMALX_FILE ">$id\n$seq_x\n";
+      } elsif ($tax eq 'Viridiplantae')  {
+        print PLANT_FILE ">$id\n$seq\n";
+        print PLANTX_FILE ">$id\n$seq_x\n";
+      }
+    }
+    
+  }
+  unlink $infile or die "Could not remove $infile\n" ;
+  close ALL_FILE ;
+  close ALLX_FILE ;
+  close ANIMAL_FILE ;
+  close ANIMALX_FILE ;
+  close PLANT_FILE ;
+  close PLANTX_FILE ;
+}
+
+
+
+# DO NOT DELETE
+1;

@@ -1,0 +1,27 @@
+small RNA分类注释
+	将所有small RNA与各类RNA的比对、注释情况进行总结。由于存在一个sRNA同时比对上几种不同的注释信息的情况，为了使每个unique sRNA有唯一的注释，按照known miRNA > rRNA > tRNA > snRNA > snoRNA > repeat > NAT-siRNA > gene > novel miRNA > ta-siRNA的优先级顺序将small RNA遍历。分类注释结果中的rRNA总量可以作为一个样品的质控标准：一般情况下质量较好的动物样品中rRNA总量所占比例应低于40%，植物样品中的rRNA总量所占比例应低于60%。
+
+
+****************************************************************************
+分类注释结果统计
+****************************************************************************
+category_rc_full.txt		比对上各类sRNA的个数统计文件
+注：
+(1)total：指各样品比对到参考序列的sRNA数量，后面都是以它为参照，来计算各类sRNA所占的比例。
+(2)known_miRNA：指各样本比对到已知miRNA的sRNA的数量及所占比例。
+(3)rRNA/tRNA/snRNA/snoRNA：指各样本分别比对到rRNA/tRNA/snRNA/snoRNA的sRNA的数量及所占比例。
+(4)repeat：指各样本比对到repeat的sRNA的数量及所占比例。
+(5)NAT：指各样本比对到NAT基因的sRNA的数量及所占比例。
+(6)novel_miRNA：指各样本比对到新miRNA的sRNA的数量及所占比例。
+(7)TAS：指各样本比对到TAS基因的sRNA的数量及所占比例。
+(8)exon:+/exon:-/intron:+/intron:-：指个样本比对到exon/intron正、负链的数量及所占比例。
+(9)other：指各样本比对到参考序列，但没有比对到已知miRNA、ncRNA、repeat、NAT、新miRNA、TAS以及基因外显子、内含子区的sRNA的数量及所占比例。
+****************************************************************************
+category_uc_full.txt		比对上各类sRNA的种类统计文件
+注：
+每列同上，但统计的是sRNA的种类
+****************************************************************************
+***.category_rc_pie.png		比对上各类sRNA的个数统计饼图（png格式）
+***.category_rc_pie.pdf		比对上各类sRNA的个数统计饼图（pdf格式）
+***.category_uc_pie.png		比对上各类sRNA的种类统计饼图（png格式）
+***.category_uc_pie.pdf		比对上各类sRNA的种类统计饼图（pdf格式）

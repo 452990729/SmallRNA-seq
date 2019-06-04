@@ -1,0 +1,13 @@
+10.0edit_family/run_edit_family.pl
+10.2target/run_3UTR_annimal_target_v4.pl
+11Enrichment/KEGG_step1_blast.py
+11Enrichment/run_enrich_noref_new.pl
+11Enrichment/run_enrich_ref_new.pl
+11Enrichment/run_enrich_ref_new_v2.pl
+11Enrichment/runKEGG.pl
+11Enrichment/runKOBAS_v3.pl
+11Enrichment/single_enrich_noref_new.pl
+11Enrichment/single_enrich_ref_new.pl
+1QC/runQC50.pl
+1QC/smallQC_v4.pl
+2map/sRNAmap_v3.pl

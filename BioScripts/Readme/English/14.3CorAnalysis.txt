@@ -1,0 +1,21 @@
+Direction
+RNA-Seq Correlation
+
+The biological replicates are necessary for any biological experiment including the RNA-seq technology . It has two usages, first is to demonstrate the experiment is repeatable, the other is to use in the miRNA difference expression analysis.The correlation between samples is an important evaluating indicator to test the reliability of the experiment. The more the correlation coefficient is close to 1, the higher the summarily of the samples.
+
+===========================================================================================================================
+
+result£º
+
+1.Sample1_vs_Sample2.scatter.png   correlation scatter diagrams, presents the correlation coefficient between samples(png).
+  Sample1_vs_Sample2.scatter.pdf  correlation scatter diagrams, presents the correlation coefficient between samples(pdf).
+The x axis is  sample's log10(TPM+1), y axis is the other sample's log10£¨TPM+1£©.
+
+
+  
+  cor_kendall.xls	the list of kendall coefficients between samples.
+  cor_pearson.xls	the list of pearson coefficients between samples.
+  cor_spearman.xls	the list of spearman coefficients between samples.
+
+3.cor_pearson.png		heat map based on cor_pearson.xls (png).
+  cor_pearson.pdf		heat map based on cor_pearson.xls (pdf).

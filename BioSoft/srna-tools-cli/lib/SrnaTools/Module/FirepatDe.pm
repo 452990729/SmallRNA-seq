@@ -1,0 +1,190 @@
+######################################################################
+# The UEA sRNA Toolkit: Perl Implementation - A collection of
+# open-source stand-alone tools for analysing small RNA sequences.
+# Copyright © 2011 University of East Anglia
+#
+# This program is free software: you can redistribute it and/or
+# modify it under the terms of the GNU General Public License as
+# published by the Free Software Foundation, either version 3 of
+# the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+######################################################################
+
+
+#####################################################################
+#
+# This is a module of the sRNA tool kit.
+# It runs the differential expression analysis for FiRePat.
+# TODO This class has been converted from a standalone script and might
+# still need some cleanup (e.g. passing of parameters)
+###
+#differential expression under the form of offseted fold change between any two consecutive timepoints
+#applied on a matrix style file : name + timeserie
+
+package SrnaTools::Module::FirepatDe;
+use base SrnaTools::Module ;
+
+#use strict;
+#use warnings;
+use Cwd;
+
+sub run{
+my $self = shift ;
+
+my $moduleName = "FiRePat - differential expresion analysis";
+# update status on server
+$self->update_status("$moduleName: calculating differential expression") ;
+
+#input sRNA file : definition of the loci
+$ts  = $self->param('infile');
+
+#my $fs = -s $ts;
+# check if file is empty
+#if($fs == 0)
+#{
+#	#input file does not exist
+#	$self->job->_run_module(
+#		'firepat_create_failure_outfiles',
+#		{
+#			message => 'empty input file.'
+#		}
+#	);
+#	return 0;
+#}
+
+$top = $self->param('de_threshold');
+
+$out = $self->param('outfile');
+$loc = $self->param('aux_dir').'/';
+
+#open input file, Exception otherwise
+open ts, '<', $ts or SrnaTools::Exception::ModuleExecution->throw(message=>"$moduleName, can not open input timeseries file");
+#open output file, Exception otherwise
+open out,'>',$out.'.csv' or SrnaTools::Exception::ModuleExecution->throw(message=>"$moduleName, can not open output file file");
+
+$locNames = $loc.'names.txt';
+#append file with ids for the timeseries
+open o, '>>'.$locNames or SrnaTools::Exception::ModuleExecution->throw(message=>"$moduleName, can not open names file");
+
+#initialize data data structure.
+$#data = -1;
+$initial = 1;
+while(<ts>)
+{
+        chomp;
+        if($initial)
+        {
+                print o "$_\n";
+                $initial = 0;
+        }
+		else
+		{
+			@d = split/,/;
+			$tp = $#d;
+		
+			for($i = 0; $i <= $#d; $i++)
+			{
+				$d[$i] = trim($d[$i]);
+			}
+			push @data,[@d];
+		}
+}
+close(ts);
+close(o);
+
+if($#data < 0)
+{
+	#input file does not exist
+	$self->job->_run_module(
+		'firepat_create_failure_outfiles',
+		{
+			message => 'empty input file.'
+		}
+	);
+	return 0;
+}
+
+#print "FiRePat : DE : file for DE not empty \n";
+
+$offset = 0;
+for($i = 1; $i <= $#data; $i++)
+{
+        for($j = 1; $j < $tp; $j++)
+        {
+                $diff = $data[$i][$j] - $data[$i][$j+1];
+                if($diff > $offset)
+                {
+                        $offset = $diff;
+                }
+        }
+}
+
+#make sure the offset is non-zero value, in case all series are 0.
+$offset ++;
+#print "offset for DE : $offset \n";
+for($i = 1; $i <= $#data;$i++)
+{
+        for($j = 1; $j < $tp; $j++)
+        {
+                $fc[$i][$j] = ($data[$i][$j] + $offset)/( $data[$i][$j+1] + $offset);
+        }
+}
+
+$cntThr = int($#data * $top / 100);
+
+for($j = 1; $j < $tp; $j++)
+{
+        for($i = 1; $i <= $#data; $i++)
+        {
+                $us[$i] = $fc[$i][$j];
+        }
+        @s = sort { $b <=> $a } @us;
+        
+        $tpThr[$j] = $s[$cntThr];
+}
+
+$acc = 0;
+for($i = 1; $i <= $#data;$i++)
+{
+        $accept = 0;
+        for($j = 1; $j < $tp; $j++)
+        {
+                if($fc[$i][$j] > $tpThr[$j])
+                {
+                        $accept = 1;
+                        last;
+                }
+        }
+        if($accept)
+        {
+                $acc++;
+                for($j = 0; $j <= $tp; $j++)
+                {
+                        print out "$data[$i][$j],";
+                }
+                print out "\n";
+        }
+}
+close(out);
+#print "script finished with success \n";
+return 1;
+}
+
+sub trim($);
+# Perl trim function to remove whitespace from the start and end of the string
+sub trim($)
+{
+        my $string = shift;
+        $string =~ s/^\s+//;
+        $string =~ s/\s+$//;
+        return $string;
+}
+
+return 1;

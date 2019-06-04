@@ -1,0 +1,199 @@
+######################################################################
+#
+# This is a module of the sRNA tool kit.
+# It is run after uncompress_and_filter, which
+# removes low-complexity and over/under sized sequences,
+# and run_patman, which generates a file of matches to 
+# a reference sequence.
+# The script requires a patman output file and it reads the 
+# non-redundant input sequence file in data subdir
+# The original sRNA fasta file(s) is renamed to *.bak.
+# The patman output file is parsed and then all reads in the
+# *.bak file that either match or don't match the ref sequence
+# (option) are written to a new fasta file which overwrites the
+# original input file.
+#
+# Arguments:
+# -w WORKING_DIR
+# -p PATMAN_OUT_FILE  The file of matches we filter against
+#                     This is expected in WORKING_DIR/data
+# --filter_nonmatch   remove the sequences that DON'T 
+#                     have a match to the reference seq.
+#                     By default, only the ones that DO
+#                     have a match are filtered out.
+#                     Use this option to filter e.g. for
+#                     sRNAs that must have a genome match
+# --write_config NAME Write counts (reads, non-redundant reads)
+#                     to section "counts_after_filtering/NAME" 
+#                     
+
+package SrnaTools::Module::FilterMatches ;
+use base SrnaTools::Module ;
+use strict ;
+use warnings;
+
+
+sub run{
+my $self = shift ;
+
+# Modules that may be in non-standard location
+require Bio::SeqIO;
+
+#############################
+# Parameters and
+# declarations
+#############################
+my $module_name = "Filter sRNAs" ; # for error log
+my $working_dir = $self->job->job_working_dir;
+my $data_dir ;
+my %matching_srnas ;
+my $filter_nonmatch = $self->param('filter_nomatch'); 
+my $infile = $self->param('infile') ;
+my $infile_full ;
+my $filter_name =  $self->param('filter_name') ;
+my %counts ;
+
+#############################
+# Check parameters and files
+#############################
+
+eval {
+  die "missing working directory parameter\n" unless $working_dir ;
+  die "missing Patman output file parameter\n" unless $infile ;
+  
+  $data_dir = $working_dir.'/data/' ;
+  $infile_full = $data_dir.$infile ;
+  
+  # Check files and directories
+  die "could not find/read working directory\n" unless -d $working_dir ;
+  die "data directory not found in working directory\n" unless -d $data_dir ; 
+  die "could not find/read Patman result file for filtering\n" unless -r $infile_full ;
+} ;
+if ($@) {
+  SrnaTools::Exception::ModuleExecution->throw("$module_name, error in parameters: $@\n") ;
+}
+
+# update status on server
+$self->update_status('filtering matches') ;
+
+#############################
+# Read matches into Hash
+#############################
+eval {
+  open(MATCHES, $infile_full) or die "Could not open match file\n" ;
+  while(my $line=<MATCHES>) {
+    # parse the hit
+    if ($line=~/^\S+.*?\t([AGCT]+)_\S+\t/  ) {
+      $matching_srnas{$1} = 1 ;
+    } else {
+      die " Patman result line $line could not be parsed\n" ;
+    }
+  }
+  close MATCHES ;
+  
+  # The patman output file is no longer needed
+  unlink $infile_full ;
+} ;
+if ($@) {
+  SrnaTools::Exception::ModuleExecution->throw("$module_name, error while reading matches: $@\n") ;
+}
+
+
+#############################
+# Read original input files
+# data/SAMPLE.infile and
+# replace with filtered file
+# Throw error if there is no
+# *.infile in the data dir.
+# Temporarily rename files
+# *.infile.unfiltered, write 
+# filtered lists to original
+# file name and finally remove
+# .unfiltered file
+#############################
+eval{
+  my $num_files = 0 ;
+  opendir(DIR, $data_dir) or die "could not open data directory";
+  while (defined(my $file = readdir(DIR))) {
+    next unless $file =~/\.infile$/ ;
+    ++$num_files ;
+    my $file_full_path = $data_dir.$file ;
+    my $renamed_file_full_path = $file_full_path.'.unfiltered' ;
+    
+    # rename original file to *.unfiltered
+    rename($file_full_path, $renamed_file_full_path) or die "file operation filed.\n" ;
+    open(NEW_FILE, '>', $file_full_path) or die "writing to a file failed.\n" ;
+    die "Sequence input file not readable - please contact administrator\n" unless -r $renamed_file_full_path ;
+    
+    # Read sequences from renamed file and write to file
+    # with original file name 
+    my $parser = Bio::SeqIO->new( -format => 'fasta', -file => $renamed_file_full_path) ;
+    while (my $seq_obj = $parser -> next_seq) {
+      my $seq = $seq_obj->seq ;
+      my $id = $seq_obj->id;
+      
+      # decide wether to keep the sequence
+      # (print to new file)
+      my $printit ;
+      if ( $filter_nonmatch ) { # loose sequences that don't match 
+        if ( defined $matching_srnas{$seq} ) {
+          $printit = 1 ;
+        }
+      } else { # loose sequences that DO match (default mode)
+        if ( ! defined $matching_srnas{$seq} ) {
+          $printit = 1 ;
+        }
+      }
+      
+      if ($printit) { # keep this sequence and add to counts
+        print NEW_FILE ">$id\n$seq\n" if $printit ;
+        # Get abundance counts for all samples
+        # into a hash sample_name->abundance
+        my %sample_abundance = ($id=~/_(\S+?)\((\d+)\)/g) ;
+        foreach my $sample (keys %sample_abundance) {
+          $counts{$sample}{nr}++ ;
+          $counts{$sample}{total} += $sample_abundance{$sample} ;
+        }
+      }
+    }
+    # remove renamed original file
+    # keep only the filtered file
+    # which now has the same name
+    # as the original one (SAMPLE.infile)
+    unlink $renamed_file_full_path or die "failed to remove temporary file\n";
+  }
+  closedir(DIR);
+  die "no input files found.\n" unless $num_files > 0 ;
+} ;         
+if ($@) {
+   SrnaTools::Exception::ModuleExecution->throw("$module_name, error while filtering: $@\n") ;
+}
+
+# Write read counts to config file
+eval{
+  $self->write_stats_to_config(\%counts, $filter_name) if $filter_name;
+} ;
+if ($@) {
+   SrnaTools::Exception::ModuleExecution->throw("$module_name, error while writing stats: $@\n") ;
+}
+
+return 1;
+} # run
+##################################### subroutines
+
+############################
+# Used to be stored in a file.
+# Now add to the cache kept
+# by the Job obj
+#############################
+sub write_stats_to_config{
+  my $self = shift ;
+  my $stats_ref = shift ;
+  my $filter_name = shift ;
+  
+  # add counts to config data
+  push @{$self->job->cache->{read_counts}}, {$filter_name => $stats_ref} ;
+ 
+} # write_stats_to_config
+
+1;

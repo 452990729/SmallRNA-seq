@@ -1,0 +1,11 @@
+Direction
+miRNA base edit
+
+	Position 2~8 of a mature miRNA is called seed region which is highly conserved. The target of a miRNA might be different with the change of nucleotides in this region. In our analysis pipeline, miRNAs which might have base edit can be detected by aligning unannotated sRNA reads with mature miRNAs from miRBase.
+
+****************************************************************************
+XXX._editing_stats.txt		the statistics miRNA base edit  of sample XXX
+Note£º
+pre-miRNA£ºmiRNA hairpin name, reads  number mapped to it,base edit reads number ,base edit reads percentage.
+mature miRNA£ºmiRNA mature name, reads  number mapped to it,base edit reads number ,base edit reads percentage.
+site[1-n]: the details of miRNA base edit,site is this position base edit reads number and percentage. 

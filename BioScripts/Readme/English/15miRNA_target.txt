@@ -1,0 +1,8 @@
+Direction
+Target prediction 
+
+********************************************************************************
+*_mature.*_targets.pairs		miRNAs  id and their targets id corresponding relationship
+*_mature.*_targets.pairs.annotate	miRNAs targets annotation 
+********************************************************************************
+*_mature.*_targets.gz			the mapping details of of miRNAs with their targets

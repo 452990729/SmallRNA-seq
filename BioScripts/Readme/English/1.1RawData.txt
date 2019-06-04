@@ -1,0 +1,12 @@
+Direction
+
+1¡¢example.raw.fastq : is partial of  raw.fastq.gz;
+
+Format:
+
+@HWI-ST1276:94:D16DGACXX:2:1101:1747:2188 1:N:0:ACAGTG
+TGTAAACATCCTTGACTGGATGGAATTCTCGGGAGCCAAGGAACTCCAGT
++
+DDDAD>=DFHIIGIIIGGH@EFDAHG<DH@GHG)0?DGGHA?BF@GGE88
+
+1st line: Illumina Sequence Identifiers and description information comes after "@" sign; 2nd line: bases, (A G C T) 3ed line: "+" sign, then Illumina Sequence Identifiers(optional) 4th line: each base's quality corresponding to 2nd line.

@@ -1,0 +1,39 @@
+Direction
+Novel miRNA prediction
+
+	The characteristic hairpin structure of miRNA precursor can be used to predict novel miRNA.We use miREvo and mirdeep2 to predict novel miRNA.
+
+****************************************************************************
+novel_miRNA.map.stat	The statistics of each sample's reads mapped to predicting miRNA hairpin and mature sequence.
+Note£º
+(1)Novel mature£ºPredicted mature.The second line is the number of all reads mapped to  mature,line(3) to line(n+2) is the number of each sample's reads align to predicted mature .
+(2)Novel star£ºPredicted star sequence.The second line is the number of all reads mapped to star sequence.line(3) to line(n+2) is the number of each sample's reads  align to predicted star.
+(3)Novel hairpin£ºPredicted h sequence.The second line is the number of all reads mapped to hairpin sequence.line(3) to line(n+2) is the number of each sample's reads  align to predicted hairpin.
+(4)Mapped uniq sRNA£ºTotal number of reads mapped to hairpin.
+(5)Mapped total sRNA£ºUnique number of reads mapped to mature.
+****************************************************************************
+novel_miRNA.map.fas	Total reads mapped to  hairpin predicted.
+Note£º
+(1)Lines starting with ">": Behind ">" is id, the first three character is sample name,next is "_",then is the id of this reads in each sample,next is also "_",at last is x and the frequency of this read.
+(2)Read£ºSequencing read.
+****************************************************************************
+hairpin.fa		Predicted hairpin sequences.
+hairpin.pos		The position of predicted hairpin sequences in genome.
+hairpin_mature.fa	Mature and star sequences of the predicted hairpin sequences.
+hairpin_mature.pairs	Hairpin and mature and star sequences pairs.
+****************************************************************************
+miRBase.mrd		Details of reads on  hairpin predicted.
+****************************************************************************
+mature.fa		Novel miRNAs had reads mapped.
+mature.readcount	Readcount of novel miRNAs in each sample.
+****************************************************************************
+star.fa		Novel miRNA star sequences had reads mapped.
+star.readcount	Readcount of novel miRNAs star sequences in each sample.
+****************************************************************************
+Structure_plot.tar.gz	The second structure of hairpin.
+Structure_plot_example	Some example of the second structure of hairpin.
+****************************************************************************
+XXX.firstbase		MiRNAs first nucleotide bias of sample.(txt)
+XXX.firstbase.png	MiRNAs first nucleotide bias of sample.(png)
+XXX.position		MiRNAs nucleotide bias at each position.(txt)
+XXX.position.png	MiRNAs nucleotide bias at each position.(png)

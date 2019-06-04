@@ -1,0 +1,357 @@
+
+* { padding: 0; margin: 0; }
+
+html, body {
+  padding: 0;
+  margin: 0;
+  height: 100%;
+}
+
+body {
+  font-family: Verdana, Arial, Helvetica, sans-serif;
+  line-height: 1.5em;
+  font-size: 13px;
+  min-width: 640px;
+  background-color: #F2F2E6;
+}
+#wrapper { 
+  margin: 0 auto;
+  width: 920px;
+  background-image: url('../images/wrapper-bg.png');
+  background-repeat:repeat-y; 
+}
+
+#header {
+  color: white;
+  width: 920px;
+  float: left;
+  padding: 0px;
+  height: 110px;
+  background-image: url('../images/header-bg2.png');
+  background-repeat:repeat-y; 
+}
+#naviColumn { 
+  color: #333;
+  padding: 20px;
+  min-height: 600px;
+  width: 169px;
+  float: left;
+  border-right: 1px dotted;
+}
+#contentColumn { 
+  float: right;
+  color: #333;
+  padding: 20px;
+  width: 670px;
+  min-height: 600px;
+  /*display: inline; not sure why this was here */
+  /*position: relative; probably not needed anymore */
+}
+
+#content {
+  padding: 10px;
+  line-height: 1.5em;
+}
+
+#footer {
+  clear: both;
+  width: 880px;
+  font-size: 80%;
+  color: gray;
+  padding: 20px 20px 40px 20px ;
+  height: 60px;
+  text-align: center;
+  background-image: url('../images/footer-bg.png');
+  background-position: bottom ;
+  background-repeat: no-repeat; 
+}
+
+#header, #mainNav, #infoContainer{
+  overflow: hidden;
+  display:inline-block;
+}
+
+
+/*================================*/
+/* styles for generic html tags   */
+/*================================*/
+pre {
+  background-color: #eee;
+  padding: 10px;
+  font-size: 11px;
+}
+
+/* links */
+a { color: #000; }
+a:visited { color: #666; }
+a:hover { color: #fff; background-color:#000; }
+
+/* image links */
+a img {
+border: none;
+}
+
+/* Forms */
+label {
+  padding: 6px 4px ;
+}
+
+input{
+  margin: 6px 4px;
+}
+
+select {
+ margin: 6px 4px;
+}
+
+select option {
+  padding: 1px 0px;
+}
+
+/* Lists */
+dt {
+  font-weight: bold;
+  padding-top: 5px ;
+}
+
+/* nested lists */
+ol ol {
+  padding-left: 15px;
+}
+ol ol {
+  padding-left: 30px;
+}
+
+ul {
+  padding-left: 15px;
+}
+ul ul{
+  padding-left: 30px;
+}
+ul ul ul{
+  padding-left: 45px;
+}
+
+
+/*================================*/
+/* Styles for custom classes and  */
+/* ids                            */
+/*================================*/
+
+#content h1{
+  line-height: 1.1em;
+}
+
+#content p,h1,h2,h3{
+ margin-top: 6px;
+ margin-bottom: 6px;
+}
+
+#header h1{
+  text-align: left;
+  margin-left: 3em;
+  margin-top: 0.4em;
+  font-size: 32px;
+  color: white;
+  font-family: Georgia,'Times New Roman',times,serif;
+}
+
+#header h2{
+font-family: Verdana, Arial, Helvetica, sans-serif;
+  line-height: 1.5em;
+  font-style: italic;
+  padding-left:350px;
+  padding-top:44px;
+  font-size: 26px;
+  color: white;
+}
+
+#mainNav h1{
+  font-size: 115%
+}
+
+#mainNav a:hover{
+  color: #778899;
+}
+
+#mainNav a:link, #mainNav a:visited{
+  text-decoration: none;
+  color: #2A4F6F;
+  background-color: transparent;
+}
+
+/* Tool Icons */
+#toolIconLarge{
+  float:right;
+  border: none;
+  padding: 20px;
+  margin-bottom: 10px;
+ }
+
+#mainNav{
+  text-align: left;
+}
+
+/* Navigation menu */
+#mainNav ul {
+  list-style: none;
+  margin: 10px;
+  padding:0;
+}
+
+#mainNav ul li {
+  font-size: 95%;
+  border-bottom: 1px dotted #B2BCC6;
+  margin-bottom: 0.5em;
+}
+
+/*nested lists in main naviagation*/
+#mainNav ul ul {
+ margin-left: 0.5em;
+}
+
+#mainNav ul h1{
+  font-size: 105%;
+  margin-bottom: 0.5em;
+  margin-top: 0.8em;
+}
+
+#mainNav .centeredImage{
+  padding-top: 5px;
+  padding-bottom: 10px;
+}
+
+/* errorBox is for the box on top of input
+   forms that lists error messages */
+#errorBox{
+  clear: both;
+  border: 1px solid red;
+  margin: 10px;
+  padding: 10px;
+  color: red;
+}
+
+#errorBox ul{
+  padding-left: 20px;
+}
+
+/* errorField identifies an input field with errors */
+.errorField{
+  border: 1px solid red;
+}
+/* to highlight labels of fields with errors */
+.errorLabel{
+  /*color: red;*/
+  background-color: #fdf592;
+}
+
+/* where we report current job status */
+#jobStatusBox{
+  clear: both;
+  border: 1px dotted black;
+  margin: 10px;
+  padding: 10px;
+}
+#jobStatusBox table{
+  margin: 10px;
+  padding:0;
+}
+#jobStatusBox th, #jobStatusBox td{
+  text-align: left;
+  padding-right: 0.5em;
+}
+
+
+/* Download links for result files */
+.resultLinks{
+  clear: both ;
+  border: 1px dotted #2A4F6F;
+  /* width: 250px ;*/
+  padding: 10px ;
+  margin: 20px ;
+}
+
+.resultLinks ul{
+  list-style: none;
+}
+
+.resultLinks h1{
+  font-size: 105%;
+  margin-bottom: 0.5em;
+  margin-top: 0.8em;
+}
+
+.smallPrint{
+  font-size: 80%;
+  color: gray;
+}
+
+.importantNotice{
+  color: red;
+  font-weight: bold ;
+}
+
+/* clickable text for hiding/showing stuff - looks like link */
+.hideShow{
+  font-size: 90%;
+  color: gray;
+  margin-left: 5px;
+  text-decoration: underline;
+}
+
+/* Images with captions    */
+.imageCaption{
+  font-size: 85% ;
+  padding: 5px 10px;
+}
+
+.captionTitle{
+  font-weight: bold ;
+}
+
+/* Help page links (small (?) w/o underline in gray to help page*/
+.qmarkLink{
+  text-decoration: none;
+  font-size: 80%;
+  color: gray;
+}
+
+.centeredImage{
+  text-align: center;
+}
+
+/*================================*/
+/* Styles that are only used      */
+/* in specific pages and tools    */
+/*================================*/
+
+/*RNAfold and annotate*/
+/*Result page*/
+#StructureImage {
+  float: left;
+  border: 1px dotted;
+  margin-right: 15px;
+}
+
+#linkToRnafold{
+  margin-top: 1em;
+  clear: left;
+}
+
+#caption{
+  float: left;
+  width: 300px;
+}
+
+#caption h1{
+  font-size: 120%;
+}
+
+#caption ul{
+  list-style: none;
+  margin: 5px;
+}
+
+#toolsAvailableTable td{
+  padding: 10px 5px 10px 0px ;
+}

@@ -1,0 +1,11 @@
+Direction
+
+1¡¢example.clean.fasta : is partial of  clean.fastq.gz;
+
+Format:
+
+@HWI-ST1276:94:D16DGACXX:2:1101:1747:2188 1:N:0:ACAGTG
+TGTAAACATCCTTGACTGGATGGAATTCTCGGGAGCCAAGGAACTCCAGT
+
+
+1st line: Illumina Sequence Identifiers and description information comes after "@" sign; 2nd line:  clean bases .

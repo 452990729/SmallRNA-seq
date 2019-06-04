@@ -1,0 +1,11 @@
+Dirction
+
+When the number or group of sample is only 2 ,the venn diagram will be based on the miRNA expression in each sample or group.
+
+
+
+result：
+        sample1_sample2.DEG_Venn_diagram.png         the venn diagram(png)
+        sample1_sample2.DEG_Venn_diagram.pdf         the venn diagram(pdf)
+        sample1-no-sample2-yes.txt                   miRNA expressed only in sample2
+         all.txt                                      all miRNA expressed in sample1 and sample2       

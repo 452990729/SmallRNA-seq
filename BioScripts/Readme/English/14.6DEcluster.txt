@@ -1,0 +1,56 @@
+Direction
+Cluster Analysis
+
+===========================================================================================================================
+
+result£º
+
+1.DE_union_for_cluster.txt : is SOM_cluster.png and K_means_cluster.png data
+
+Note£º
+
+	1.sRNA£ºall different expression miRNA
+
+	2.sample1£ºsample1's TPM
+
+	2.sample2£ºsample2's TPM
+
+2.Hcluster_heatmap.pdf/png : the heatmap of different expression miRNA(png).
+	 red represents miRNAs with high expression level, blue represents miRNAs with low expression level. The colour from red to blue represents the log10(TPM+1) value from large to small.
+
+3.Hcluster_heatmap.detail.pdf : the heatmap of different expression miRNA(pdf).
+
+4.K_means_cluster :the contents of K_means cluster analysis
+
+result£º
+
+	1.K_means_cluster.png : K-means cluster
+
+	
+	this figure using miRNA relative expression level log2(ratio) to cluster.
+	the gray line in each figure representing a cluster of one miRNA in different samples.
+	the blue line in each figure representing the mean cluster of this group miRNAs in different samples.
+	the red line is reference ,line up is up regulated,line down is down regulated.
+	the x axis is experiment condition,the y axis is relative expression.
+
+	2.subcluster_1 : the first child clustering file.
+
+	
+
+5.SOM_cluster SOM : the contents of SOM_means cluster analysis
+
+result£º
+
+	1.SOM_cluster.png SOM : SOM-means cluster
+
+	this figure using miRNA relative expression level log2(ratio) to cluster.
+	the gray line in each figure representing a cluster of one miRNA in different samples.
+	the blue line in each figure representing the mean cluster of this group miRNAs in different samples.
+	the red line is reference ,line up is up regulated,line down is down regulated.
+	the x axis is experiment condition,the y axis is relative expression.
+
+
+	2.subcluster_1 £º¡¡the first child clustering file.
+
+	
+

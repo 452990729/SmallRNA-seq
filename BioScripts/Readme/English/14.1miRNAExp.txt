@@ -1,0 +1,15 @@
+Direction
+miRNA expression
+
+
+Statistics the expression of known and novel miRNA in each samples,TPM method was used.
+
+===========================================================================================================================
+
+result£º
+1.Readcount_TPM.xls	statistics of readcount and TPM¡£
+Note£º
+	(1)First line¡ª¡ª¡°miRNA¡±£¬miRNA mature id.
+	(2)Other lines : representing sample's readcount and TPM.
+
+2.TPM_interval.xls		statistics the number of miRNA's tpm between ¡°0-0.1¡±£¬¡°0.1-0.3¡±£¬¡°0.3-3.57¡±£¬¡°3.57-15¡±£¬¡°15-60¡±£¬¡°>60¡±.
